@@ -1,0 +1,191 @@
+'use client';
+
+import { useState } from 'react';
+import { accounts, transactions, incomeSources, incomeHistory } from '@/lib/data';
+import { fmtCurrency, cn, whoLabel, whoBadgeColor, statusColor } from '@/lib/utils';
+import Card from '@/components/Card';
+import StatCard from '@/components/StatCard';
+import Badge from '@/components/Badge';
+import LineChart from '@/components/LineChart';
+import { useStore } from '@/lib/store';
+
+const totalAssets = accounts.filter((a) => a.value > 0).reduce((acc, a) => acc + a.value, 0);
+const totalDebt = Math.abs(accounts.filter((a) => a.value < 0).reduce((acc, a) => acc + a.value, 0));
+const netWorth = totalAssets - totalDebt;
+
+export default function MoneyPage() {
+  const openSheet = useStore((s) => s.openSheet);
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('All');
+
+  const categories = ['All', ...Array.from(new Set(transactions.map((t) => t.category)))];
+
+  const filtered = transactions.filter((tx) => {
+    const matchSearch = search === '' || tx.name.toLowerCase().includes(search.toLowerCase());
+    const matchFilter = filter === 'All' || tx.category === filter;
+    return matchSearch && matchFilter;
+  });
+
+  return (
+    <div className="max-w-7xl mx-auto space-y-6">
+      {/* Stats */}
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard label="Total Assets" value={fmtCurrency(totalAssets)} accent="text-brand-green" />
+        <StatCard label="Total Debt" value={fmtCurrency(totalDebt)} accent="text-brand-red" />
+        <StatCard label="Net Worth" value={fmtCurrency(netWorth)} accent="text-brand-teal" />
+        <StatCard label="Accounts" value={`${accounts.length}`} sub="Connected" />
+      </section>
+
+      {/* Accounts */}
+      <section>
+        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">Accounts</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {accounts.map((acct, i) => (
+            <Card
+              key={i}
+              onClick={() =>
+                openSheet(
+                  acct.name,
+                  `Type: ${acct.type}\nBalance: ${fmtCurrency(acct.value)}\nOwner: ${acct.owner}\nLast Sync: ${acct.lastSync} ago\nStatus: ${acct.status.toUpperCase()}`
+                )
+              }
+            >
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-semibold text-[var(--text-primary)]">{acct.name}</h3>
+                <div className="flex items-center gap-1.5">
+                  <span className={cn('w-2 h-2 rounded-full', statusColor(acct.status))} />
+                  <span className="text-xs text-[var(--text-muted)]">{acct.lastSync}</span>
+                </div>
+              </div>
+              <p
+                className={cn(
+                  'text-2xl font-bold tabular-nums',
+                  acct.value >= 0 ? 'text-[var(--text-primary)]' : 'text-brand-red'
+                )}
+              >
+                {fmtCurrency(acct.value)}
+              </p>
+              <div className="flex items-center gap-2 mt-2">
+                <Badge>{acct.type}</Badge>
+                <Badge variant={acct.owner === 'Joint' ? 'info' : 'default'}>{acct.owner}</Badge>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Income + Transactions side by side */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Income Sources */}
+        <div className="space-y-6">
+          <Card padding={false}>
+            <div className="px-5 pt-5 pb-3">
+              <h2 className="text-sm font-semibold text-[var(--text-primary)]">Income Sources</h2>
+            </div>
+            <div className="divide-y divide-[var(--border-color)]">
+              {incomeSources.map((src, i) => (
+                <div key={i} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
+                  <div>
+                    <p className="text-sm font-medium text-[var(--text-primary)]">{src.source}</p>
+                    <p className="text-xs text-[var(--text-muted)]">
+                      {src.frequency} - Next: {src.nextDate}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold tabular-nums text-brand-green">
+                      {src.amount}
+                    </span>
+                    {src.status === 'due' && <Badge variant="warning">Due</Badge>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <Card>
+            <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
+              Income History (12 Months)
+            </h2>
+            <LineChart
+              data={incomeHistory.map((p) => ({ label: p.m, value: p.v }))}
+              height={180}
+              color="#2d8f5e"
+            />
+          </Card>
+        </div>
+
+        {/* Transactions with search */}
+        <Card padding={false}>
+          <div className="px-5 pt-5 pb-3 space-y-3">
+            <h2 className="text-sm font-semibold text-[var(--text-primary)]">Transactions</h2>
+            <div className="flex gap-2">
+              <label className="sr-only" htmlFor="tx-search">Search transactions</label>
+              <input
+                id="tx-search"
+                type="text"
+                placeholder="Search..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="flex-1 px-3 py-2 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:ring-2 focus:ring-brand-teal/30 min-h-[44px]"
+              />
+              <label className="sr-only" htmlFor="tx-filter">Filter by category</label>
+              <select
+                id="tx-filter"
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                className="px-3 py-2 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] outline-none focus:ring-2 focus:ring-brand-teal/30 min-h-[44px]"
+              >
+                {categories.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="divide-y divide-[var(--border-color)] max-h-[500px] overflow-y-auto">
+            {filtered.map((tx, i) => (
+              <button
+                key={i}
+                type="button"
+                className="w-full flex items-center gap-3 px-5 py-3 hover:bg-[var(--bg-card-hover)] transition-colors text-left min-h-[44px]"
+                onClick={() =>
+                  openSheet(
+                    tx.name,
+                    `Category: ${tx.category}\nAmount: ${fmtCurrency(tx.amount)}\nDate: ${tx.date}\nWho: ${whoLabel(tx.who)}`
+                  )
+                }
+              >
+                <div
+                  className={cn(
+                    'w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-semibold shrink-0',
+                    whoBadgeColor(tx.who)
+                  )}
+                >
+                  {tx.who}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-[var(--text-primary)] truncate">
+                    {tx.name}
+                  </p>
+                  <p className="text-xs text-[var(--text-muted)]">{tx.category}</p>
+                </div>
+                <span
+                  className={cn(
+                    'text-sm font-semibold tabular-nums',
+                    tx.amount >= 0 ? 'text-brand-green' : 'text-[var(--text-primary)]'
+                  )}
+                >
+                  {tx.amount >= 0 ? '+' : ''}{fmtCurrency(tx.amount)}
+                </span>
+              </button>
+            ))}
+            {filtered.length === 0 && (
+              <div className="px-5 py-8 text-center text-sm text-[var(--text-muted)]">
+                No transactions found
+              </div>
+            )}
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}

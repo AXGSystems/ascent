@@ -1,0 +1,136 @@
+'use client';
+
+import { useState, useRef, useEffect } from 'react';
+import { coachResponses } from '@/lib/data';
+import { cn } from '@/lib/utils';
+import Card from '@/components/Card';
+
+interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+const quickPrompts = [
+  { label: 'Spending', key: 'Spending' },
+  { label: 'Budget', key: 'Budget' },
+  { label: 'Bills', key: 'Bills' },
+  { label: 'Save More', key: 'Save' },
+  { label: 'Sync', key: 'Sync' },
+  { label: 'Audit', key: 'Audit' },
+  { label: 'Forecast', key: 'Forecast' },
+];
+
+export default function CoachPage() {
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      role: 'assistant',
+      content:
+        "Hey Christian! I'm your A$cent financial coach. Ask me about your spending, budget, bills, savings, or I can audit your accounts. What do you want to dig into?",
+    },
+  ]);
+  const [input, setInput] = useState('');
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
+  }, [messages]);
+
+  function handleSend(text: string) {
+    if (!text.trim()) return;
+    const userMsg: ChatMessage = { role: 'user', content: text };
+
+    // Find matching response
+    const key = Object.keys(coachResponses).find(
+      (k) => text.toLowerCase().includes(k.toLowerCase())
+    );
+    const reply = key
+      ? coachResponses[key]
+      : "I don't have data on that yet. Try asking about Spending, Budget, Bills, Save, Sync, Audit, or Forecast.";
+
+    setMessages((prev) => [...prev, userMsg, { role: 'assistant', content: reply }]);
+    setInput('');
+  }
+
+  return (
+    <div className="max-w-3xl mx-auto flex flex-col h-[calc(100dvh-8rem)] lg:h-[calc(100dvh-6rem)]">
+      {/* Header */}
+      <section className="mb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-brand-teal flex items-center justify-center">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" />
+              <path d="M18 15l.75 2.25L21 18l-2.25.75L18 21l-.75-2.25L15 18l2.25-.75L18 15z" />
+            </svg>
+          </div>
+          <div>
+            <h1 className="text-lg font-semibold text-[var(--text-primary)]">A$cent Coach</h1>
+            <p className="text-xs text-[var(--text-muted)]">Your AI financial advisor</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Messages */}
+      <div
+        ref={scrollRef}
+        className="flex-1 overflow-y-auto space-y-4 pb-4"
+      >
+        {messages.map((msg, i) => (
+          <div
+            key={i}
+            className={cn(
+              'flex',
+              msg.role === 'user' ? 'justify-end' : 'justify-start'
+            )}
+          >
+            <div
+              className={cn(
+                'max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed',
+                msg.role === 'user'
+                  ? 'bg-brand-teal text-white rounded-br-sm'
+                  : 'bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-primary)] rounded-bl-sm backdrop-blur-xl'
+              )}
+            >
+              <pre className="whitespace-pre-wrap font-sans">{msg.content}</pre>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Quick prompts */}
+      <div className="flex flex-wrap gap-2 mb-3">
+        {quickPrompts.map((p) => (
+          <button
+            key={p.key}
+            type="button"
+            onClick={() => handleSend(p.key)}
+            className="px-3 py-1.5 rounded-full text-xs font-medium bg-brand-teal/10 text-brand-teal hover:bg-brand-teal/20 transition-colors min-h-[36px]"
+          >
+            {p.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Input */}
+      <div className="flex gap-2">
+        <label className="sr-only" htmlFor="coach-input">Ask your coach</label>
+        <input
+          id="coach-input"
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSend(input)}
+          placeholder="Ask about your finances..."
+          className="flex-1 px-4 py-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:ring-2 focus:ring-brand-teal/30 min-h-[48px] backdrop-blur-xl"
+        />
+        <button
+          type="button"
+          onClick={() => handleSend(input)}
+          disabled={!input.trim()}
+          className="min-h-[48px] px-5 rounded-2xl bg-brand-teal text-white font-medium text-sm hover:bg-brand-teal-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          Send
+        </button>
+      </div>
+    </div>
+  );
+}

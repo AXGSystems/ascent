@@ -1,0 +1,31 @@
+'use client';
+
+import { cn } from '@/lib/utils';
+
+interface CardProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+  padding?: boolean;
+}
+
+export default function Card({ children, onClick, className, padding = true }: CardProps) {
+  const base = 'rounded-2xl backdrop-blur-xl border transition-all duration-150 ease-out';
+  const colors = 'bg-[var(--bg-card)] border-[var(--border-color)]';
+  const shadow = 'shadow-[var(--shadow-card)]';
+  const pad = padding ? 'p-5' : '';
+  const hover = onClick
+    ? 'cursor-pointer hover:bg-[var(--bg-card-hover)] hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 active:scale-[0.98] active:shadow-none'
+    : '';
+
+  const Tag = onClick ? 'button' : 'div';
+  return (
+    <Tag
+      className={cn(base, colors, shadow, pad, hover, className)}
+      onClick={onClick}
+      type={onClick ? 'button' : undefined}
+    >
+      {children}
+    </Tag>
+  );
+}
