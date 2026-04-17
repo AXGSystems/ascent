@@ -17,7 +17,7 @@ export default function Sidebar() {
       {/* Mobile overlay */}
       <div
         className={cn(
-          'fixed inset-0 z-30 bg-black/40 backdrop-blur-sm transition-opacity lg:hidden',
+          'fixed inset-0 z-30 bg-black/40 glass-blur transition-opacity lg:hidden',
           sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         )}
         onClick={() => setSidebarOpen(false)}
@@ -28,15 +28,15 @@ export default function Sidebar() {
       <aside
         className={cn(
           'fixed inset-y-0 left-0 z-40 w-64 flex flex-col',
-          'bg-[var(--bg-primary)] border-r border-[var(--border-color)]',
+          'bg-[var(--bg-glass)] glass-blur border-r border-[var(--border-color)]',
           'transform transition-transform duration-300 ease-out',
           'lg:translate-x-0 lg:static lg:z-auto',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
         {/* Brand */}
-        <div className="h-16 flex items-center gap-2 px-5 border-b border-[var(--border-color)]">
-          <div className="w-8 h-8 rounded-lg bg-brand-teal flex items-center justify-center">
+        <div className="h-16 flex items-center gap-2.5 px-5 border-b border-[var(--border-color)]">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-teal to-brand-navy flex items-center justify-center shadow-lg shadow-brand-teal/20">
             <span className="text-white font-bold text-sm">A$</span>
           </div>
           <span className="text-xl font-bold text-[var(--text-primary)] tracking-tight">
@@ -51,7 +51,7 @@ export default function Sidebar() {
               <p className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest text-[var(--text-muted)]">
                 {section.title}
               </p>
-              <ul className="space-y-0.5">
+              <ul className="space-y-1">
                 {section.items.map((item) => {
                   const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
                   return (
@@ -60,9 +60,9 @@ export default function Sidebar() {
                         href={item.href}
                         onClick={() => setSidebarOpen(false)}
                         className={cn(
-                          'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors min-h-[44px]',
+                          'flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all min-h-[44px]',
                           isActive
-                            ? 'bg-brand-teal/10 text-brand-teal'
+                            ? 'bg-brand-teal/10 text-brand-teal shadow-sm'
                             : 'text-[var(--text-secondary)] hover:bg-[var(--border-color)] hover:text-[var(--text-primary)]'
                         )}
                       >
@@ -80,7 +80,7 @@ export default function Sidebar() {
         {/* Footer */}
         <div className="p-4 border-t border-[var(--border-color)]">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-brand-navy flex items-center justify-center">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-navy to-brand-teal flex items-center justify-center shadow-sm">
               <span className="text-white text-xs font-semibold">C+C</span>
             </div>
             <div className="flex-1 min-w-0">

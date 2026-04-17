@@ -1,5 +1,18 @@
 /* A$cent — Global Styles */
-/* Theme variables BEFORE Tailwind import */
+@import "tailwindcss";
+
+/* Make theme variables available as Tailwind utilities */
+@theme inline {
+  --color-brand-teal: #0a8ebc;
+  --color-brand-teal-dark: #077a9e;
+  --color-brand-navy: #1a2744;
+  --color-brand-gold: #d4a843;
+  --color-brand-green: #2d8f5e;
+  --color-brand-red: #c0392b;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+/* Theme variables — MUST come after @import "tailwindcss" in Tailwind 4 */
 @layer base {
   :root {
     --brand-teal: #0a8ebc;
@@ -12,12 +25,15 @@
     --bg-secondary: #f4f7fa;
     --bg-card: rgba(255, 255, 255, 0.72);
     --bg-card-hover: rgba(255, 255, 255, 0.88);
+    --bg-glass: rgba(255, 255, 255, 0.6);
     --text-primary: #1a1a1a;
     --text-secondary: #64748b;
     --text-muted: #94a3b8;
     --border-color: rgba(0, 0, 0, 0.06);
+    --border-glass: rgba(255, 255, 255, 0.45);
     --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
-    --shadow-card-hover: 0 10px 40px rgba(0,0,0,0.08);
+    --shadow-card-hover: 0 10px 40px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+    --shadow-glass: 0 4px 24px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
   }
 
   .dark {
@@ -25,26 +41,16 @@
     --bg-secondary: #1e293b;
     --bg-card: rgba(30, 41, 59, 0.72);
     --bg-card-hover: rgba(30, 41, 59, 0.88);
+    --bg-glass: rgba(15, 23, 42, 0.7);
     --text-primary: #f1f5f9;
     --text-secondary: #94a3b8;
     --text-muted: #64748b;
     --border-color: rgba(255, 255, 255, 0.06);
+    --border-glass: rgba(255, 255, 255, 0.08);
     --shadow-card: 0 1px 3px rgba(0,0,0,0.2);
     --shadow-card-hover: 0 10px 40px rgba(0,0,0,0.3);
+    --shadow-glass: 0 4px 24px rgba(0,0,0,0.2);
   }
-}
-
-@import "tailwindcss";
-
-/* Make theme variables available as Tailwind utilities */
-@theme inline {
-  --color-brand-teal: var(--brand-teal);
-  --color-brand-teal-dark: var(--brand-teal-dark);
-  --color-brand-navy: var(--brand-navy);
-  --color-brand-gold: var(--brand-gold);
-  --color-brand-green: var(--brand-green);
-  --color-brand-red: var(--brand-red);
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
 /* Smooth scrolling */
@@ -55,6 +61,12 @@ html {
 /* Tabular numbers for financial data */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+/* Force backdrop-blur to render — Tailwind 4 can tree-shake it */
+.glass-blur {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
 }
 
 /* Scrollbar styling */
@@ -71,4 +83,14 @@ html {
 }
 .dark ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.15);
+}
+
+/* Print styles for glass cards */
+@media print {
+  .glass-blur {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: white !important;
+    border: 1px solid #e2e8f0 !important;
+  }
 }

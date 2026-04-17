@@ -31,13 +31,35 @@ export default function TransactionsPage() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h1 className="text-2xl font-bold text-[var(--text-primary)]">Transactions</h1>
-        <div className="flex gap-4 text-sm">
-          <span className="text-brand-green font-semibold tabular-nums">+{fmtCurrency(totalIn)}</span>
-          <span className="text-brand-red font-semibold tabular-nums">-{fmtCurrency(totalOut)}</span>
+      {/* Hero */}
+      <section>
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
+          <div className="relative flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
+                Transactions
+              </p>
+              <p className="text-2xl font-bold text-white">
+                {filtered.length} transactions
+              </p>
+              <p className="mt-1 text-sm text-white/50">
+                All activity across your accounts
+              </p>
+            </div>
+            <div className="flex gap-6 text-sm">
+              <div className="text-right">
+                <p className="text-xs text-white/50">Income</p>
+                <p className="text-lg font-bold tabular-nums text-emerald-300">+{fmtCurrency(totalIn)}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-white/50">Expenses</p>
+                <p className="text-lg font-bold tabular-nums text-red-300">-{fmtCurrency(totalOut)}</p>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* Filters */}
       <Card>
@@ -126,7 +148,7 @@ export default function TransactionsPage() {
           ))}
           {filtered.length === 0 && (
             <div className="px-5 py-12 text-center text-sm text-[var(--text-muted)]">
-              No transactions match your search
+              No transactions match your filters. Try adjusting your search, category, or who filter.
             </div>
           )}
         </div>

@@ -27,7 +27,7 @@ export default function Drawer({ open, onClose, title, children }: DrawerProps) 
       {/* Backdrop */}
       <div
         className={cn(
-          'fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-200',
+          'fixed inset-0 z-40 bg-black/40 glass-blur transition-opacity duration-200',
           open ? 'opacity-100' : 'opacity-0 pointer-events-none'
         )}
         onClick={onClose}
@@ -37,7 +37,8 @@ export default function Drawer({ open, onClose, title, children }: DrawerProps) 
       <div
         className={cn(
           'fixed inset-x-0 bottom-0 z-50 max-h-[85vh]',
-          'bg-[var(--bg-primary)] rounded-t-2xl shadow-2xl border-t border-[var(--border-color)]',
+          'bg-[var(--bg-glass)] glass-blur rounded-t-3xl shadow-2xl border-t border-[var(--border-color)]',
+          'ring-1 ring-[var(--border-glass)] ring-inset',
           'transform transition-transform duration-300 ease-out',
           open ? 'translate-y-0' : 'translate-y-full'
         )}
@@ -47,7 +48,7 @@ export default function Drawer({ open, onClose, title, children }: DrawerProps) 
       >
         {/* Handle */}
         <div className="flex justify-center pt-3 pb-1">
-          <div className="w-10 h-1 rounded-full bg-[var(--text-muted)] opacity-40" />
+          <div className="w-10 h-1.5 rounded-full bg-[var(--text-muted)] opacity-30" />
         </div>
         <div className="flex items-center justify-between px-5 pb-3 border-b border-[var(--border-color)]">
           <h2 className="text-lg font-semibold text-[var(--text-primary)]">{title}</h2>

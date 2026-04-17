@@ -6,6 +6,7 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import LineChart from '@/components/LineChart';
 import AreaChart from '@/components/AreaChart';
+import Badge from '@/components/Badge';
 
 // Projections
 const currentNW = nwHistory[nwHistory.length - 1].v;
@@ -37,7 +38,30 @@ const conservative = projectionMonths.map((m, i) => ({
 export default function ForecastPage() {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-[var(--text-primary)]">90-Day Forecast</h1>
+      {/* Hero */}
+      <section>
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-navy via-brand-teal-dark to-brand-gold p-6 md:p-8 shadow-lg shadow-brand-navy/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.12),transparent_60%)]" />
+          <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
+                Financial Forecast
+              </p>
+              <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">
+                {fmtCurrency(projected12m)}
+              </p>
+              <p className="mt-2 text-sm text-white/50">
+                Projected net worth in 12 months (+{fmtCurrency(projected12m - currentNW)})
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-sm text-white/50">Monthly Growth</p>
+              <p className="text-2xl font-bold tabular-nums text-emerald-300">+{fmtCurrency(monthlyGrowth)}</p>
+              <p className="text-xs text-white/40">avg per month</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Stats */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -65,7 +89,7 @@ export default function ForecastPage() {
 
       {/* NW Projections */}
       <Card>
-        <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
+        <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
           Net Worth Projection (3 Scenarios)
         </h2>
         <AreaChart
@@ -83,7 +107,7 @@ export default function ForecastPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Cash Flow Projection */}
         <Card>
-          <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
+          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
             Cash Flow Averages
           </h2>
           <div className="space-y-4">
@@ -108,7 +132,7 @@ export default function ForecastPage() {
 
         {/* Cumulative Savings */}
         <Card>
-          <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
+          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
             Savings Trajectory (Actual vs Projected)
           </h2>
           <AreaChart
@@ -135,7 +159,7 @@ export default function ForecastPage() {
 
       {/* Milestones */}
       <Card>
-        <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">Upcoming Milestones</h2>
+        <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Upcoming Milestones</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
             { goal: 'Emergency Fund Full', target: '$5,000', eta: 'June 2026', progress: 72 },
@@ -167,6 +191,53 @@ export default function ForecastPage() {
                   />
                 </div>
               </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      {/* Recommendations */}
+      <Card>
+        <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Recommendations</h2>
+        <div className="space-y-3">
+          {[
+            {
+              action: 'Apply bill audit savings of $147/mo',
+              impact: '+$1,764/yr to net worth',
+              badge: 'High Impact',
+              variant: 'success' as const,
+            },
+            {
+              action: 'Drop 3 unused subscriptions ($62/mo)',
+              impact: '+$744/yr to savings',
+              badge: 'Quick Win',
+              variant: 'info' as const,
+            },
+            {
+              action: 'Increase daily auto-save by $5',
+              impact: '+$1,825/yr to emergency fund',
+              badge: 'Steady Growth',
+              variant: 'success' as const,
+            },
+            {
+              action: 'Reconnect Cap One Savings (47 days stale)',
+              impact: 'Accurate net worth tracking',
+              badge: 'Action Needed',
+              variant: 'warning' as const,
+            },
+            {
+              action: 'Reduce dining out by $50/mo',
+              impact: '+$600/yr, budget stays on track',
+              badge: 'Moderate',
+              variant: 'info' as const,
+            },
+          ].map((rec, i) => (
+            <div key={i} className="flex items-center justify-between p-3 rounded-xl border border-[var(--border-color)] min-h-[44px]">
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-[var(--text-primary)]">{rec.action}</span>
+                <Badge variant={rec.variant}>{rec.badge}</Badge>
+              </div>
+              <span className="text-xs tabular-nums text-[var(--text-secondary)] whitespace-nowrap ml-3">{rec.impact}</span>
             </div>
           ))}
         </div>

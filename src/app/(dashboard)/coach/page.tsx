@@ -55,16 +55,19 @@ export default function CoachPage() {
     <div className="max-w-3xl mx-auto flex flex-col h-[calc(100dvh-8rem)] lg:h-[calc(100dvh-6rem)]">
       {/* Header */}
       <section className="mb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-brand-teal flex items-center justify-center">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" />
-              <path d="M18 15l.75 2.25L21 18l-2.25.75L18 21l-.75-2.25L15 18l2.25-.75L18 15z" />
-            </svg>
-          </div>
-          <div>
-            <h1 className="text-lg font-semibold text-[var(--text-primary)]">A$cent Coach</h1>
-            <p className="text-xs text-[var(--text-muted)]">Your AI financial advisor</p>
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-5 shadow-lg shadow-brand-teal/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
+          <div className="relative flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" />
+                <path d="M18 15l.75 2.25L21 18l-2.25.75L18 21l-.75-2.25L15 18l2.25-.75L18 15z" />
+              </svg>
+            </div>
+            <div>
+              <h1 className="text-lg font-semibold text-white">A$cent Coach</h1>
+              <p className="text-xs text-white/50">Your AI financial advisor</p>
+            </div>
           </div>
         </div>
       </section>

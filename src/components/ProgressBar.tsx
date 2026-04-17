@@ -40,7 +40,7 @@ export default function ProgressBar({
       )}
       <div className={cn('w-full rounded-full overflow-hidden bg-[var(--border-color)]', height)}>
         <div
-          className={cn('h-full rounded-full transition-all duration-500 ease-out', barColor)}
+          className={cn('h-full rounded-full transition-all duration-700 ease-out', barColor)}
           style={{ width: `${pct}%` }}
         />
       </div>

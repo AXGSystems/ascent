@@ -25,7 +25,7 @@ export default function Avatar({ name, size = 'md', className }: AvatarProps) {
   return (
     <div
       className={cn(
-        'rounded-full bg-brand-teal text-white font-semibold flex items-center justify-center shrink-0',
+        'rounded-full bg-gradient-to-br from-brand-teal to-brand-navy text-white font-semibold flex items-center justify-center shrink-0 ring-2 ring-white/20 shadow-sm',
         sizeMap[size],
         className
       )}

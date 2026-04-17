@@ -1,6 +1,6 @@
 'use client';
 
-import { nests, savingsRateHistory, actualSavings, projectedSavings, achievements } from '@/lib/data';
+import { nests, savingsRateHistory, actualSavings, achievements } from '@/lib/data';
 import { fmtCurrency, pct, cn } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
@@ -20,29 +20,35 @@ export default function SavePage() {
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Hero */}
       <section>
-        <Card>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-green via-brand-teal to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-green/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
+          <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-[var(--text-muted)] mb-1">
+              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
                 Total Saved in Goals
               </p>
-              <p className="text-4xl font-bold tabular-nums text-brand-green">
+              <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">
                 {fmtCurrency(totalSaved)}
               </p>
               <div className="mt-3 max-w-md">
-                <ProgressBar value={totalSaved} max={totalGoals} color="bg-brand-green" height="h-3" />
+                <div className="w-full h-3 rounded-full overflow-hidden bg-white/20">
+                  <div
+                    className="h-full rounded-full bg-white/90 transition-all duration-700"
+                    style={{ width: `${pct(totalSaved, totalGoals)}%` }}
+                  />
+                </div>
               </div>
-              <p className="mt-2 text-sm text-[var(--text-secondary)]">
+              <p className="mt-2 text-sm text-white/60">
                 {pct(totalSaved, totalGoals)}% of {fmtCurrency(totalGoals)} total goals
               </p>
             </div>
             <div className="text-right">
-              <p className="text-sm text-[var(--text-muted)]">Savings Rate</p>
-              <p className="text-2xl font-bold tabular-nums text-brand-teal">{currentRate}%</p>
-              <p className="text-xs text-brand-green">+1% vs last month</p>
+              <p className="text-sm text-white/50">Savings Rate</p>
+              <p className="text-2xl font-bold tabular-nums text-emerald-300">{currentRate}%</p>
+              <p className="text-xs text-white/40">+1% vs last month</p>
             </div>
           </div>
-        </Card>
+        </div>
       </section>
 
       {/* Stats */}
@@ -55,7 +61,7 @@ export default function SavePage() {
 
       {/* Goals Grid */}
       <section>
-        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">Savings Goals</h2>
+        <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Savings Goals</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {nests.map((nest, i) => (
             <Card
@@ -95,7 +101,7 @@ export default function SavePage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Savings Rate */}
         <Card>
-          <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
+          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
             Savings Rate Trend
           </h2>
           <LineChart
@@ -108,7 +114,7 @@ export default function SavePage() {
 
         {/* Cumulative Savings */}
         <Card>
-          <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
+          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
             Cumulative Savings 2026
           </h2>
           <LineChart
@@ -122,7 +128,7 @@ export default function SavePage() {
       {/* Achievements */}
       <section>
         <Card>
-          <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">Achievements</h2>
+          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Achievements</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {achievements.map((a, i) => (
               <button

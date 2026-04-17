@@ -28,6 +28,24 @@ export default function MoneyPage() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
+      {/* Hero */}
+      <section>
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-navy via-brand-teal-dark to-brand-teal p-6 md:p-8 shadow-lg shadow-brand-navy/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.12),transparent_60%)]" />
+          <div className="relative">
+            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
+              Total Net Worth
+            </p>
+            <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">
+              {fmtCurrency(netWorth)}
+            </p>
+            <p className="mt-2 text-sm text-white/50">
+              {fmtCurrency(totalAssets)} assets - {fmtCurrency(totalDebt)} debt
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Stats */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard label="Total Assets" value={fmtCurrency(totalAssets)} accent="text-brand-green" />
@@ -38,7 +56,7 @@ export default function MoneyPage() {
 
       {/* Accounts */}
       <section>
-        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">Accounts</h2>
+        <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Accounts</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {accounts.map((acct, i) => (
             <Card
@@ -75,12 +93,12 @@ export default function MoneyPage() {
       </section>
 
       {/* Income + Transactions side by side */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
         {/* Income Sources */}
         <div className="space-y-6">
           <Card padding={false}>
             <div className="px-5 pt-5 pb-3">
-              <h2 className="text-sm font-semibold text-[var(--text-primary)]">Income Sources</h2>
+              <h2 className="text-base font-bold text-[var(--text-primary)]">Income Sources</h2>
             </div>
             <div className="divide-y divide-[var(--border-color)]">
               {incomeSources.map((src, i) => (
@@ -103,7 +121,7 @@ export default function MoneyPage() {
           </Card>
 
           <Card>
-            <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
+            <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
               Income History (12 Months)
             </h2>
             <LineChart
@@ -117,7 +135,7 @@ export default function MoneyPage() {
         {/* Transactions with search */}
         <Card padding={false}>
           <div className="px-5 pt-5 pb-3 space-y-3">
-            <h2 className="text-sm font-semibold text-[var(--text-primary)]">Transactions</h2>
+            <h2 className="text-base font-bold text-[var(--text-primary)]">Transactions</h2>
             <div className="flex gap-2">
               <label className="sr-only" htmlFor="tx-search">Search transactions</label>
               <input
@@ -180,7 +198,7 @@ export default function MoneyPage() {
             ))}
             {filtered.length === 0 && (
               <div className="px-5 py-8 text-center text-sm text-[var(--text-muted)]">
-                No transactions found
+                No transactions match your filters. Try adjusting your search or category.
               </div>
             )}
           </div>

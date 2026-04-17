@@ -20,29 +20,35 @@ export default function SpendPage() {
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Hero */}
       <section>
-        <Card>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
+          <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-[var(--text-muted)] mb-1">
+              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
                 April Budget
               </p>
-              <p className="text-4xl font-bold tabular-nums text-[var(--text-primary)]">
-                {fmtCurrency(totalSpent)} <span className="text-lg font-normal text-[var(--text-muted)]">/ {fmtCurrency(totalBudget)}</span>
+              <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">
+                {fmtCurrency(totalSpent)} <span className="text-lg font-normal text-white/50">/ {fmtCurrency(totalBudget)}</span>
               </p>
               <div className="mt-3 max-w-md">
-                <ProgressBar value={totalSpent} max={totalBudget} height="h-3" />
+                <div className="w-full h-3 rounded-full overflow-hidden bg-white/20">
+                  <div
+                    className="h-full rounded-full bg-white/90 transition-all duration-700"
+                    style={{ width: `${pct(totalSpent, totalBudget)}%` }}
+                  />
+                </div>
               </div>
-              <p className="mt-2 text-sm text-[var(--text-secondary)]">
+              <p className="mt-2 text-sm text-white/60">
                 {fmtCurrency(remaining)} remaining - {pct(totalSpent, totalBudget)}% used
               </p>
             </div>
             <div className="text-right">
-              <p className="text-sm text-[var(--text-muted)]">Safe to Spend</p>
-              <p className="text-2xl font-bold tabular-nums text-brand-green">$1,680</p>
-              <p className="text-xs text-[var(--text-muted)]">$140/day for 12 days</p>
+              <p className="text-sm text-white/50">Safe to Spend</p>
+              <p className="text-2xl font-bold tabular-nums text-emerald-300">$1,680</p>
+              <p className="text-xs text-white/40">$140/day for 12 days</p>
             </div>
           </div>
-        </Card>
+        </div>
       </section>
 
       {/* Stats */}
@@ -54,10 +60,10 @@ export default function SpendPage() {
       </section>
 
       {/* Budget breakdown + history */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
         {/* Category Breakdown */}
         <Card>
-          <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
+          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
             Category Breakdown
           </h2>
           <div className="space-y-4">
@@ -98,7 +104,7 @@ export default function SpendPage() {
         {/* Budget History */}
         <div className="space-y-6">
           <Card>
-            <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
+            <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
               Monthly Budget vs Spent
             </h2>
             <BarChart
@@ -114,7 +120,7 @@ export default function SpendPage() {
 
           {/* Spending Trend */}
           <Card>
-            <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
+            <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
               Spending by Category (6 Months)
             </h2>
             <BarChart
@@ -136,7 +142,7 @@ export default function SpendPage() {
         {/* Bills */}
         <Card padding={false}>
           <div className="px-5 pt-5 pb-3">
-            <h2 className="text-sm font-semibold text-[var(--text-primary)]">Bills</h2>
+            <h2 className="text-base font-bold text-[var(--text-primary)]">Bills</h2>
           </div>
           <div className="divide-y divide-[var(--border-color)]">
             {bills.map((bill, i) => (
@@ -144,7 +150,7 @@ export default function SpendPage() {
                 <div>
                   <p className="text-sm font-medium text-[var(--text-primary)]">{bill.name}</p>
                   <p className="text-xs text-[var(--text-muted)]">
-                    Due {bill.dueLabel} {bill.autopay ? '- Autopay' : ''}
+                    Due {bill.dueLabel} {bill.autopay ? '- Autopay' : '- Manual'}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -167,7 +173,7 @@ export default function SpendPage() {
         {/* Subscriptions */}
         <Card padding={false}>
           <div className="px-5 pt-5 pb-3">
-            <h2 className="text-sm font-semibold text-[var(--text-primary)]">
+            <h2 className="text-base font-bold text-[var(--text-primary)]">
               Subscriptions
               <span className="ml-2 text-xs font-normal text-[var(--text-muted)]">
                 {fmtCurrency(subscriptions.reduce((a, s) => a + s.amount, 0))}/mo

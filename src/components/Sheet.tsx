@@ -26,7 +26,7 @@ export default function Sheet() {
       {/* Backdrop */}
       <div
         className={cn(
-          'fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-200',
+          'fixed inset-0 z-40 bg-black/40 glass-blur transition-opacity duration-200',
           open ? 'opacity-100' : 'opacity-0 pointer-events-none'
         )}
         onClick={close}
@@ -36,7 +36,8 @@ export default function Sheet() {
       <div
         className={cn(
           'fixed inset-y-0 right-0 z-50 w-full max-w-md',
-          'bg-[var(--bg-primary)] shadow-2xl border-l border-[var(--border-color)]',
+          'bg-[var(--bg-glass)] glass-blur shadow-2xl border-l border-[var(--border-color)]',
+          'ring-1 ring-[var(--border-glass)] ring-inset',
           'transform transition-transform duration-300 ease-out',
           open ? 'translate-x-0' : 'translate-x-full'
         )}

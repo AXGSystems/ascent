@@ -9,7 +9,7 @@ export default function Header() {
   const toggleDark = useStore((s) => s.toggleDark);
 
   return (
-    <header className="h-16 flex items-center justify-between px-4 lg:px-6 border-b border-[var(--border-color)] bg-[var(--bg-primary)] sticky top-0 z-20">
+    <header className="h-16 flex items-center justify-between px-4 lg:px-6 border-b border-[var(--border-color)] bg-[var(--bg-glass)] glass-blur sticky top-0 z-20">
       {/* Left: hamburger (mobile) */}
       <button
         onClick={toggleSidebar}

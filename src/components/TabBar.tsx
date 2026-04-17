@@ -18,7 +18,7 @@ export default function TabBar() {
 
   return (
     <nav
-      className="fixed bottom-0 inset-x-0 z-30 bg-[var(--bg-primary)] border-t border-[var(--border-color)] lg:hidden"
+      className="fixed bottom-0 inset-x-0 z-30 bg-[var(--bg-glass)] glass-blur border-t border-[var(--border-color)] lg:hidden"
       aria-label="Bottom navigation"
     >
       <div className="flex items-center justify-around h-16 max-w-lg mx-auto">
@@ -29,11 +29,14 @@ export default function TabBar() {
               key={tab.href}
               href={tab.href}
               className={cn(
-                'flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] rounded-lg transition-colors',
+                'flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] rounded-lg transition-colors relative',
                 isActive ? 'text-brand-teal' : 'text-[var(--text-muted)]'
               )}
             >
-              <NavIcon name={tab.icon} className="w-5 h-5" />
+              {isActive && (
+                <span className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-5 h-0.5 rounded-full bg-brand-teal" />
+              )}
+              <NavIcon name={tab.icon} className="w-[22px] h-[22px]" />
               <span className="text-[10px] font-medium">{tab.label}</span>
             </Link>
           );

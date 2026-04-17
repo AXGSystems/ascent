@@ -9,8 +9,9 @@ import {
   transactions,
   bills,
   achievements,
+  budgetCategories,
 } from '@/lib/data';
-import { fmtCurrency, whoLabel, whoBadgeColor, cn } from '@/lib/utils';
+import { fmtCurrency, whoLabel, whoBadgeColor, cn, pct } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Sparkline from '@/components/Sparkline';
@@ -18,6 +19,7 @@ import LineChart from '@/components/LineChart';
 import DonutChart from '@/components/DonutChart';
 import AreaChart from '@/components/AreaChart';
 import BarChart from '@/components/BarChart';
+import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
 import Link from 'next/link';
 
@@ -47,34 +49,35 @@ export default function HomePage() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      {/* HERO: Net Worth */}
+      {/* HERO: Net Worth — gradient background */}
       <section>
-        <Card className="relative overflow-hidden">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
+          <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-[var(--text-muted)] mb-1">
+              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
                 Net Worth
               </p>
-              <p className="text-4xl font-bold tabular-nums text-[var(--text-primary)]">
+              <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">
                 {fmtCurrency(currentNW)}
               </p>
-              <p className="mt-1 text-sm flex items-center gap-1.5">
-                <span className="text-brand-green font-semibold">
+              <p className="mt-2 text-sm flex items-center gap-1.5">
+                <span className="text-emerald-300 font-semibold">
                   {'\u25B2'} +{fmtCurrency(nwDelta)} ({nwPct}%)
                 </span>
-                <span className="text-[var(--text-muted)]">vs last month</span>
+                <span className="text-white/50">vs last month</span>
               </p>
             </div>
             <div className="shrink-0">
               <Sparkline
                 data={nwHistory.map((p) => p.v)}
-                width={180}
-                height={48}
-                color="#0a8ebc"
+                width={200}
+                height={56}
+                color="rgba(255,255,255,0.85)"
               />
             </div>
           </div>
-        </Card>
+        </div>
       </section>
 
       {/* STAT CARDS ROW */}
@@ -114,7 +117,7 @@ export default function HomePage() {
       {/* NET WORTH CHART (full width) */}
       <section>
         <Card>
-          <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
+          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
             Net Worth - 12 Months
           </h2>
           <LineChart
@@ -125,15 +128,23 @@ export default function HomePage() {
         </Card>
       </section>
 
-      {/* TWO COLUMN LAYOUT */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* TWO COLUMN LAYOUT — asymmetric: larger left for spending/tx, narrower right for flow/bills */}
+      <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
         {/* LEFT COLUMN */}
         <div className="space-y-6">
-          {/* Spending Donut + Bars */}
+          {/* Spending Donut + Budget Progress */}
           <Card>
-            <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
-              April Spending
-            </h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-base font-bold text-[var(--text-primary)]">
+                April Spending
+              </h2>
+              <Link
+                href="/spend"
+                className="text-xs font-medium text-brand-teal hover:underline"
+              >
+                View all &rarr;
+              </Link>
+            </div>
             <div className="flex flex-col sm:flex-row items-center gap-6">
               <DonutChart
                 segments={spendingSegments}
@@ -141,14 +152,27 @@ export default function HomePage() {
                 centerLabel="Total"
                 centerValue={fmtCurrency(totalSpent)}
               />
-              <div className="flex-1 w-full">
-                <BarChart
-                  data={spendingSegments.map((s) => ({
-                    label: s.label,
-                    value: s.value,
-                    color: s.color,
-                  }))}
-                />
+              <div className="flex-1 w-full space-y-3">
+                {budgetCategories.slice(0, 5).map((cat, i) => (
+                  <div key={i}>
+                    <div className="flex items-center justify-between mb-0.5">
+                      <span className="text-xs font-medium text-[var(--text-secondary)] flex items-center gap-1.5">
+                        {cat.name}
+                        {cat.over && <span className="text-brand-red text-[10px]">Over</span>}
+                      </span>
+                      <span className="text-xs tabular-nums text-[var(--text-muted)]">
+                        {fmtCurrency(cat.spent)} / {fmtCurrency(cat.allocated)}
+                      </span>
+                    </div>
+                    <ProgressBar
+                      value={cat.spent}
+                      max={cat.allocated}
+                      height="h-1.5"
+                      over={cat.over}
+                      warning={cat.warning}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </Card>
@@ -156,14 +180,14 @@ export default function HomePage() {
           {/* Recent Transactions */}
           <Card padding={false}>
             <div className="px-5 pt-5 pb-3 flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-[var(--text-primary)]">
+              <h2 className="text-base font-bold text-[var(--text-primary)]">
                 Recent Transactions
               </h2>
               <Link
                 href="/transactions"
                 className="text-xs font-medium text-brand-teal hover:underline"
               >
-                View all
+                View all &rarr;
               </Link>
             </div>
             <div className="divide-y divide-[var(--border-color)]">
@@ -216,7 +240,7 @@ export default function HomePage() {
         <div className="space-y-6">
           {/* Cash Flow */}
           <Card>
-            <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
+            <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
               Cash Flow
             </h2>
             <AreaChart
@@ -232,14 +256,14 @@ export default function HomePage() {
           {/* Upcoming Bills */}
           <Card padding={false}>
             <div className="px-5 pt-5 pb-3 flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-[var(--text-primary)]">
+              <h2 className="text-base font-bold text-[var(--text-primary)]">
                 Upcoming Bills
               </h2>
               <Link
                 href="/spend"
                 className="text-xs font-medium text-brand-teal hover:underline"
               >
-                View all
+                View all &rarr;
               </Link>
             </div>
             <div className="divide-y divide-[var(--border-color)]">
@@ -268,7 +292,7 @@ export default function HomePage() {
 
           {/* Quick Actions */}
           <Card>
-            <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-3">
+            <h2 className="text-base font-bold text-[var(--text-primary)] mb-3">
               Quick Actions
             </h2>
             <div className="grid grid-cols-3 gap-2">
@@ -276,6 +300,9 @@ export default function HomePage() {
                 { label: 'Budget', href: '/spend', icon: 'credit-card' },
                 { label: 'Goals', href: '/save', icon: 'piggy-bank' },
                 { label: 'Coach', href: '/coach', icon: 'sparkles' },
+                { label: 'ChargeIQ', href: '/chargeiq', icon: 'search' },
+                { label: 'Credit', href: '/credit', icon: 'shield' },
+                { label: 'Forecast', href: '/forecast', icon: 'trending-up' },
               ].map((action) => (
                 <Link
                   key={action.href}
@@ -287,6 +314,9 @@ export default function HomePage() {
                       {action.icon === 'credit-card' && <><rect x="2" y="5" width="20" height="14" rx="2" /><path d="M2 10h20" /></>}
                       {action.icon === 'piggy-bank' && <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.3-11-.5-11 5 0 4.3 2.7 7 7 8v2h4v-2c1 0 2-.5 3-1l2 1V14l-1-1c.7-2 .2-4-1-5z" />}
                       {action.icon === 'sparkles' && <><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" /><path d="M18 15l.75 2.25L21 18l-2.25.75L18 21l-.75-2.25L15 18l2.25-.75L18 15z" /></>}
+                      {action.icon === 'search' && <><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></>}
+                      {action.icon === 'shield' && <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />}
+                      {action.icon === 'trending-up' && <><polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" /></>}
                     </svg>
                   </div>
                   <span className="text-xs font-medium text-[var(--text-secondary)]">
@@ -299,14 +329,20 @@ export default function HomePage() {
 
           {/* Top Merchants */}
           <Card padding={false}>
-            <div className="px-5 pt-5 pb-3">
-              <h2 className="text-sm font-semibold text-[var(--text-primary)]">
+            <div className="px-5 pt-5 pb-3 flex items-center justify-between">
+              <h2 className="text-base font-bold text-[var(--text-primary)]">
                 Top Merchants
               </h2>
+              <Link
+                href="/transactions"
+                className="text-xs font-medium text-brand-teal hover:underline"
+              >
+                View all &rarr;
+              </Link>
             </div>
             <div className="divide-y divide-[var(--border-color)]">
               {topMerchants.slice(0, 5).map((m, i) => (
-                <div key={i} className="flex items-center justify-between px-5 py-2.5">
+                <div key={i} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
                   <div className="flex items-center gap-3">
                     <span className="text-xs text-[var(--text-muted)] w-4 tabular-nums">{i + 1}</span>
                     <span className="text-sm text-[var(--text-primary)]">{m.n}</span>
