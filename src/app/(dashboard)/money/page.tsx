@@ -28,10 +28,14 @@ export default function MoneyPage() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
+      <h1 className="sr-only">Money Overview</h1>
       {/* Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-navy via-brand-teal-dark to-brand-teal p-6 md:p-8 shadow-lg shadow-brand-navy/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.12),transparent_60%)]" />
+          <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
               Total Net Worth
@@ -58,9 +62,9 @@ export default function MoneyPage() {
       <section>
         <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Accounts</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {accounts.map((acct, i) => (
+          {accounts.map((acct) => (
             <Card
-              key={i}
+              key={acct.name}
               onClick={() =>
                 openSheet(
                   acct.name,
@@ -101,8 +105,8 @@ export default function MoneyPage() {
               <h2 className="text-base font-bold text-[var(--text-primary)]">Income Sources</h2>
             </div>
             <div className="divide-y divide-[var(--border-color)]">
-              {incomeSources.map((src, i) => (
-                <div key={i} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
+              {incomeSources.map((src) => (
+                <div key={src.source} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
                   <div>
                     <p className="text-sm font-medium text-[var(--text-primary)]">{src.source}</p>
                     <p className="text-xs text-[var(--text-muted)]">
@@ -160,9 +164,9 @@ export default function MoneyPage() {
             </div>
           </div>
           <div className="divide-y divide-[var(--border-color)] max-h-[500px] overflow-y-auto">
-            {filtered.map((tx, i) => (
+            {filtered.map((tx) => (
               <button
-                key={i}
+                key={`${tx.name}-${tx.date}-${tx.amount}`}
                 type="button"
                 className="w-full flex items-center gap-3 px-5 py-3 hover:bg-[var(--bg-card-hover)] transition-colors text-left min-h-[44px]"
                 onClick={() =>

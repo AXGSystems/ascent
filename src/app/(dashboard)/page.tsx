@@ -11,14 +11,13 @@ import {
   achievements,
   budgetCategories,
 } from '@/lib/data';
-import { fmtCurrency, whoLabel, whoBadgeColor, cn, pct } from '@/lib/utils';
+import { fmtCurrency, whoLabel, whoBadgeColor, cn } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Sparkline from '@/components/Sparkline';
 import LineChart from '@/components/LineChart';
 import DonutChart from '@/components/DonutChart';
 import AreaChart from '@/components/AreaChart';
-import BarChart from '@/components/BarChart';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
 import Link from 'next/link';
@@ -43,16 +42,20 @@ export default function HomePage() {
     { label: 'Dining', value: latest.d, color: '#d4a843' },
     { label: 'Shopping', value: latest.s, color: '#c0392b' },
     { label: 'Entertainment', value: latest.e, color: '#2d8f5e' },
-    { label: 'Transport', value: latest.t, color: '#1a2744' },
+    { label: 'Transport', value: latest.t, color: '#5b7ba5' },
   ];
   const totalSpent = latest.g + latest.d + latest.s + latest.e + latest.t;
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
+      <h1 className="sr-only">A$cent Dashboard</h1>
       {/* HERO: Net Worth — gradient background */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
+          <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
@@ -153,8 +156,8 @@ export default function HomePage() {
                 centerValue={fmtCurrency(totalSpent)}
               />
               <div className="flex-1 w-full space-y-3">
-                {budgetCategories.slice(0, 5).map((cat, i) => (
-                  <div key={i}>
+                {budgetCategories.slice(0, 5).map((cat) => (
+                  <div key={cat.name}>
                     <div className="flex items-center justify-between mb-0.5">
                       <span className="text-xs font-medium text-[var(--text-secondary)] flex items-center gap-1.5">
                         {cat.name}
@@ -191,9 +194,9 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="divide-y divide-[var(--border-color)]">
-              {recentTx.map((tx, i) => (
+              {recentTx.map((tx) => (
                 <button
-                  key={i}
+                  key={`${tx.name}-${tx.date}`}
                   className="w-full flex items-center gap-3 px-5 py-3 hover:bg-[var(--bg-card-hover)] transition-colors text-left min-h-[44px]"
                   type="button"
                   onClick={() =>
@@ -215,7 +218,7 @@ export default function HomePage() {
                     <p className="text-sm font-medium text-[var(--text-primary)] truncate flex items-center gap-1.5">
                       {tx.name}
                       {tx.flagged && (
-                        <span className="text-brand-red text-[10px]">{'\u26A0'}</span>
+                        <span className="text-brand-red text-[10px]" aria-label="Flagged transaction">{'\u26A0'}</span>
                       )}
                     </p>
                     <p className="text-xs text-[var(--text-muted)]">
@@ -267,8 +270,8 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="divide-y divide-[var(--border-color)]">
-              {upcomingBills.map((bill, i) => (
-                <div key={i} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
+              {upcomingBills.map((bill) => (
+                <div key={bill.name} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
                   <div>
                     <p className="text-sm font-medium text-[var(--text-primary)]">{bill.name}</p>
                     <p className="text-xs text-[var(--text-muted)]">
@@ -310,7 +313,7 @@ export default function HomePage() {
                   className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-[var(--border-color)] transition-colors min-h-[44px]"
                 >
                   <div className="w-10 h-10 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       {action.icon === 'credit-card' && <><rect x="2" y="5" width="20" height="14" rx="2" /><path d="M2 10h20" /></>}
                       {action.icon === 'piggy-bank' && <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.3-11-.5-11 5 0 4.3 2.7 7 7 8v2h4v-2c1 0 2-.5 3-1l2 1V14l-1-1c.7-2 .2-4-1-5z" />}
                       {action.icon === 'sparkles' && <><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" /><path d="M18 15l.75 2.25L21 18l-2.25.75L18 21l-.75-2.25L15 18l2.25-.75L18 15z" /></>}
@@ -341,10 +344,10 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="divide-y divide-[var(--border-color)]">
-              {topMerchants.slice(0, 5).map((m, i) => (
-                <div key={i} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
+              {topMerchants.slice(0, 5).map((m, idx) => (
+                <div key={m.n} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-[var(--text-muted)] w-4 tabular-nums">{i + 1}</span>
+                    <span className="text-xs text-[var(--text-muted)] w-4 tabular-nums">{idx + 1}</span>
                     <span className="text-sm text-[var(--text-primary)]">{m.n}</span>
                   </div>
                   <div className="text-right">

@@ -14,6 +14,7 @@ export default function NavIcon({ name, className = 'w-5 h-5' }: NavIconProps) {
     strokeWidth: 1.5,
     strokeLinecap: 'round' as const,
     strokeLinejoin: 'round' as const,
+    'aria-hidden': true as const,
   };
 
   switch (name) {

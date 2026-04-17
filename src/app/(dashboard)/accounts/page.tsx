@@ -24,10 +24,14 @@ export default function AccountsPage() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
+      <h1 className="sr-only">Accounts</h1>
       {/* Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-navy via-brand-teal-dark to-brand-teal p-6 md:p-8 shadow-lg shadow-brand-navy/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.12),transparent_60%)]" />
+          <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
@@ -79,8 +83,8 @@ export default function AccountsPage() {
           </p>
         </div>
         <div className="divide-y divide-[var(--border-color)]">
-          {accounts.map((acct, i) => (
-            <div key={i} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
+          {accounts.map((acct) => (
+            <div key={acct.name} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
               <div className="flex items-center gap-3">
                 <span className={cn('w-2.5 h-2.5 rounded-full shrink-0', statusColor(acct.status))} />
                 <div>
@@ -144,9 +148,9 @@ export default function AccountsPage() {
               </span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {accts.map((acct, i) => (
+              {accts.map((acct) => (
                 <Card
-                  key={i}
+                  key={acct.name}
                   onClick={() =>
                     openSheet(
                       acct.name,

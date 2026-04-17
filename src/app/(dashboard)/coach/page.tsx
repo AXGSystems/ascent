@@ -36,8 +36,9 @@ export default function CoachPage() {
   }, [messages]);
 
   function handleSend(text: string) {
-    if (!text.trim()) return;
-    const userMsg: ChatMessage = { role: 'user', content: text };
+    const sanitized = text.trim().slice(0, 500);
+    if (!sanitized) return;
+    const userMsg: ChatMessage = { role: 'user', content: sanitized };
 
     // Find matching response
     const key = Object.keys(coachResponses).find(
@@ -55,11 +56,13 @@ export default function CoachPage() {
     <div className="max-w-3xl mx-auto flex flex-col h-[calc(100dvh-8rem)] lg:h-[calc(100dvh-6rem)]">
       {/* Header */}
       <section className="mb-4">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-5 shadow-lg shadow-brand-teal/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
+          <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/5 hero-shimmer" />
           <div className="relative flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" />
                 <path d="M18 15l.75 2.25L21 18l-2.25.75L18 21l-.75-2.25L15 18l2.25-.75L18 15z" />
               </svg>
@@ -123,6 +126,7 @@ export default function CoachPage() {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend(input)}
           placeholder="Ask about your finances..."
+          maxLength={500}
           className="flex-1 px-4 py-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:ring-2 focus:ring-brand-teal/30 min-h-[48px] backdrop-blur-xl"
         />
         <button

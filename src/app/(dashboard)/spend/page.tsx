@@ -18,10 +18,14 @@ export default function SpendPage() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
+      <h1 className="sr-only">Spending & Budget</h1>
       {/* Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
+          <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
@@ -67,9 +71,9 @@ export default function SpendPage() {
             Category Breakdown
           </h2>
           <div className="space-y-4">
-            {budgetCategories.map((cat, i) => (
+            {budgetCategories.map((cat) => (
               <button
-                key={i}
+                key={cat.name}
                 type="button"
                 className="w-full text-left hover:bg-[var(--border-color)] rounded-lg p-2 -mx-2 transition-colors min-h-[44px]"
                 onClick={() =>
@@ -129,7 +133,7 @@ export default function SpendPage() {
                 { label: 'Dining', value: monthlySpending[monthlySpending.length - 1].d, color: '#d4a843' },
                 { label: 'Shopping', value: monthlySpending[monthlySpending.length - 1].s, color: '#c0392b' },
                 { label: 'Entertain', value: monthlySpending[monthlySpending.length - 1].e, color: '#2d8f5e' },
-                { label: 'Transport', value: monthlySpending[monthlySpending.length - 1].t, color: '#1a2744' },
+                { label: 'Transport', value: monthlySpending[monthlySpending.length - 1].t, color: '#5b7ba5' },
               ]}
               horizontal={false}
             />
@@ -145,8 +149,8 @@ export default function SpendPage() {
             <h2 className="text-base font-bold text-[var(--text-primary)]">Bills</h2>
           </div>
           <div className="divide-y divide-[var(--border-color)]">
-            {bills.map((bill, i) => (
-              <div key={i} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
+            {bills.map((bill) => (
+              <div key={bill.name} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
                 <div>
                   <p className="text-sm font-medium text-[var(--text-primary)]">{bill.name}</p>
                   <p className="text-xs text-[var(--text-muted)]">
@@ -181,9 +185,9 @@ export default function SpendPage() {
             </h2>
           </div>
           <div className="divide-y divide-[var(--border-color)]">
-            {subscriptions.map((sub, i) => (
+            {subscriptions.map((sub) => (
               <button
-                key={i}
+                key={sub.name}
                 type="button"
                 className="w-full flex items-center justify-between px-5 py-3 min-h-[44px] hover:bg-[var(--bg-card-hover)] transition-colors text-left"
                 onClick={() =>

@@ -4,7 +4,6 @@ import { nwHistory, projectedSavings, actualSavings, cashFlow, savingsRateHistor
 import { fmtCurrency } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
-import LineChart from '@/components/LineChart';
 import AreaChart from '@/components/AreaChart';
 import Badge from '@/components/Badge';
 
@@ -38,10 +37,14 @@ const conservative = projectionMonths.map((m, i) => ({
 export default function ForecastPage() {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
+      <h1 className="sr-only">Financial Forecast</h1>
       {/* Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-navy via-brand-teal-dark to-brand-gold p-6 md:p-8 shadow-lg shadow-brand-navy/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.12),transparent_60%)]" />
+          <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">

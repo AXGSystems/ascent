@@ -18,10 +18,14 @@ export default function SavePage() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
+      <h1 className="sr-only">Savings Goals</h1>
       {/* Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-green via-brand-teal to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-green/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
+          <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
@@ -63,9 +67,9 @@ export default function SavePage() {
       <section>
         <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Savings Goals</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {nests.map((nest, i) => (
+          {nests.map((nest) => (
             <Card
-              key={i}
+              key={nest.name}
               onClick={() =>
                 openSheet(
                   nest.name,
@@ -130,9 +134,9 @@ export default function SavePage() {
         <Card>
           <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Achievements</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {achievements.map((a, i) => (
+            {achievements.map((a) => (
               <button
-                key={i}
+                key={a.name}
                 type="button"
                 className={cn(
                   'p-3 rounded-xl border text-left transition-all min-h-[44px]',

@@ -42,7 +42,7 @@ export default function Header() {
           type="button"
         >
           <NavIcon name="bell" className="w-5 h-5 text-[var(--text-secondary)]" />
-          <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-brand-red" />
+          <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-brand-red" aria-hidden="true" />
         </button>
       </div>
     </header>

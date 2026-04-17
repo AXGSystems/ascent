@@ -85,6 +85,64 @@ html {
   background: rgba(255, 255, 255, 0.15);
 }
 
+/* Hero decorative pattern overlay */
+.hero-pattern {
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(255,255,255,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03) 0%, transparent 60%);
+}
+
+/* Card mount animation */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-card-in {
+  animation: card-in 0.4s ease-out both;
+}
+
+/* Staggered children animation */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in-up 0.5s ease-out both;
+}
+
+/* Hero shimmer decoration */
+@keyframes hero-shimmer {
+  0% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+  100% { opacity: 0.4; }
+}
+
+.hero-shimmer {
+  animation: hero-shimmer 4s ease-in-out infinite;
+}
+
+/* Focus-visible styles for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--brand-teal);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* Print styles for glass cards */
 @media print {
   .glass-blur {

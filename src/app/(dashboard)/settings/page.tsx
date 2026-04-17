@@ -47,10 +47,13 @@ export default function SettingsPage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
+      <h1 className="sr-only">Settings</h1>
       {/* Profile Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-navy via-brand-teal-dark to-brand-teal p-6 md:p-8 shadow-lg shadow-brand-navy/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.12),transparent_60%)]" />
+          <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
           <div className="relative flex items-center gap-4">
             <Avatar name="Christian" size="lg" className="ring-2 ring-white/30" />
             <div>
@@ -107,8 +110,8 @@ export default function SettingsPage() {
           <Badge variant="info">PENDING</Badge>
         </div>
         <div className="divide-y divide-[var(--border-color)]">
-          {accounts.map((acct, i) => (
-            <div key={i} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
+          {accounts.map((acct) => (
+            <div key={acct.name} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
               <div className="flex items-center gap-3">
                 <span className={cn('w-2.5 h-2.5 rounded-full shrink-0', statusColor(acct.status))} />
                 <div>
@@ -240,11 +243,7 @@ export default function SettingsPage() {
         </div>
       </Card>
 
-      {/* Version */}
-      <div className="text-center py-4">
-        <p className="text-xs text-[var(--text-muted)]">A$cent v1.0.0</p>
-        <p className="text-xs text-[var(--text-muted)]">Built for Christian & Channelle</p>
-      </div>
+      {/* Version info is in the global dashboard footer */}
     </div>
   );
 }

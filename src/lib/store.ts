@@ -69,6 +69,40 @@ export const useStore = create<AscentState>()(
       partialize: (state) => ({
         dark: state.dark,
       }),
+      merge: (persisted, current) => {
+        // Guard against prototype pollution from tampered localStorage
+        if (persisted && typeof persisted === 'object' && !Array.isArray(persisted)) {
+          const safe = Object.create(null) as Record<string, unknown>;
+          for (const key of Object.keys(persisted as Record<string, unknown>)) {
+            if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue;
+            safe[key] = (persisted as Record<string, unknown>)[key];
+          }
+          return { ...current, ...safe };
+        }
+        return current;
+      },
+      storage: {
+        getItem: (name) => {
+          try {
+            const raw = localStorage.getItem(name);
+            return raw ? JSON.parse(raw) : null;
+          } catch {
+            // Corrupted localStorage — clear it and start fresh
+            try { localStorage.removeItem(name); } catch { /* noop */ }
+            return null;
+          }
+        },
+        setItem: (name, value) => {
+          try {
+            localStorage.setItem(name, JSON.stringify(value));
+          } catch { /* noop — quota exceeded or private browsing */ }
+        },
+        removeItem: (name) => {
+          try {
+            localStorage.removeItem(name);
+          } catch { /* noop */ }
+        },
+      },
     },
   ),
 );

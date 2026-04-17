@@ -10,7 +10,7 @@ interface CardProps {
 }
 
 export default function Card({ children, onClick, className, padding = true }: CardProps) {
-  const base = 'rounded-2xl glass-blur border transition-all duration-200 ease-out';
+  const base = 'rounded-2xl glass-blur border transition-all duration-200 ease-out animate-card-in';
   const colors = 'bg-[var(--bg-card)] border-[var(--border-color)]';
   const shadow = 'shadow-[var(--shadow-card)]';
   const ring = 'ring-1 ring-[var(--border-glass)] ring-inset';

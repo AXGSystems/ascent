@@ -27,7 +27,7 @@ const categoryColors: Record<string, string> = {
   Dining: '#d4a843',
   Entertainment: '#2d8f5e',
   Shopping: '#c0392b',
-  Bills: '#1a2744',
+  Bills: '#5b7ba5',
 };
 
 export default function ChargeIQPage() {
@@ -55,10 +55,14 @@ export default function ChargeIQPage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
+      <h1 className="sr-only">ChargeIQ</h1>
       {/* Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-navy to-brand-teal-dark p-6 md:p-8 shadow-lg shadow-brand-teal/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.12),transparent_60%)]" />
+          <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
               ChargeIQ
@@ -93,6 +97,7 @@ export default function ChargeIQPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+            maxLength={200}
             className="flex-1 px-4 py-3 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:ring-2 focus:ring-brand-teal/30 min-h-[48px] font-mono"
           />
           <button
