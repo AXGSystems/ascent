@@ -161,3 +161,103 @@ export interface NavSection {
   title: string;
   items: NavItem[];
 }
+
+// --- New types for mega upgrade ---
+
+export interface AuditEvent {
+  date: string;
+  who: string;
+  action: string;
+  detail: string;
+  severity: 'info' | 'warn' | 'danger';
+}
+
+export interface AscentSubScore {
+  name: string;
+  score: number;
+  maxScore: number;
+  trend: 'up' | 'down' | 'flat';
+  description: string;
+}
+
+export interface TaxDeduction {
+  category: string;
+  amount: number;
+  status: 'claimed' | 'potential' | 'review';
+  description: string;
+}
+
+export interface InvestmentFee {
+  account: string;
+  type: string;
+  rate: number;
+  annualCost: number;
+  benchmark: number;
+  verdict: 'good' | 'ok' | 'high';
+}
+
+export interface BillAuditItem {
+  name: string;
+  current: number;
+  potential: number;
+  savings: number;
+  provider: string;
+  action: string;
+  status: 'actionable' | 'done' | 'pending';
+}
+
+export interface DebtAccount {
+  name: string;
+  balance: number;
+  rate: number;
+  minPayment: number;
+  type: string;
+}
+
+export interface AlertItem {
+  id: string;
+  type: 'overspending' | 'bill' | 'goal' | 'sync' | 'security' | 'insight';
+  title: string;
+  message: string;
+  date: string;
+  read: boolean;
+}
+
+export interface ChatMessage {
+  id: string;
+  from: 'Christian' | 'Channelle';
+  text: string;
+  time: string;
+  date: string;
+}
+
+export interface MoneyDateItem {
+  label: string;
+  christianVal: string;
+  channelleVal: string;
+}
+
+export interface FeedbackItem {
+  id: string;
+  type: 'feature' | 'bug';
+  title: string;
+  status: 'open' | 'planned' | 'done';
+  date: string;
+}
+
+export interface ExportRecord {
+  id: string;
+  format: string;
+  range: string;
+  date: string;
+  size: string;
+}
+
+export interface SyncAccount {
+  name: string;
+  institution: string;
+  status: 'connected' | 'warning' | 'disconnected';
+  lastSync: string;
+  nextSync: string;
+  owner: string;
+}

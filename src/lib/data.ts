@@ -22,6 +22,18 @@ import type {
   ChargeIQResult,
   CoachResponses,
   CreditScorePoint,
+  AuditEvent,
+  AscentSubScore,
+  TaxDeduction,
+  InvestmentFee,
+  BillAuditItem,
+  DebtAccount,
+  AlertItem,
+  ChatMessage,
+  MoneyDateItem,
+  FeedbackItem,
+  ExportRecord,
+  SyncAccount,
 } from './types';
 
 // --- Net Worth History (12 months) ---
@@ -305,6 +317,127 @@ export const chargeIQDemoCharges: ChargeIQResult[] = [
     phone: '1-800-922-0204',
     website: 'verizon.com',
   },
+];
+
+// --- Audit Trail (8 events) ---
+export const auditTrail: AuditEvent[] = [
+  { date: 'Apr 14', who: 'Christian', action: 'Exported Q1 report', detail: 'PDF format, all accounts', severity: 'info' },
+  { date: 'Apr 12', who: 'Channelle', action: 'Recategorized transaction', detail: 'Amazon $150 -> Gifts', severity: 'info' },
+  { date: 'Mar 14', who: 'Christian', action: 'Reconnected Cap One', detail: 'Was stale for 2 days', severity: 'warn' },
+  { date: 'Mar 12', who: 'Channelle', action: 'Disconnected Cap One Savings', detail: 'Manual disconnect', severity: 'danger' },
+  { date: 'Mar 10', who: 'Channelle', action: 'Deleted transaction', detail: 'Target $84.50 refund', severity: 'danger' },
+  { date: 'Feb 25', who: 'Christian', action: 'Recategorized Amazon', detail: 'Shopping -> Home', severity: 'info' },
+  { date: 'Feb 20', who: 'Christian', action: 'Exported Q1 data', detail: 'CSV format', severity: 'info' },
+  { date: 'Feb 14', who: 'Channelle', action: 'Updated budget', detail: 'Shopping $200 -> $250', severity: 'info' },
+];
+
+// --- A$cent Sub-Scores (8) ---
+export const ascentSubScores: AscentSubScore[] = [
+  { name: 'Savings Rate', score: 82, maxScore: 100, trend: 'up', description: 'Saving 39% of income consistently' },
+  { name: 'Debt Ratio', score: 90, maxScore: 100, trend: 'up', description: 'Low debt-to-income ratio' },
+  { name: 'Account Health', score: 55, maxScore: 100, trend: 'down', description: 'One stale account needs attention' },
+  { name: 'Budget Adherence', score: 60, maxScore: 100, trend: 'flat', description: 'Shopping category over budget' },
+  { name: 'Emergency Fund', score: 28, maxScore: 100, trend: 'up', description: '0.8 months saved of 3-month target' },
+  { name: 'Velocity', score: 65, maxScore: 100, trend: 'up', description: 'Net worth growing steadily' },
+  { name: 'Bill Health', score: 95, maxScore: 100, trend: 'flat', description: '7 of 9 bills on autopay' },
+  { name: 'NW Trend', score: 88, maxScore: 100, trend: 'up', description: '12-month upward trajectory' },
+];
+
+// --- Tax Deductions ---
+export const taxDeductions: TaxDeduction[] = [
+  { category: 'Mortgage Interest', amount: 480, status: 'claimed', description: 'Monthly mortgage interest payments' },
+  { category: 'State Taxes', amount: 320, status: 'claimed', description: 'State income tax withholding' },
+  { category: 'Charitable', amount: 150, status: 'claimed', description: 'Donations to nonprofits' },
+  { category: 'Home Office', amount: 120, status: 'potential', description: 'Channelle freelance home office' },
+  { category: 'Education', amount: 85, status: 'potential', description: 'Online courses and certifications' },
+  { category: 'Medical', amount: 55, status: 'review', description: 'Out-of-pocket medical expenses' },
+  { category: 'Business Expenses', amount: 30, status: 'review', description: 'Freelance supplies and software' },
+];
+
+// --- Investment Fees ---
+export const investmentFees: InvestmentFee[] = [
+  { account: 'Ally Invest - S&P 500 ETF', type: 'Index ETF', rate: 0.03, annualCost: 8, benchmark: 0.03, verdict: 'good' },
+  { account: 'Ally Invest - Bond Fund', type: 'Bond Fund', rate: 0.15, annualCost: 24, benchmark: 0.10, verdict: 'ok' },
+  { account: 'Ally Invest - Growth Fund', type: 'Mutual Fund', rate: 0.85, annualCost: 128, benchmark: 0.20, verdict: 'high' },
+  { account: 'Ally Invest - Intl ETF', type: 'Intl ETF', rate: 0.11, annualCost: 17, benchmark: 0.08, verdict: 'ok' },
+  { account: 'Ally Invest - REIT', type: 'REIT Fund', rate: 0.48, annualCost: 38, benchmark: 0.12, verdict: 'high' },
+];
+
+// --- Bill Audit Items ---
+export const billAuditItems: BillAuditItem[] = [
+  { name: 'Insurance', current: 184, potential: 146, savings: 38, provider: 'Geico', action: 'Switch to bundled policy', status: 'actionable' },
+  { name: 'Internet', current: 89, potential: 64, savings: 25, provider: 'AT&T Fiber', action: 'Negotiate or switch provider', status: 'actionable' },
+  { name: 'Phone', current: 140, potential: 80, savings: 60, provider: 'Mint Mobile', action: 'Switch to prepaid plan', status: 'actionable' },
+  { name: 'Streaming Bundle', current: 62, potential: 38, savings: 24, provider: 'Disney Bundle', action: 'Consolidate 3 services', status: 'pending' },
+];
+
+// --- Debt Accounts ---
+export const debtAccounts: DebtAccount[] = [
+  { name: 'Chase Visa', balance: 1800, rate: 22.99, minPayment: 45, type: 'Credit Card' },
+  { name: 'Student Loan', balance: 14200, rate: 5.5, minPayment: 320, type: 'Student Loan' },
+  { name: 'Car Loan', balance: 8400, rate: 4.2, minPayment: 385, type: 'Auto Loan' },
+];
+
+// --- Alert Items (12) ---
+export const alertItems: AlertItem[] = [
+  { id: 'a1', type: 'overspending', title: 'Shopping Over Budget', message: 'Shopping category is $35 over the $200 limit', date: 'Today', read: false },
+  { id: 'a2', type: 'bill', title: 'Electric Bill Due', message: 'Electric bill of $145 due on the 10th (manual pay)', date: 'Today', read: false },
+  { id: 'a3', type: 'sync', title: 'Cap One Savings Stale', message: 'Account has not synced in 47 days', date: 'Yesterday', read: false },
+  { id: 'a4', type: 'security', title: 'Large Purchase Detected', message: 'TreatYoSelf $650 flagged as unusual', date: 'Yesterday', read: true },
+  { id: 'a5', type: 'goal', title: 'Hawaii Nest Milestone', message: 'Reached 45% of your Hawaii savings goal', date: 'Apr 12', read: true },
+  { id: 'a6', type: 'insight', title: 'Savings Rate Up', message: 'Your savings rate increased to 39% this month', date: 'Apr 11', read: true },
+  { id: 'a7', type: 'bill', title: 'Mortgage Paid', message: 'April mortgage of $2,000 processed via autopay', date: 'Apr 1', read: true },
+  { id: 'a8', type: 'overspending', title: 'Dining Near Limit', message: 'Dining is at 93% of budget ($280/$300)', date: 'Apr 10', read: true },
+  { id: 'a9', type: 'sync', title: 'Capital One Warning', message: 'Capital One checking last synced 3 days ago', date: 'Apr 8', read: true },
+  { id: 'a10', type: 'goal', title: 'Emergency Fund Update', message: 'Emergency fund reached $3,600 (72% of goal)', date: 'Apr 5', read: true },
+  { id: 'a11', type: 'insight', title: 'Net Worth Record', message: 'Net worth reached all-time high of $82,450', date: 'Apr 3', read: true },
+  { id: 'a12', type: 'security', title: 'New Device Login', message: 'New login from Chrome on MacBook Pro', date: 'Mar 28', read: true },
+];
+
+// --- Chat Messages ---
+export const chatMessages: ChatMessage[] = [
+  { id: 'm1', from: 'Christian', text: 'Hey, did you see the electric bill came in at $145?', time: '9:15 AM', date: 'Today' },
+  { id: 'm2', from: 'Channelle', text: 'Yeah, its higher than usual. AC already?', time: '9:22 AM', date: 'Today' },
+  { id: 'm3', from: 'Christian', text: 'Probably. Also we need to talk about the TreatYoSelf charge...', time: '9:25 AM', date: 'Today' },
+  { id: 'm4', from: 'Channelle', text: 'I know I know. It was a birthday gift for my sister. One time thing!', time: '9:28 AM', date: 'Today' },
+  { id: 'm5', from: 'Christian', text: 'Ok fair enough. Should we move it to the Gifts category?', time: '9:30 AM', date: 'Today' },
+  { id: 'm6', from: 'Channelle', text: 'Yes please. Also can we bump the Hawaii fund? Im excited about the trip', time: '9:35 AM', date: 'Today' },
+  { id: 'm7', from: 'Christian', text: 'Sure, I can increase the weekly to $35. That gets us there by October.', time: '9:40 AM', date: 'Today' },
+  { id: 'm8', from: 'Channelle', text: 'Perfect! Money date this weekend?', time: '9:42 AM', date: 'Today' },
+];
+
+// --- Money Date Items ---
+export const moneyDateItems: MoneyDateItem[] = [
+  { label: 'Groceries', christianVal: '$480', channelleVal: '$0' },
+  { label: 'Dining', christianVal: '$120', channelleVal: '$160' },
+  { label: 'Shopping', christianVal: '$85', channelleVal: '$150' },
+  { label: 'Entertainment', christianVal: '$45', channelleVal: '$40' },
+  { label: 'Transport', christianVal: '$45', channelleVal: '$0' },
+  { label: 'Personal', christianVal: '$30', channelleVal: '$60' },
+];
+
+// --- Feedback Items ---
+export const feedbackItems: FeedbackItem[] = [
+  { id: 'f1', type: 'feature', title: 'Add receipt scanning from camera', status: 'planned', date: 'Apr 10' },
+  { id: 'f2', type: 'bug', title: 'Dark mode flickers on page load', status: 'done', date: 'Apr 5' },
+  { id: 'f3', type: 'feature', title: 'Export to Google Sheets', status: 'open', date: 'Mar 28' },
+];
+
+// --- Export Records ---
+export const exportRecords: ExportRecord[] = [
+  { id: 'e1', format: 'PDF', range: 'Q1 2026', date: 'Apr 14', size: '2.4 MB' },
+  { id: 'e2', format: 'CSV', range: 'March 2026', date: 'Apr 1', size: '148 KB' },
+  { id: 'e3', format: 'JSON', range: 'Full Year 2025', date: 'Jan 15', size: '5.1 MB' },
+];
+
+// --- Sync Accounts ---
+export const syncAccounts: SyncAccount[] = [
+  { name: 'Chase Checking', institution: 'Chase', status: 'connected', lastSync: '2 hours ago', nextSync: 'In 4 hours', owner: 'Joint' },
+  { name: 'Chase Savings', institution: 'Chase', status: 'connected', lastSync: '2 hours ago', nextSync: 'In 4 hours', owner: 'Joint' },
+  { name: 'Capital One Checking', institution: 'Capital One', status: 'warning', lastSync: '3 days ago', nextSync: 'Retry needed', owner: 'Christian' },
+  { name: 'Cap One Savings', institution: 'Capital One', status: 'disconnected', lastSync: '47 days ago', nextSync: 'Reconnect required', owner: 'Channelle' },
+  { name: 'Ally Invest', institution: 'Ally', status: 'connected', lastSync: '1 day ago', nextSync: 'In 12 hours', owner: 'Christian' },
+  { name: 'Credit Cards', institution: 'Chase', status: 'connected', lastSync: '6 hours ago', nextSync: 'In 6 hours', owner: 'Joint' },
 ];
 
 // --- Coach AI Responses ---
