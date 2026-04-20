@@ -27,6 +27,13 @@ const prevNW = nwHistory[nwHistory.length - 2].v;
 const nwDelta = currentNW - prevNW;
 const nwPct = ((nwDelta / prevNW) * 100).toFixed(1);
 
+const totalBudget = 4600;
+const totalSpent = budgetCategories.reduce((a, c) => a + c.spent, 0);
+const safeToSpend = totalBudget - totalSpent;
+const daysLeft = 12;
+const dailySafe = Math.round(safeToSpend / daysLeft);
+const budgetPct = Math.round((totalSpent / totalBudget) * 100);
+
 export default function HomePage() {
   const openSheet = useStore((s) => s.openSheet);
 
@@ -87,14 +94,14 @@ export default function HomePage() {
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           label="Safe to Spend"
-          value="$1,680"
-          sub="$140/day for 12 days"
+          value={fmtCurrency(safeToSpend)}
+          sub={`${fmtCurrency(dailySafe)}/day for ${daysLeft} days`}
           accent="text-brand-green"
         />
         <StatCard
           label="Budget Spent"
-          value="$2,920"
-          trendLabel="63% of $4,600"
+          value={fmtCurrency(totalSpent)}
+          trendLabel={`${budgetPct}% of ${fmtCurrency(totalBudget)}`}
           trend="flat"
         />
         <StatCard

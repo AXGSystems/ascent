@@ -28,7 +28,15 @@ export default function DonutChart({
   const cy = 50;
   const circumference = 2 * Math.PI * radius;
 
-  let cumulativeOffset = 0;
+  // Pre-compute cumulative offsets to avoid mutation during render
+  const segmentData = segments.map((seg) => {
+    const pct = total > 0 ? seg.value / total : 0;
+    return { ...seg, pct, dashLen: pct * circumference };
+  });
+  const cumulativeOffsets = segmentData.reduce<number[]>((acc, _, i) => {
+    acc.push(i === 0 ? 0 : acc[i - 1] + segmentData[i - 1].pct);
+    return acc;
+  }, []);
 
   return (
     <div className="flex flex-col items-center gap-3">
@@ -42,12 +50,7 @@ export default function DonutChart({
           stroke="var(--border-color)"
           strokeWidth={strokeWidth}
         />
-        {segments.map((seg, i) => {
-          const pct = total > 0 ? seg.value / total : 0;
-          const dashLen = pct * circumference;
-          const dashOffset = -cumulativeOffset * circumference;
-          cumulativeOffset += pct;
-          return (
+        {segmentData.map((seg, i) => (
             <circle
               key={i}
               cx={cx}
@@ -56,13 +59,12 @@ export default function DonutChart({
               fill="none"
               stroke={seg.color}
               strokeWidth={strokeWidth}
-              strokeDasharray={`${dashLen} ${circumference - dashLen}`}
-              strokeDashoffset={dashOffset}
+              strokeDasharray={`${seg.dashLen} ${circumference - seg.dashLen}`}
+              strokeDashoffset={-cumulativeOffsets[i] * circumference}
               strokeLinecap="butt"
               transform={`rotate(-90 ${cx} ${cy})`}
             />
-          );
-        })}
+          ))}
         {/* Center text */}
         {centerLabel && (
           <text

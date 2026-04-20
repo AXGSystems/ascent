@@ -48,8 +48,8 @@ export default function SpendPage() {
             </div>
             <div className="text-right">
               <p className="text-sm text-white/50">Safe to Spend</p>
-              <p className="text-2xl font-bold tabular-nums text-emerald-300">$1,680</p>
-              <p className="text-xs text-white/40">$140/day for 12 days</p>
+              <p className="text-2xl font-bold tabular-nums text-emerald-300">{fmtCurrency(remaining)}</p>
+              <p className="text-xs text-white/40">{fmtCurrency(Math.round(remaining / 12))}/day for 12 days</p>
             </div>
           </div>
         </div>
