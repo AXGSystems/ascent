@@ -8,7 +8,6 @@ import {
 import { fmtCurrency } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
-import BarChart from '@/components/BarChart';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
 

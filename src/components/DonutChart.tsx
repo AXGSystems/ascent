@@ -13,6 +13,7 @@ interface DonutChartProps {
   size?: number;
   centerLabel?: string;
   centerValue?: string;
+  showLegend?: boolean;
 }
 
 export default function DonutChart({
@@ -20,6 +21,7 @@ export default function DonutChart({
   size = 160,
   centerLabel,
   centerValue,
+  showLegend = true,
 }: DonutChartProps) {
   const total = segments.reduce((acc, s) => acc + s.value, 0);
   const radius = 40;
@@ -93,17 +95,19 @@ export default function DonutChart({
         )}
       </svg>
       {/* Legend */}
-      <div className="flex flex-wrap gap-x-4 gap-y-1 justify-center">
-        {segments.map((seg, i) => (
-          <div key={i} className="flex items-center gap-1.5 text-xs">
-            <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: seg.color }} />
-            <span className="text-[var(--text-secondary)]">{seg.label}</span>
-            <span className="tabular-nums font-medium text-[var(--text-primary)]">
-              {fmtCurrency(seg.value)}
-            </span>
-          </div>
-        ))}
-      </div>
+      {showLegend && (
+        <div className="flex flex-wrap gap-x-4 gap-y-1 justify-center">
+          {segments.map((seg, i) => (
+            <div key={i} className="flex items-center gap-1.5 text-xs">
+              <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: seg.color }} />
+              <span className="text-[var(--text-secondary)]">{seg.label}</span>
+              <span className="tabular-nums font-medium text-[var(--text-primary)]">
+                {fmtCurrency(seg.value)}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

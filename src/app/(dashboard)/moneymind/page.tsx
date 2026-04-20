@@ -73,6 +73,7 @@ export default function MoneyMindPage() {
                 size={160}
                 centerLabel="Breakdown"
                 centerValue="100%"
+                showLegend={false}
               />
               <div className="flex-1 w-full space-y-3">
                 {moneyMindSegments.map((seg) => (
@@ -84,7 +85,7 @@ export default function MoneyMindPage() {
                       </span>
                       <span className="text-xs tabular-nums text-[var(--text-muted)]">{seg.value}%</span>
                     </div>
-                    <ProgressBar value={seg.value} max={100} color={`bg-[${seg.color}]`} height="h-1.5" />
+                    <ProgressBar value={seg.value} max={100} height="h-1.5" />
                   </div>
                 ))}
               </div>
