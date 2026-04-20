@@ -7,6 +7,7 @@ import StatCard from '@/components/StatCard';
 import ProgressBar from '@/components/ProgressBar';
 import LineChart from '@/components/LineChart';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
 import { useStore } from '@/lib/store';
 
 const totalSaved = nests.reduce((a, n) => a + n.current, 0);
@@ -57,10 +58,20 @@ export default function SavePage() {
 
       {/* Stats */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Active Goals" value={`${nests.length}`} sub="Saving simultaneously" />
-        <StatCard label="This Month" value={fmtCurrency(2760)} trend="up" trendLabel="On track" accent="text-brand-green" />
-        <StatCard label="YTD Saved" value={fmtCurrency(10760)} sub="Jan - Apr 2026" />
-        <StatCard label="Emergency" value={`${pct(3600, 5000)}%`} sub="$3,600 of $5,000" accent="text-brand-gold" />
+        <StatCard label="Active Goals" value={`${nests.length}`} sub="Saving simultaneously" tooltip="Active Goals: The number of savings goals you are currently funding through auto-save." />
+        <StatCard label="This Month" value={fmtCurrency(2760)} trend="up" trendLabel="On track" accent="text-brand-green" tooltip="This Month: Total amount saved across all goals during the current month." />
+        <StatCard label="YTD Saved" value={fmtCurrency(10760)} sub="Jan - Apr 2026" tooltip="Year-to-Date Saved: Cumulative savings since January 1st across all goals." />
+        <StatCard label="Emergency" value={`${pct(3600, 5000)}%`} sub="$3,600 of $5,000" accent="text-brand-gold" tooltip="Emergency Fund: Progress toward your emergency fund target. 3-6 months of expenses is recommended." />
+      </section>
+
+      {/* Advisor Tips */}
+      <section className="space-y-3">
+        <AdvisorTip type="celebration">
+          Your savings rate has been above 30% for 4 months straight &mdash; that puts you in the top 15% of households. Keep this momentum going!
+        </AdvisorTip>
+        <AdvisorTip type="tip">
+          Moving $50 more per month to your Emergency Fund would reach 1 full month of coverage by June and your $5,000 target by September.
+        </AdvisorTip>
       </section>
 
       {/* Goals Grid */}

@@ -11,13 +11,22 @@ interface StatCardProps {
   trendLabel?: string;
   accent?: string;
   onClick?: () => void;
+  tooltip?: string;
 }
 
-export default function StatCard({ label, value, sub, trend, trendLabel, accent, onClick }: StatCardProps) {
+export default function StatCard({ label, value, sub, trend, trendLabel, accent, onClick, tooltip }: StatCardProps) {
   return (
     <Card onClick={onClick} className="min-h-[100px]">
-      <p className="text-xs font-medium uppercase tracking-wider text-[var(--text-muted)] mb-1">
+      <p
+        className="text-xs font-medium uppercase tracking-wider text-[var(--text-muted)] mb-1"
+        title={tooltip}
+      >
         {label}
+        {tooltip && (
+          <span className="ml-1 inline-block opacity-40 text-[10px]" aria-hidden="true">
+            ?
+          </span>
+        )}
       </p>
       <p
         className={cn(

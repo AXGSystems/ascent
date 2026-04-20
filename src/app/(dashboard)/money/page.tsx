@@ -7,6 +7,7 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Badge from '@/components/Badge';
 import LineChart from '@/components/LineChart';
+import AdvisorTip from '@/components/AdvisorTip';
 import { useStore } from '@/lib/store';
 
 const totalAssets = accounts.filter((a) => a.value > 0).reduce((acc, a) => acc + a.value, 0);
@@ -52,10 +53,20 @@ export default function MoneyPage() {
 
       {/* Stats */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Total Assets" value={fmtCurrency(totalAssets)} accent="text-brand-green" />
-        <StatCard label="Total Debt" value={fmtCurrency(totalDebt)} accent="text-brand-red" />
-        <StatCard label="Net Worth" value={fmtCurrency(netWorth)} accent="text-brand-teal" />
-        <StatCard label="Accounts" value={`${accounts.length}`} sub="Connected" />
+        <StatCard label="Total Assets" value={fmtCurrency(totalAssets)} accent="text-brand-green" tooltip="Total Assets: Sum of all accounts with positive balances including checking, savings, and investments." />
+        <StatCard label="Total Debt" value={fmtCurrency(totalDebt)} accent="text-brand-red" tooltip="Total Debt: Sum of all outstanding balances on credit cards, loans, and other liabilities." />
+        <StatCard label="Net Worth" value={fmtCurrency(netWorth)} accent="text-brand-teal" tooltip="Net Worth: Assets minus debt. This is the single most important number for measuring financial health." />
+        <StatCard label="Accounts" value={`${accounts.length}`} sub="Connected" tooltip="Accounts: Number of financial accounts linked to A$cent for automatic balance tracking." />
+      </section>
+
+      {/* Advisor Tips */}
+      <section className="space-y-3">
+        <AdvisorTip type="warning">
+          Cap One Savings has not synced in 47 days. Reconnect it to ensure your net worth calculation is accurate.
+        </AdvisorTip>
+        <AdvisorTip type="insight">
+          Your debt-to-asset ratio is {(totalDebt / totalAssets * 100).toFixed(1)}% &mdash; this is healthy. Most financial advisors recommend staying below 30%.
+        </AdvisorTip>
       </section>
 
       {/* Accounts */}

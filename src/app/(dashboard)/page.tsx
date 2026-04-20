@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useStore } from '@/lib/store';
 import {
   nwHistory,
@@ -10,6 +11,7 @@ import {
   bills,
   achievements,
   budgetCategories,
+  nests,
 } from '@/lib/data';
 import { fmtCurrency, whoLabel, whoBadgeColor, cn } from '@/lib/utils';
 import Card from '@/components/Card';
@@ -20,6 +22,9 @@ import DonutChart from '@/components/DonutChart';
 import AreaChart from '@/components/AreaChart';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import Typewriter from '@/components/Typewriter';
+import ExpandableCard from '@/components/ExpandableCard';
+import AdvisorTip from '@/components/AdvisorTip';
 import Link from 'next/link';
 
 const currentNW = nwHistory[nwHistory.length - 1].v;
@@ -28,11 +33,21 @@ const nwDelta = currentNW - prevNW;
 const nwPct = ((nwDelta / prevNW) * 100).toFixed(1);
 
 const totalBudget = 4600;
-const totalSpent = budgetCategories.reduce((a, c) => a + c.spent, 0);
-const safeToSpend = totalBudget - totalSpent;
+const totalSpentBudget = budgetCategories.reduce((a, c) => a + c.spent, 0);
+const safeToSpend = totalBudget - totalSpentBudget;
 const daysLeft = 12;
 const dailySafe = Math.round(safeToSpend / daysLeft);
-const budgetPct = Math.round((totalSpent / totalBudget) * 100);
+const budgetPct = Math.round((totalSpentBudget / totalBudget) * 100);
+
+const hawaiiNest = nests.find((n) => n.name === 'Hawaii');
+const hawaiiPct = hawaiiNest ? Math.round((hawaiiNest.current / hawaiiNest.goal) * 100) : 0;
+
+function getGreeting(): string {
+  const hour = new Date().getHours();
+  if (hour < 12) return 'Good morning';
+  if (hour < 17) return 'Good afternoon';
+  return 'Good evening';
+}
 
 export default function HomePage() {
   const openSheet = useStore((s) => s.openSheet);
@@ -53,10 +68,42 @@ export default function HomePage() {
   ];
   const totalSpent = latest.g + latest.d + latest.s + latest.e + latest.t;
 
+  // Cash flow surplus
+  const latestCF = cashFlow[cashFlow.length - 1];
+  const surplus = latestCF.inc - latestCF.exp;
+  const prevCF = cashFlow[cashFlow.length - 2];
+  const prevSurplus = prevCF.inc - prevCF.exp;
+
+  // Greeting text
+  const greetingText = useMemo(() => {
+    const g = getGreeting();
+    return `${g}, Christian. Your net worth is up ${fmtCurrency(nwDelta)} this month. You have ${fmtCurrency(safeToSpend)} safe to spend \u2014 that\u2019s ${fmtCurrency(dailySafe)}/day for the next ${daysLeft} days. Your Hawaii trip fund is ${hawaiiPct}% funded.`;
+  }, []);
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <h1 className="sr-only">A$cent Dashboard</h1>
-      {/* HERO: Net Worth — gradient background */}
+
+      {/* TYPEWRITER GREETING */}
+      <section>
+        <Card className="bg-gradient-to-r from-[var(--bg-card)] to-[var(--bg-card-hover)]">
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center shrink-0 mt-0.5">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-teal" aria-hidden="true">
+                <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" />
+                <path d="M18 15l.75 2.25L21 18l-2.25.75L18 21l-.75-2.25L15 18l2.25-.75L18 15z" />
+              </svg>
+            </div>
+            <Typewriter
+              text={greetingText}
+              speed={25}
+              className="text-sm leading-relaxed text-[var(--text-secondary)]"
+            />
+          </div>
+        </Card>
+      </section>
+
+      {/* HERO: Net Worth */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
@@ -97,12 +144,14 @@ export default function HomePage() {
           value={fmtCurrency(safeToSpend)}
           sub={`${fmtCurrency(dailySafe)}/day for ${daysLeft} days`}
           accent="text-brand-green"
+          tooltip="Safe to Spend: Your remaining discretionary budget after bills and savings are covered."
         />
         <StatCard
           label="Budget Spent"
           value={fmtCurrency(totalSpent)}
           trendLabel={`${budgetPct}% of ${fmtCurrency(totalBudget)}`}
           trend="flat"
+          tooltip="Budget Spent: Total spending against your monthly budget allocation across all categories."
         />
         <StatCard
           label="Savings Rate"
@@ -110,6 +159,7 @@ export default function HomePage() {
           trendLabel="+1% vs Feb"
           trend="up"
           accent="text-brand-teal"
+          tooltip="Savings Rate: The percentage of income directed to savings and debt payoff. 20%+ is excellent."
         />
         <StatCard
           label="Achievements"
@@ -121,12 +171,36 @@ export default function HomePage() {
             openSheet('Achievements', list);
           }}
           sub="Tap to view all"
+          tooltip="Achievements: Financial milestones you have completed or are working toward."
         />
       </section>
 
       {/* NET WORTH CHART (full width) */}
       <section>
-        <Card>
+        <ExpandableCard
+          title="Net Worth Chart"
+          expandedContent={
+            <div className="space-y-3">
+              <AdvisorTip type="insight">
+                Your net worth has grown {fmtCurrency(currentNW - nwHistory[0].v)} over the past 12 months &mdash; a {((currentNW - nwHistory[0].v) / nwHistory[0].v * 100).toFixed(1)}% increase. You are on track to reach $100k within the next 18 months at this rate.
+              </AdvisorTip>
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <p className="text-xs text-[var(--text-muted)]">12-Mo Low</p>
+                  <p className="text-sm font-bold tabular-nums">{fmtCurrency(Math.min(...nwHistory.map(p => p.v)))}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--text-muted)]">12-Mo High</p>
+                  <p className="text-sm font-bold tabular-nums">{fmtCurrency(Math.max(...nwHistory.map(p => p.v)))}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--text-muted)]">Avg Growth</p>
+                  <p className="text-sm font-bold tabular-nums text-brand-green">{fmtCurrency(Math.round((currentNW - nwHistory[0].v) / 12))}/mo</p>
+                </div>
+              </div>
+            </div>
+          }
+        >
           <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
             Net Worth - 12 Months
           </h2>
@@ -135,15 +209,40 @@ export default function HomePage() {
             height={220}
             color="#0a8ebc"
           />
-        </Card>
+        </ExpandableCard>
       </section>
 
-      {/* TWO COLUMN LAYOUT — asymmetric: larger left for spending/tx, narrower right for flow/bills */}
+      {/* TWO COLUMN LAYOUT */}
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
         {/* LEFT COLUMN */}
         <div className="space-y-6">
           {/* Spending Donut + Budget Progress */}
-          <Card>
+          <ExpandableCard
+            title="April Spending"
+            expandedContent={
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold text-[var(--text-primary)]">Per-Person Breakdown</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-lg bg-brand-teal/5 p-3">
+                    <p className="text-xs text-[var(--text-muted)]">Christian</p>
+                    <p className="text-lg font-bold tabular-nums">$1,540</p>
+                    <p className="text-xs text-[var(--text-muted)]">53% of household</p>
+                  </div>
+                  <div className="rounded-lg bg-brand-gold/5 p-3">
+                    <p className="text-xs text-[var(--text-muted)]">Channelle</p>
+                    <p className="text-lg font-bold tabular-nums">$1,380</p>
+                    <p className="text-xs text-[var(--text-muted)]">47% of household</p>
+                  </div>
+                </div>
+                <p className="text-xs text-[var(--text-muted)]">
+                  vs March: total spending is down 6%. Groceries dropped $50, but Shopping is up $25.
+                </p>
+                <AdvisorTip type="tip">
+                  Shopping is $35 over budget this month. Consider pausing non-essential purchases for the remaining {daysLeft} days to stay on track.
+                </AdvisorTip>
+              </div>
+            }
+          >
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-base font-bold text-[var(--text-primary)]">
                 April Spending
@@ -185,11 +284,31 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
-          </Card>
+          </ExpandableCard>
+          <AdvisorTip type="warning">
+            Shopping is 17% over budget. Your largest single purchase was $650 at TreatYoSelf &mdash; consider whether this fits your monthly plan.
+          </AdvisorTip>
 
           {/* Recent Transactions */}
-          <Card padding={false}>
-            <div className="px-5 pt-5 pb-3 flex items-center justify-between">
+          <ExpandableCard
+            title="Recent Transactions"
+            expandedContent={
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold text-[var(--text-primary)]">Category Totals (This Month)</h3>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="flex justify-between"><span className="text-[var(--text-muted)]">Groceries</span><span className="font-medium tabular-nums">{fmtCurrency(latest.g)}</span></div>
+                  <div className="flex justify-between"><span className="text-[var(--text-muted)]">Dining</span><span className="font-medium tabular-nums">{fmtCurrency(latest.d)}</span></div>
+                  <div className="flex justify-between"><span className="text-[var(--text-muted)]">Shopping</span><span className="font-medium tabular-nums text-brand-red">{fmtCurrency(latest.s)}</span></div>
+                  <div className="flex justify-between"><span className="text-[var(--text-muted)]">Entertainment</span><span className="font-medium tabular-nums">{fmtCurrency(latest.e)}</span></div>
+                </div>
+                <p className="text-xs text-[var(--text-muted)]">1 flagged transaction: TreatYoSelf ($650) &mdash; unusual amount for Clothing.</p>
+                <AdvisorTip type="insight">
+                  You have 8 transactions this week. Your average daily spend is {fmtCurrency(Math.round(totalSpent / 18))} &mdash; keeping this under {fmtCurrency(dailySafe)} will protect your budget.
+                </AdvisorTip>
+              </div>
+            }
+          >
+            <div className="flex items-center justify-between mb-3">
               <h2 className="text-base font-bold text-[var(--text-primary)]">
                 Recent Transactions
               </h2>
@@ -200,7 +319,7 @@ export default function HomePage() {
                 View all &rarr;
               </Link>
             </div>
-            <div className="divide-y divide-[var(--border-color)]">
+            <div className="divide-y divide-[var(--border-color)] -mx-5">
               {recentTx.map((tx) => (
                 <button
                   key={`${tx.name}-${tx.date}`}
@@ -243,13 +362,43 @@ export default function HomePage() {
                 </button>
               ))}
             </div>
-          </Card>
+          </ExpandableCard>
+          <AdvisorTip type="insight">
+            Your most frequent spending category is Groceries with 4 transactions this month. Whole Foods and Costco account for 60% of grocery spend.
+          </AdvisorTip>
         </div>
 
         {/* RIGHT COLUMN */}
         <div className="space-y-6">
           {/* Cash Flow */}
-          <Card>
+          <ExpandableCard
+            title="Cash Flow"
+            expandedContent={
+              <div className="space-y-3">
+                <div className="grid grid-cols-3 gap-3 text-center">
+                  <div>
+                    <p className="text-xs text-[var(--text-muted)]">Income</p>
+                    <p className="text-sm font-bold tabular-nums text-brand-green">{fmtCurrency(latestCF.inc)}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-[var(--text-muted)]">Expenses</p>
+                    <p className="text-sm font-bold tabular-nums text-brand-red">{fmtCurrency(latestCF.exp)}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-[var(--text-muted)]">Surplus</p>
+                    <p className="text-sm font-bold tabular-nums text-brand-teal">{fmtCurrency(surplus)}</p>
+                  </div>
+                </div>
+                <p className="text-xs text-[var(--text-muted)]">
+                  Surplus is {surplus > prevSurplus ? 'up' : 'down'} {fmtCurrency(Math.abs(surplus - prevSurplus))} vs last month.
+                  At this rate, you could save an additional {fmtCurrency(surplus * 12)} per year.
+                </p>
+                <AdvisorTip type="tip">
+                  Your monthly surplus of {fmtCurrency(surplus)} is strong. Directing even {fmtCurrency(200)} more toward your Emergency Fund would reach 1 full month of coverage by June.
+                </AdvisorTip>
+              </div>
+            }
+          >
             <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
               Cash Flow
             </h2>
@@ -261,11 +410,36 @@ export default function HomePage() {
               ]}
               height={180}
             />
-          </Card>
+          </ExpandableCard>
+          <AdvisorTip type="insight">
+            Your income-to-expense gap has been widening for 3 consecutive months. This is a sign of strengthening financial health.
+          </AdvisorTip>
 
           {/* Upcoming Bills */}
-          <Card padding={false}>
-            <div className="px-5 pt-5 pb-3 flex items-center justify-between">
+          <ExpandableCard
+            title="Upcoming Bills"
+            expandedContent={
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3 text-center">
+                  <div>
+                    <p className="text-xs text-[var(--text-muted)]">On Autopay</p>
+                    <p className="text-sm font-bold">{bills.filter(b => b.autopay).length}/{bills.length}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-[var(--text-muted)]">Total Due</p>
+                    <p className="text-sm font-bold tabular-nums">{fmtCurrency(upcomingBills.reduce((a, b) => a + b.amount, 0))}</p>
+                  </div>
+                </div>
+                <p className="text-xs text-[var(--text-muted)]">
+                  2 bills are manual pay (Electric and Water). Setting these to autopay could prevent late fees.
+                </p>
+                <AdvisorTip type="tip">
+                  Switching Electric and Water to autopay would save you an estimated $15-25/year in potential late fees and give you one less thing to track.
+                </AdvisorTip>
+              </div>
+            }
+          >
+            <div className="flex items-center justify-between mb-3">
               <h2 className="text-base font-bold text-[var(--text-primary)]">
                 Upcoming Bills
               </h2>
@@ -276,7 +450,7 @@ export default function HomePage() {
                 View all &rarr;
               </Link>
             </div>
-            <div className="divide-y divide-[var(--border-color)]">
+            <div className="divide-y divide-[var(--border-color)] -mx-5">
               {upcomingBills.map((bill) => (
                 <div key={bill.name} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
                   <div>
@@ -298,7 +472,7 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
-          </Card>
+          </ExpandableCard>
 
           {/* Quick Actions */}
           <Card>
@@ -338,8 +512,28 @@ export default function HomePage() {
           </Card>
 
           {/* Top Merchants */}
-          <Card padding={false}>
-            <div className="px-5 pt-5 pb-3 flex items-center justify-between">
+          <ExpandableCard
+            title="Top Merchants"
+            expandedContent={
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold text-[var(--text-primary)]">Frequency &amp; Averages</h3>
+                <div className="space-y-2">
+                  {topMerchants.slice(0, 5).map((m) => (
+                    <div key={m.n} className="flex items-center justify-between text-xs">
+                      <span className="text-[var(--text-secondary)]">{m.n}</span>
+                      <span className="text-[var(--text-muted)]">
+                        {m.count}x visits &middot; {fmtCurrency(m.avg)} avg
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <AdvisorTip type="insight">
+                  Starbucks has the most visits (22x) but lowest total. Whole Foods has the highest total at {fmtCurrency(1240)} across 18 visits &mdash; consider if bulk buying at Costco could reduce this.
+                </AdvisorTip>
+              </div>
+            }
+          >
+            <div className="flex items-center justify-between mb-3">
               <h2 className="text-base font-bold text-[var(--text-primary)]">
                 Top Merchants
               </h2>
@@ -350,7 +544,7 @@ export default function HomePage() {
                 View all &rarr;
               </Link>
             </div>
-            <div className="divide-y divide-[var(--border-color)]">
+            <div className="divide-y divide-[var(--border-color)] -mx-5">
               {topMerchants.slice(0, 5).map((m, idx) => (
                 <div key={m.n} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
                   <div className="flex items-center gap-3">
@@ -368,7 +562,7 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
-          </Card>
+          </ExpandableCard>
         </div>
       </div>
     </div>

@@ -136,6 +136,25 @@ html {
   animation: hero-shimmer 4s ease-in-out infinite;
 }
 
+/* Typewriter cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-card-in,
+  .animate-fade-in,
+  .animate-blink,
+  .hero-shimmer {
+    animation: none;
+  }
+}
+
 /* Focus-visible styles for keyboard navigation */
 *:focus-visible {
   outline: 2px solid var(--brand-teal);

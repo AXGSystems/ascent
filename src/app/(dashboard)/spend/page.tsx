@@ -7,6 +7,7 @@ import StatCard from '@/components/StatCard';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
 import BarChart from '@/components/BarChart';
+import AdvisorTip from '@/components/AdvisorTip';
 import { useStore } from '@/lib/store';
 
 const totalBudget = 4600;
@@ -57,10 +58,20 @@ export default function SpendPage() {
 
       {/* Stats */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Fixed Costs" value={fmtCurrency(1500)} sub="Housing + Insurance" />
-        <StatCard label="Variable" value={fmtCurrency(totalSpent - 1500)} sub="Discretionary spending" />
-        <StatCard label="Over Budget" value="1 category" accent="text-brand-red" sub="Shopping +$35" />
-        <StatCard label="Days Left" value="12" sub="In April" />
+        <StatCard label="Fixed Costs" value={fmtCurrency(1500)} sub="Housing + Insurance" tooltip="Fixed Costs: Recurring obligations like mortgage, insurance, and loans that don't change month to month." />
+        <StatCard label="Variable" value={fmtCurrency(totalSpent - 1500)} sub="Discretionary spending" tooltip="Variable Spending: Discretionary categories like groceries, dining, and shopping that you can adjust." />
+        <StatCard label="Over Budget" value="1 category" accent="text-brand-red" sub="Shopping +$35" tooltip="Over Budget: Categories where spending has exceeded the monthly allocation." />
+        <StatCard label="Days Left" value="12" sub="In April" tooltip="Days Left: Remaining days in the billing period to manage your remaining budget." />
+      </section>
+
+      {/* Advisor Tips */}
+      <section className="space-y-3">
+        <AdvisorTip type="warning">
+          Shopping is $35 over its $200 budget. You have 12 days left &mdash; consider a spending freeze on non-essentials to get back on track.
+        </AdvisorTip>
+        <AdvisorTip type="tip">
+          Dining Out is at 93% of budget with 12 days left. Cooking 3 more meals at home this week could save ~$45 and keep you under limit.
+        </AdvisorTip>
       </section>
 
       {/* Budget breakdown + history */}

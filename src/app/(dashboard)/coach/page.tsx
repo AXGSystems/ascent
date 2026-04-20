@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { coachResponses } from '@/lib/data';
 import { cn } from '@/lib/utils';
+import AdvisorTip from '@/components/AdvisorTip';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -99,6 +100,13 @@ export default function CoachPage() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Guidance */}
+      <div className="mb-3">
+        <AdvisorTip type="tip">
+          Try asking about your Spending, Budget, or Savings. The coach analyzes your real data and gives personalized recommendations.
+        </AdvisorTip>
       </div>
 
       {/* Quick prompts */}
