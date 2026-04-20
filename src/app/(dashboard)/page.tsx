@@ -165,7 +165,7 @@ export default function HomePage() {
 
       {/* HERO: Net Worth */}
       <section>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10 hero-sweep">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-4 md:p-6 lg:p-8 shadow-lg shadow-brand-teal/10 hero-sweep">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
@@ -177,7 +177,7 @@ export default function HomePage() {
                   <span>Net Worth</span>
                 </LearnTooltip>
               </p>
-              <p className="text-4xl md:text-5xl font-black text-white">
+              <p className="text-3xl md:text-4xl lg:text-5xl font-black text-white">
                 <CountUp value={currentNW} prefix="$" duration={1800} />
               </p>
               <p className="mt-2 text-sm flex items-center gap-1.5">
@@ -411,11 +411,11 @@ export default function HomePage() {
                   View all &rarr;
                 </Link>
               </div>
-              <div className="divide-y divide-[var(--border-color)] -mx-5">
+              <div className="divide-y divide-[var(--border-color)] -mx-4 md:-mx-5">
                 {recentTx.map((tx) => (
                   <button
                     key={`${tx.name}-${tx.date}`}
-                    className="w-full flex items-center gap-3 px-5 py-3 hover:bg-[var(--bg-card-hover)] transition-colors text-left min-h-[44px] active:scale-[0.98]"
+                    className="w-full flex items-center gap-3 px-4 md:px-5 py-3 hover:bg-[var(--bg-card-hover)] transition-colors text-left min-h-[44px] active:scale-[0.98]"
                     type="button"
                     onClick={() =>
                       openSheet(
@@ -560,9 +560,9 @@ export default function HomePage() {
                   View all &rarr;
                 </Link>
               </div>
-              <div className="divide-y divide-[var(--border-color)] -mx-5">
+              <div className="divide-y divide-[var(--border-color)] -mx-4 md:-mx-5">
                 {upcomingBills.map((bill) => (
-                  <div key={bill.name} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
+                  <div key={bill.name} className="flex items-center justify-between px-4 md:px-5 py-3 min-h-[44px]">
                     <div>
                       <p className="text-sm font-medium text-[var(--text-primary)]">{bill.name}</p>
                       <p className="text-xs text-[var(--text-muted)]">

@@ -26,7 +26,7 @@ export default function PriceGhostPage() {
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Hero */}
       <section>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-600 via-slate-700 to-brand-navy p-6 md:p-8 shadow-lg shadow-slate-600/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-600 via-slate-700 to-brand-navy p-4 md:p-6 lg:p-8 shadow-lg shadow-slate-600/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
@@ -40,7 +40,7 @@ export default function PriceGhostPage() {
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Monthly Creep</p>
-              <p className="text-5xl font-black tabular-nums text-white"><CountUp value={totalCreep} prefix="$" /></p>
+              <p className="text-3xl md:text-4xl lg:text-5xl font-black tabular-nums text-white"><CountUp value={totalCreep} prefix="$" /></p>
               <p className="text-sm text-red-300 font-medium mt-1">Extra per month</p>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default function PriceGhostPage() {
           <Card>
             <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Annual Impact</h2>
             <div className="text-center py-4">
-              <p className="text-4xl font-black tabular-nums text-brand-red">{fmtCurrency(annualOverpay)}</p>
+              <p className="text-3xl md:text-4xl font-black tabular-nums text-brand-red">{fmtCurrency(annualOverpay)}</p>
               <p className="text-sm text-[var(--text-muted)] mt-2">Extra you pay per year due to price creep</p>
             </div>
             <div className="mt-4 p-3 rounded-xl bg-brand-red/5 border border-brand-red/20">

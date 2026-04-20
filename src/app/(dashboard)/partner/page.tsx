@@ -40,7 +40,7 @@ export default function PartnerPage() {
 
       {/* Hero */}
       <section>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-4 md:p-6 lg:p-8 shadow-lg shadow-brand-teal/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
@@ -48,7 +48,7 @@ export default function PartnerPage() {
           <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1"><LearnTooltip term="Diversification"><span>Partner Trust Score</span></LearnTooltip></p>
-              <p className="text-4xl md:text-5xl font-black tabular-nums text-white"><CountUp value={trustScore} /><span className="text-lg font-normal text-white/50">/100</span></p>
+              <p className="text-3xl md:text-4xl lg:text-5xl font-black tabular-nums text-white"><CountUp value={trustScore} /><span className="text-lg font-normal text-white/50">/100</span></p>
               <p className="mt-2 text-sm text-white/60">Transparency and account health between partners</p>
             </div>
             <div className="flex items-center gap-3">

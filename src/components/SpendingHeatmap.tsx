@@ -81,53 +81,56 @@ export default function SpendingHeatmap() {
       <p className="text-xs text-[var(--text-muted)] mb-4">
         Daily spending intensity — lighter is lower, darker is higher
       </p>
-      <div className="flex gap-1">
-        {/* Day labels */}
-        <div className="flex flex-col gap-1 pr-1">
-          {DAYS_OF_WEEK.map((d) => (
-            <div key={d} className="h-7 flex items-center">
-              <span className="text-[10px] text-[var(--text-muted)] w-6">{d}</span>
-            </div>
-          ))}
-        </div>
-        {/* Grid */}
-        <div className="flex gap-1 flex-1">
-          {weeks.map((week, wi) => (
-            <div key={wi} className="flex flex-col gap-1 flex-1">
-              {week.map((day, di) => {
-                const globalIdx = wi * 7 + di - mondayOffset;
-                const isValid = day !== null && globalIdx >= 0 && globalIdx < dailyData.length;
-                return (
-                  <div
-                    key={di}
-                    className={`h-7 rounded-sm transition-all duration-150 relative ${
-                      isValid
-                        ? `${getColor(day!.amount, maxAmount)} cursor-pointer hover:ring-2 hover:ring-brand-teal hover:scale-110`
-                        : 'bg-transparent'
-                    }`}
-                    onMouseEnter={() => isValid ? setHoveredIdx(globalIdx) : null}
-                    onMouseLeave={() => setHoveredIdx(null)}
-                  >
-                    {hoveredIdx === globalIdx && isValid && day && (
-                      <div className="absolute z-30 bottom-full left-1/2 -translate-x-1/2 mb-2 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg shadow-lg p-2.5 min-w-[140px] pointer-events-none">
-                        <p className="text-xs font-semibold text-[var(--text-primary)] mb-0.5">
-                          {day.date}
-                        </p>
-                        <p className="text-sm font-bold text-brand-teal tabular-nums">
-                          {fmtCurrency(day.amount)}
-                        </p>
-                        <div className="mt-1 text-[10px] text-[var(--text-muted)]">
-                          {day.top.map((t) => (
-                            <p key={t}>{t}</p>
-                          ))}
+      <div className="overflow-x-auto -mx-4 md:-mx-5 px-4 md:px-5">
+        <div className="flex gap-1 min-w-[280px]">
+          {/* Day labels */}
+          <div className="flex flex-col gap-1 pr-1">
+            {DAYS_OF_WEEK.map((d) => (
+              <div key={d} className="h-7 flex items-center">
+                <span className="text-[10px] text-[var(--text-muted)] w-6">{d}</span>
+              </div>
+            ))}
+          </div>
+          {/* Grid */}
+          <div className="flex gap-1 flex-1">
+            {weeks.map((week, wi) => (
+              <div key={wi} className="flex flex-col gap-1 flex-1">
+                {week.map((day, di) => {
+                  const globalIdx = wi * 7 + di - mondayOffset;
+                  const isValid = day !== null && globalIdx >= 0 && globalIdx < dailyData.length;
+                  return (
+                    <div
+                      key={di}
+                      className={`h-7 min-w-[20px] rounded-sm transition-all duration-150 relative ${
+                        isValid
+                          ? `${getColor(day!.amount, maxAmount)} cursor-pointer hover:ring-2 hover:ring-brand-teal hover:scale-110`
+                          : 'bg-transparent'
+                      }`}
+                      onMouseEnter={() => isValid ? setHoveredIdx(globalIdx) : null}
+                      onMouseLeave={() => setHoveredIdx(null)}
+                      onClick={() => isValid ? setHoveredIdx(hoveredIdx === globalIdx ? null : globalIdx) : null}
+                    >
+                      {hoveredIdx === globalIdx && isValid && day && (
+                        <div className="absolute z-30 bottom-full left-1/2 -translate-x-1/2 mb-2 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg shadow-lg p-2.5 min-w-[140px] pointer-events-none">
+                          <p className="text-xs font-semibold text-[var(--text-primary)] mb-0.5">
+                            {day.date}
+                          </p>
+                          <p className="text-sm font-bold text-brand-teal tabular-nums">
+                            {fmtCurrency(day.amount)}
+                          </p>
+                          <div className="mt-1 text-[10px] text-[var(--text-muted)]">
+                            {day.top.map((t) => (
+                              <p key={t}>{t}</p>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       {/* Legend */}

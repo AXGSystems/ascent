@@ -91,7 +91,7 @@ export default function BudgetSimulator() {
                     [cat.name]: Number(e.target.value),
                   }))
                 }
-                className="w-full h-2 rounded-full appearance-none cursor-pointer accent-brand-teal bg-[var(--border-color)] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brand-teal [&::-webkit-slider-thumb]:shadow-md"
+                className="w-full h-2 rounded-full appearance-none cursor-pointer accent-brand-teal bg-[var(--border-color)] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brand-teal [&::-webkit-slider-thumb]:shadow-md [&::-moz-range-thumb]:w-6 [&::-moz-range-thumb]:h-6 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-brand-teal [&::-moz-range-thumb]:border-0 touch-manipulation"
               />
               <div className="flex justify-between text-[10px] text-[var(--text-muted)] mt-0.5">
                 <span>{fmtCurrency(cat.min)}</span>

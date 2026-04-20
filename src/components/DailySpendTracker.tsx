@@ -66,7 +66,7 @@ export default function DailySpendTracker() {
 
       {/* Today's transactions */}
       {todayTx.length > 0 && (
-        <div className="border-t border-[var(--border-color)] pt-2 -mx-5 px-5">
+        <div className="border-t border-[var(--border-color)] pt-2 -mx-4 md:-mx-5 px-4 md:px-5">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-2">
             Today
           </p>

@@ -36,7 +36,7 @@ export default function ExpandableCard({
     <div className={cn(base, colors, shadow, ring, hover, className)}>
       <button
         type="button"
-        className="w-full text-left p-5"
+        className="w-full text-left p-4 md:p-5"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-label={title ? `${title} - click to ${open ? 'collapse' : 'expand'}` : undefined}
@@ -63,7 +63,7 @@ export default function ExpandableCard({
           opacity: open ? 1 : 0,
         }}
       >
-        <div ref={contentRef} className="px-5 pb-5 pt-0">
+        <div ref={contentRef} className="px-4 md:px-5 pb-4 md:pb-5 pt-0">
           <div className="border-t border-[var(--border-color)] pt-4">
             {expandedContent}
           </div>

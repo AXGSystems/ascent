@@ -29,7 +29,7 @@ export default function SplitSensePage() {
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Hero */}
       <section>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-violet-600 via-purple-500 to-brand-navy p-6 md:p-8 shadow-lg shadow-violet-600/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-violet-600 via-purple-500 to-brand-navy p-4 md:p-6 lg:p-8 shadow-lg shadow-violet-600/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
@@ -43,7 +43,7 @@ export default function SplitSensePage() {
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Running Balance</p>
-              <p className="text-4xl font-black tabular-nums text-white">
+              <p className="text-3xl md:text-4xl font-black tabular-nums text-white">
                 <CountUp value={Math.abs(balance)} prefix="$" />
               </p>
               <p className="text-sm text-white/60 mt-1">
@@ -140,7 +140,7 @@ export default function SplitSensePage() {
           <Card>
             <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Running Balance</h2>
             <div className="text-center py-4">
-              <p className="text-4xl font-black tabular-nums text-[var(--text-primary)]">{fmtCurrency(Math.abs(balance))}</p>
+              <p className="text-3xl md:text-4xl font-black tabular-nums text-[var(--text-primary)]">{fmtCurrency(Math.abs(balance))}</p>
               <p className="text-sm text-[var(--text-muted)] mt-2">
                 {balance > 0 ? 'Channelle owes Christian' : 'Christian owes Channelle'}
               </p>

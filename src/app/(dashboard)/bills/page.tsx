@@ -36,7 +36,7 @@ export default function BillsPage() {
 
       {/* Hero */}
       <section>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-4 md:p-6 lg:p-8 shadow-lg shadow-brand-teal/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
@@ -45,7 +45,7 @@ export default function BillsPage() {
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
               <LearnTooltip term="Recurring Expense"><span>April Bills</span></LearnTooltip>
             </p>
-            <p className="text-4xl md:text-5xl font-black tabular-nums text-white"><CountUp value={totalBills} prefix="$" /></p>
+            <p className="text-3xl md:text-4xl lg:text-5xl font-black tabular-nums text-white"><CountUp value={totalBills} prefix="$" /></p>
             <p className="mt-2 text-sm text-white/60">{bills.length} bills - {autopayCount} on <LearnTooltip term="Autopay"><span>autopay</span></LearnTooltip></p>
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function BillsPage() {
         <ScrollReveal>
         <Card>
           <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">April Calendar</h2>
-          <div className="grid grid-cols-7 gap-1">
+          <div className="grid grid-cols-7 gap-1 min-w-0">
             {weekdays.map((d) => (
               <div key={d} className="text-center text-[10px] font-semibold text-[var(--text-muted)] uppercase py-1">{d}</div>
             ))}

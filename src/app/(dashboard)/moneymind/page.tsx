@@ -32,7 +32,7 @@ export default function MoneyMindPage() {
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Hero */}
       <section>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-purple-600/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-brand-teal-dark to-brand-navy p-4 md:p-6 lg:p-8 shadow-lg shadow-purple-600/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
@@ -46,7 +46,7 @@ export default function MoneyMindPage() {
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Impulse Score</p>
-              <p className="text-5xl font-black tabular-nums text-white"><CountUp value={impulseScore} /></p>
+              <p className="text-3xl md:text-4xl lg:text-5xl font-black tabular-nums text-white"><CountUp value={impulseScore} /></p>
               <p className="text-sm text-emerald-300 font-medium mt-1">
                 {impulseScore < prevImpulse ? '\u25BC' : '\u25B2'} {Math.abs(impulseScore - prevImpulse)} pts vs last month
               </p>

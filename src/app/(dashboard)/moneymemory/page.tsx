@@ -19,7 +19,7 @@ export default function MoneyMemoryPage() {
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Hero */}
       <section>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-brand-navy p-6 md:p-8 shadow-lg shadow-amber-500/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-brand-navy p-4 md:p-6 lg:p-8 shadow-lg shadow-amber-500/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
@@ -117,7 +117,7 @@ export default function MoneyMemoryPage() {
           <Card>
             <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Progress Celebration</h2>
             <div className="text-center py-6">
-              <p className="text-5xl mb-3">{'\uD83C\uDF89'}</p>
+              <p className="text-3xl md:text-4xl lg:text-5xl mb-3">{'\uD83C\uDF89'}</p>
               <p className="text-lg font-bold text-[var(--text-primary)]">Incredible Progress!</p>
               <p className="text-sm text-[var(--text-secondary)] mt-2 leading-relaxed">
                 In just 12 months, you have grown your net worth by <strong className="text-brand-green">{fmtCurrency(8650)}</strong>,

@@ -49,7 +49,7 @@ export default function ScorePage() {
 
       {/* Hero with Gauge */}
       <section>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-4 md:p-6 lg:p-8 shadow-lg shadow-brand-teal/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
@@ -74,7 +74,7 @@ export default function ScorePage() {
               />
             </svg>
             <div className="-mt-16">
-              <p className="text-5xl font-black text-white tabular-nums"><CountUp value={overallScore} /></p>
+              <p className="text-3xl md:text-4xl lg:text-5xl font-black text-white tabular-nums"><CountUp value={overallScore} /></p>
               <p className="text-sm text-white/50">out of {maxScore}</p>
             </div>
             <p className="mt-3 text-sm text-emerald-300 font-semibold">Good - Keep improving!</p>

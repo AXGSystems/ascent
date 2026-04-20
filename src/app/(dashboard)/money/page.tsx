@@ -37,7 +37,7 @@ export default function MoneyPage() {
       <h1 className="sr-only">Money Overview</h1>
       {/* Hero */}
       <section>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-navy via-brand-teal-dark to-brand-teal p-6 md:p-8 shadow-lg shadow-brand-navy/10 hero-sweep">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-navy via-brand-teal-dark to-brand-teal p-4 md:p-6 lg:p-8 shadow-lg shadow-brand-navy/10 hero-sweep">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.12),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
@@ -48,7 +48,7 @@ export default function MoneyPage() {
                 <span>Total Net Worth</span>
               </LearnTooltip>
             </p>
-            <p className="text-4xl md:text-5xl font-black text-white">
+            <p className="text-3xl md:text-4xl lg:text-5xl font-black text-white">
               <CountUp value={netWorth} prefix="$" duration={1800} />
             </p>
             <p className="mt-2 text-sm text-white/50">

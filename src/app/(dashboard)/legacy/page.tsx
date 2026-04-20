@@ -23,7 +23,7 @@ export default function LegacyPage() {
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Hero */}
       <section>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-navy via-slate-700 to-amber-900 p-6 md:p-8 shadow-lg shadow-brand-navy/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-navy via-slate-700 to-amber-900 p-4 md:p-6 lg:p-8 shadow-lg shadow-brand-navy/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
@@ -37,7 +37,7 @@ export default function LegacyPage() {
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Legacy Score</p>
-              <p className="text-5xl font-black tabular-nums text-white"><CountUp value={legacyScore} /></p>
+              <p className="text-3xl md:text-4xl lg:text-5xl font-black tabular-nums text-white"><CountUp value={legacyScore} /></p>
               <p className="text-sm text-white/60 mt-1">out of 100</p>
             </div>
           </div>

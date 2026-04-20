@@ -26,7 +26,7 @@ export default function DebtDuelPage() {
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Hero */}
       <section>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-600 via-orange-600 to-brand-navy p-6 md:p-8 shadow-lg shadow-red-600/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-600 via-orange-600 to-brand-navy p-4 md:p-6 lg:p-8 shadow-lg shadow-red-600/10">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
@@ -40,7 +40,7 @@ export default function DebtDuelPage() {
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Debt Remaining</p>
-              <p className="text-4xl font-black tabular-nums text-white"><CountUp value={totalDebt} prefix="$" /></p>
+              <p className="text-3xl md:text-4xl font-black tabular-nums text-white"><CountUp value={totalDebt} prefix="$" /></p>
               <p className="text-sm text-emerald-300 font-medium mt-1">{debtPercent}% conquered</p>
             </div>
           </div>
