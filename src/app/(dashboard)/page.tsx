@@ -6,7 +6,6 @@ import {
   nwHistory,
   monthlySpending,
   cashFlow,
-  topMerchants,
   transactions,
   bills,
   achievements,
@@ -34,13 +33,8 @@ import LearnTooltip from '@/components/LearnTooltip';
 import SmartAlertBanner from '@/components/SmartAlertBanner';
 import GuidedActions from '@/components/GuidedActions';
 import DailySpendTracker from '@/components/DailySpendTracker';
-import TrendMini from '@/components/TrendMini';
-import UpcomingEvents from '@/components/UpcomingEvents';
 import WelcomeTour from '@/components/WelcomeTour';
 import QuickTip from '@/components/QuickTip';
-import SpendingHeatmap from '@/components/SpendingHeatmap';
-import NetWorthTimeline from '@/components/NetWorthTimeline';
-import WeeklyDigest from '@/components/WeeklyDigest';
 import Link from 'next/link';
 
 const currentNW = nwHistory[nwHistory.length - 1].v;
@@ -469,21 +463,11 @@ export default function HomePage() {
           </ScrollReveal>
         </div>
 
-        {/* RIGHT COLUMN */}
+        {/* RIGHT COLUMN — 4 sections max */}
         <div className="space-y-6">
           {/* Daily Spend Tracker */}
           <ScrollReveal>
             <DailySpendTracker />
-          </ScrollReveal>
-
-          {/* 30-Day Trends Mini */}
-          <ScrollReveal delay={50}>
-            <TrendMini />
-          </ScrollReveal>
-
-          {/* Upcoming Money Events */}
-          <ScrollReveal delay={100}>
-            <UpcomingEvents />
           </ScrollReveal>
 
           {/* Cash Flow */}
@@ -639,77 +623,7 @@ export default function HomePage() {
               </div>
             </Card>
           </ScrollReveal>
-
-          {/* Top Merchants */}
-          <ScrollReveal>
-            <ExpandableCard
-              title="Top Merchants"
-              expandedContent={
-                <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-[var(--text-primary)]">Frequency &amp; Averages</h3>
-                  <div className="space-y-2">
-                    {topMerchants.slice(0, 5).map((m) => (
-                      <div key={m.n} className="flex items-center justify-between text-xs">
-                        <span className="text-[var(--text-secondary)]">{m.n}</span>
-                        <span className="text-[var(--text-muted)]">
-                          {m.count}x visits &middot; {fmtCurrency(m.avg)} avg
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                  <AdvisorTip type="insight">
-                    Starbucks has the most visits (22x) but lowest total. Whole Foods has the highest total at {fmtCurrency(1240)} across 18 visits &mdash; consider if bulk buying at Costco could reduce this.
-                  </AdvisorTip>
-                </div>
-              }
-            >
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="text-base font-bold text-[var(--text-primary)]">
-                  Top Merchants
-                </h2>
-                <Link
-                  href="/transactions"
-                  className="text-xs font-medium text-brand-teal hover:underline action-link"
-                >
-                  View all &rarr;
-                </Link>
-              </div>
-              <div className="divide-y divide-[var(--border-color)] -mx-5">
-                {topMerchants.slice(0, 5).map((m, idx) => (
-                  <div key={m.n} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs text-[var(--text-muted)] w-4 tabular-nums">{idx + 1}</span>
-                      <span className="text-sm text-[var(--text-primary)]">{m.n}</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-sm font-semibold tabular-nums text-[var(--text-primary)]">
-                        {fmtCurrency(m.total)}
-                      </span>
-                      <span className="text-xs text-[var(--text-muted)] ml-2">
-                        {m.count}x
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </ExpandableCard>
-          </ScrollReveal>
         </div>
-      </div>
-
-      {/* WEEKLY DIGEST */}
-      <ScrollReveal>
-        <WeeklyDigest />
-      </ScrollReveal>
-
-      {/* SPENDING HEATMAP + NET WORTH TIMELINE */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <ScrollReveal>
-          <SpendingHeatmap />
-        </ScrollReveal>
-        <ScrollReveal delay={100}>
-          <NetWorthTimeline />
-        </ScrollReveal>
       </div>
 
       {/* QUICK TIP */}

@@ -122,7 +122,7 @@ export default function TaxPage() {
           {/* Bracket Estimates */}
           <Card>
             <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Estimated Tax Savings by Bracket</h2>
-            <div className="grid grid-cols-5 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
               {bracketEstimates.map((b) => (
                 <div key={b.bracket} className="text-center p-3 rounded-xl bg-[var(--border-color)]/50">
                   <p className="text-xs font-semibold text-[var(--text-muted)]">{b.bracket}</p>
