@@ -261,3 +261,189 @@ export interface SyncAccount {
   nextSync: string;
   owner: string;
 }
+
+// --- INNOVATE feature types ---
+
+export interface MoneyMindSegment {
+  label: string;
+  value: number;
+  color: string;
+}
+
+export interface RegretPurchase {
+  name: string;
+  amount: number;
+  date: string;
+  regretScore: number;
+  category: string;
+}
+
+export interface CategoryRegret {
+  category: string;
+  regretRate: number;
+  avgAmount: number;
+}
+
+export interface LifeEvent {
+  name: string;
+  icon: string;
+  targetAge: number;
+  estimatedCost: number;
+  monthlyImpact: number;
+  enabled: boolean;
+}
+
+export interface NWProjectionPoint {
+  age: number;
+  withEvents: number;
+  withoutEvents: number;
+}
+
+export interface PriceCreepItem {
+  name: string;
+  originalPrice: number;
+  currentPrice: number;
+  startDate: string;
+  category: string;
+  priceHistory: number[];
+  increasePercent: number;
+}
+
+export interface DriftIndicator {
+  label: string;
+  current: string;
+  previous: string;
+  changePercent: number;
+  direction: 'up' | 'down';
+}
+
+export interface DriftHistory {
+  m: string;
+  incomeGrowth: number;
+  spendingGrowth: number;
+}
+
+export interface CoupleSyncArea {
+  area: string;
+  christianScore: number;
+  channelleScore: number;
+  aligned: boolean;
+}
+
+export interface SpendingComparison {
+  category: string;
+  christian: number;
+  channelle: number;
+}
+
+export interface PaycheckAllocation {
+  label: string;
+  amount: number;
+  color: string;
+  percent: number;
+}
+
+export interface SpendShieldPurchase {
+  merchant: string;
+  amount: number;
+  category: string;
+  budgetRemaining: number;
+  avgSpend: number;
+  regretProbability: number;
+  score: number;
+  date: string;
+}
+
+export interface WealthPrintSection {
+  name: string;
+  enabled: boolean;
+  summary: string;
+  value: string;
+}
+
+export interface MoneyMemoryComparison {
+  label: string;
+  then: number;
+  now: number;
+  change: number;
+  changePercent: number;
+}
+
+export interface RetrospectiveItem {
+  month: string;
+  highlight: string;
+  metric: string;
+  good: boolean;
+}
+
+export interface SharedExpense {
+  name: string;
+  amount: number;
+  paidBy: string;
+  date: string;
+  category: string;
+}
+
+export interface NudgeItem {
+  id: string;
+  message: string;
+  category: 'savings' | 'debt' | 'spending' | 'goal';
+  impact: string;
+  saved: boolean;
+  date: string;
+}
+
+export interface IncomeShieldMonth {
+  m: string;
+  baseline: number;
+  actual: number;
+}
+
+export interface IncomeSourceReliability {
+  source: string;
+  reliability: number;
+  avgAmount: number;
+  variance: number;
+}
+
+export interface DebtDuelMove {
+  who: string;
+  action: string;
+  points: number;
+  date: string;
+  debt: string;
+}
+
+export interface DebtDuelBadge {
+  name: string;
+  description: string;
+  earned: boolean;
+  icon: string;
+}
+
+export interface TaxThresholdAlert {
+  title: string;
+  description: string;
+  potentialSavings: number;
+  status: 'near' | 'met' | 'far';
+}
+
+export interface QuarterlyPayment {
+  quarter: string;
+  due: string;
+  amount: number;
+  status: 'paid' | 'upcoming' | 'overdue';
+}
+
+export interface LegacyMilestone {
+  age: number;
+  label: string;
+  projectedNW: number;
+}
+
+export interface VaultDocument {
+  name: string;
+  type: string;
+  uploaded: boolean;
+  date?: string;
+}

@@ -34,6 +34,31 @@ import type {
   FeedbackItem,
   ExportRecord,
   SyncAccount,
+  MoneyMindSegment,
+  RegretPurchase,
+  CategoryRegret,
+  LifeEvent,
+  NWProjectionPoint,
+  PriceCreepItem,
+  DriftIndicator,
+  DriftHistory,
+  CoupleSyncArea,
+  SpendingComparison,
+  PaycheckAllocation,
+  SpendShieldPurchase,
+  WealthPrintSection,
+  MoneyMemoryComparison,
+  RetrospectiveItem,
+  SharedExpense,
+  NudgeItem,
+  IncomeShieldMonth,
+  IncomeSourceReliability,
+  DebtDuelMove,
+  DebtDuelBadge,
+  TaxThresholdAlert,
+  QuarterlyPayment,
+  LegacyMilestone,
+  VaultDocument,
 } from './types';
 
 // --- Net Worth History (12 months) ---
@@ -443,6 +468,278 @@ export const syncAccounts: SyncAccount[] = [
   { name: 'Cap One Savings', institution: 'Capital One', status: 'disconnected', lastSync: '47 days ago', nextSync: 'Reconnect required', owner: 'Channelle' },
   { name: 'Ally Invest', institution: 'Ally', status: 'connected', lastSync: '1 day ago', nextSync: 'In 12 hours', owner: 'Christian' },
   { name: 'Credit Cards', institution: 'Chase', status: 'connected', lastSync: '6 hours ago', nextSync: 'In 6 hours', owner: 'Joint' },
+];
+
+// ===== INNOVATE FEATURES DATA =====
+
+// --- MoneyMind Data ---
+export const moneyMindSegments: MoneyMindSegment[] = [
+  { label: 'Necessary', value: 40, color: '#2d8f5e' },
+  { label: 'Planned', value: 25, color: '#0a8ebc' },
+  { label: 'Impulse', value: 20, color: '#d4a843' },
+  { label: 'Regret', value: 10, color: '#c0392b' },
+  { label: 'Joy', value: 5, color: '#8b5cf6' },
+];
+
+export const topRegretPurchases: RegretPurchase[] = [
+  { name: 'TreatYoSelf Clothing', amount: 650, date: 'Apr 13', regretScore: 92, category: 'Shopping' },
+  { name: 'Late-Night Amazon', amount: 89, date: 'Apr 8', regretScore: 78, category: 'Shopping' },
+  { name: 'Uber Eats (2AM)', amount: 42, date: 'Apr 5', regretScore: 85, category: 'Dining' },
+  { name: 'In-App Purchase', amount: 19.99, date: 'Apr 3', regretScore: 71, category: 'Entertainment' },
+  { name: 'Gas Station Snacks', amount: 14.50, date: 'Apr 1', regretScore: 65, category: 'Food' },
+];
+
+export const categoryRegretRates: CategoryRegret[] = [
+  { category: 'Shopping', regretRate: 45, avgAmount: 87 },
+  { category: 'Dining', regretRate: 32, avgAmount: 34 },
+  { category: 'Entertainment', regretRate: 28, avgAmount: 22 },
+  { category: 'Groceries', regretRate: 8, avgAmount: 65 },
+  { category: 'Transport', regretRate: 5, avgAmount: 48 },
+];
+
+export const impulseScoreTrend: number[] = [72, 68, 65, 70, 58, 52, 48, 55, 42, 38, 35, 32];
+
+// --- LifeLine Data ---
+export const lifeEvents: LifeEvent[] = [
+  { name: 'Baby', icon: 'baby', targetAge: 32, estimatedCost: 15000, monthlyImpact: -1200, enabled: true },
+  { name: 'House Down Payment', icon: 'home', targetAge: 33, estimatedCost: 60000, monthlyImpact: -800, enabled: true },
+  { name: 'Career Change', icon: 'briefcase', targetAge: 35, estimatedCost: 5000, monthlyImpact: 1500, enabled: false },
+  { name: 'Retirement', icon: 'sunset', targetAge: 62, estimatedCost: 0, monthlyImpact: -3000, enabled: true },
+  { name: 'Start Business', icon: 'rocket', targetAge: 36, estimatedCost: 25000, monthlyImpact: -500, enabled: false },
+  { name: 'Kids College', icon: 'graduation', targetAge: 50, estimatedCost: 80000, monthlyImpact: -600, enabled: true },
+];
+
+export const nwProjectionData: NWProjectionPoint[] = [
+  { age: 28, withEvents: 82450, withoutEvents: 82450 },
+  { age: 30, withEvents: 105000, withoutEvents: 112000 },
+  { age: 35, withEvents: 168000, withoutEvents: 210000 },
+  { age: 40, withEvents: 285000, withoutEvents: 340000 },
+  { age: 45, withEvents: 420000, withoutEvents: 510000 },
+  { age: 50, withEvents: 580000, withoutEvents: 720000 },
+  { age: 55, withEvents: 780000, withoutEvents: 980000 },
+  { age: 60, withEvents: 1020000, withoutEvents: 1300000 },
+  { age: 65, withEvents: 1250000, withoutEvents: 1650000 },
+];
+
+// --- PriceGhost Data ---
+export const priceCreepItems: PriceCreepItem[] = [
+  { name: 'Netflix', originalPrice: 10.99, currentPrice: 15.49, startDate: 'Jan 2022', category: 'Entertainment', priceHistory: [10.99, 11.99, 13.99, 15.49], increasePercent: 41 },
+  { name: 'Hulu', originalPrice: 12.99, currentPrice: 17.99, startDate: 'Mar 2022', category: 'Entertainment', priceHistory: [12.99, 14.99, 15.99, 17.99], increasePercent: 38 },
+  { name: 'Disney+', originalPrice: 7.99, currentPrice: 13.99, startDate: 'Nov 2021', category: 'Entertainment', priceHistory: [7.99, 10.99, 13.99], increasePercent: 75 },
+  { name: 'Spotify', originalPrice: 9.99, currentPrice: 16.99, startDate: 'Jun 2021', category: 'Entertainment', priceHistory: [9.99, 10.99, 13.99, 16.99], increasePercent: 70 },
+  { name: 'YouTube Premium', originalPrice: 11.99, currentPrice: 13.99, startDate: 'Aug 2022', category: 'Entertainment', priceHistory: [11.99, 13.99], increasePercent: 17 },
+  { name: 'Adobe CC', originalPrice: 19.99, currentPrice: 22.99, startDate: 'Feb 2023', category: 'Productivity', priceHistory: [19.99, 20.99, 22.99], increasePercent: 15 },
+  { name: 'ChatGPT Plus', originalPrice: 20.00, currentPrice: 20.00, startDate: 'Jan 2024', category: 'AI', priceHistory: [20.00], increasePercent: 0 },
+  { name: 'iCloud', originalPrice: 0.99, currentPrice: 2.99, startDate: 'Sep 2020', category: 'Storage', priceHistory: [0.99, 2.99], increasePercent: 202 },
+  { name: 'Gym', originalPrice: 35.00, currentPrice: 50.00, startDate: 'Jan 2023', category: 'Fitness', priceHistory: [35.00, 40.00, 45.00, 50.00], increasePercent: 43 },
+  { name: 'Headspace', originalPrice: 12.99, currentPrice: 14.99, startDate: 'Apr 2023', category: 'Wellness', priceHistory: [12.99, 14.99], increasePercent: 15 },
+  { name: 'NYT', originalPrice: 1.00, currentPrice: 4.25, startDate: 'May 2022', category: 'News', priceHistory: [1.00, 2.00, 4.25], increasePercent: 325 },
+  { name: 'Dropbox', originalPrice: 9.99, currentPrice: 11.99, startDate: 'Jul 2023', category: 'Storage', priceHistory: [9.99, 11.99], increasePercent: 20 },
+];
+
+// --- DriftGuard Data ---
+export const driftIndicators: DriftIndicator[] = [
+  { label: 'Avg Restaurant Check', current: '$48', previous: '$36', changePercent: 33, direction: 'up' },
+  { label: 'Grocery Basket', current: '$72', previous: '$58', changePercent: 24, direction: 'up' },
+  { label: 'Subscription Count', current: '12', previous: '8', changePercent: 50, direction: 'up' },
+  { label: 'Amazon Order Avg', current: '$74', previous: '$52', changePercent: 42, direction: 'up' },
+  { label: 'Coffee Spend/Mo', current: '$68', previous: '$42', changePercent: 62, direction: 'up' },
+  { label: 'Delivery Orders/Mo', current: '8', previous: '4', changePercent: 100, direction: 'up' },
+];
+
+export const driftHistoryData: DriftHistory[] = [
+  { m: 'Nov', incomeGrowth: 2, spendingGrowth: 5 },
+  { m: 'Dec', incomeGrowth: 2, spendingGrowth: 12 },
+  { m: 'Jan', incomeGrowth: 5, spendingGrowth: 8 },
+  { m: 'Feb', incomeGrowth: 5, spendingGrowth: 10 },
+  { m: 'Mar', incomeGrowth: 5, spendingGrowth: 14 },
+  { m: 'Apr', incomeGrowth: 5, spendingGrowth: 18 },
+];
+
+// --- CoupleSync Data ---
+export const coupleSyncAreas: CoupleSyncArea[] = [
+  { area: 'Saving Goals', christianScore: 85, channelleScore: 78, aligned: true },
+  { area: 'Dining Budget', christianScore: 60, channelleScore: 82, aligned: false },
+  { area: 'Emergency Fund', christianScore: 90, channelleScore: 72, aligned: false },
+  { area: 'Shopping Limits', christianScore: 55, channelleScore: 40, aligned: true },
+  { area: 'Investment Risk', christianScore: 78, channelleScore: 65, aligned: true },
+  { area: 'Vacation Budget', christianScore: 70, channelleScore: 90, aligned: false },
+  { area: 'Subscription Audit', christianScore: 88, channelleScore: 45, aligned: false },
+  { area: 'Debt Payoff Speed', christianScore: 82, channelleScore: 80, aligned: true },
+];
+
+export const coupleSpendingComparison: SpendingComparison[] = [
+  { category: 'Groceries', christian: 480, channelle: 0 },
+  { category: 'Dining', christian: 120, channelle: 160 },
+  { category: 'Shopping', christian: 85, channelle: 800 },
+  { category: 'Entertainment', christian: 45, channelle: 40 },
+  { category: 'Transport', christian: 95, channelle: 25 },
+  { category: 'Personal', christian: 30, channelle: 60 },
+];
+
+export const conversationStarters: string[] = [
+  'Channelle spent 9x more on shopping this month. Time for a reset?',
+  'You both agree on debt payoff speed — great alignment!',
+  'Christian wants a bigger emergency fund. Discuss target together?',
+  'Vacation budget gap: Channelle wants to spend 29% more. Compromise?',
+  'Subscription audit needed: 43-point gap in priority scores.',
+];
+
+// --- PaycheckMap Data ---
+export const paycheckAllocations: PaycheckAllocation[] = [
+  { label: 'Bills & Housing', amount: 2100, color: '#c0392b', percent: 49 },
+  { label: 'Savings', amount: 650, color: '#2d8f5e', percent: 15 },
+  { label: 'Debt Payments', amount: 85, color: '#d4a843', percent: 2 },
+  { label: 'Flex Spending', amount: 1445, color: '#0a8ebc', percent: 34 },
+];
+
+// --- SpendShield Data ---
+export const spendShieldPurchases: SpendShieldPurchase[] = [
+  { merchant: 'Amazon', amount: 89.99, category: 'Shopping', budgetRemaining: 115, avgSpend: 52, regretProbability: 62, score: 38, date: 'Today' },
+  { merchant: 'Whole Foods', amount: 67.43, category: 'Groceries', budgetRemaining: 320, avgSpend: 68, regretProbability: 5, score: 92, date: 'Today' },
+  { merchant: 'Best Buy', amount: 249.99, category: 'Shopping', budgetRemaining: 115, avgSpend: 52, regretProbability: 78, score: 15, date: 'Yesterday' },
+  { merchant: 'Uber Eats', amount: 32.00, category: 'Dining', budgetRemaining: 20, avgSpend: 28, regretProbability: 55, score: 42, date: 'Yesterday' },
+  { merchant: 'Target', amount: 45.60, category: 'Shopping', budgetRemaining: 115, avgSpend: 65, regretProbability: 22, score: 74, date: 'Apr 12' },
+  { merchant: 'Shell Gas', amount: 48.20, category: 'Transport', budgetRemaining: 80, avgSpend: 48, regretProbability: 3, score: 96, date: 'Apr 12' },
+];
+
+// --- WealthPrint Data ---
+export const wealthPrintSections: WealthPrintSection[] = [
+  { name: 'Net Worth', enabled: true, summary: '12-month net worth trend and breakdown', value: '$82,450' },
+  { name: 'Income', enabled: true, summary: 'Income sources and monthly history', value: '$7,080/mo' },
+  { name: 'Spending', enabled: true, summary: 'Category breakdown and trends', value: '$4,320/mo' },
+  { name: 'Debt', enabled: true, summary: 'Debt accounts, rates, and payoff plan', value: '$24,400' },
+  { name: 'Credit', enabled: true, summary: 'Credit score history and factors', value: '756' },
+  { name: 'Goals', enabled: true, summary: 'Savings goals progress and projections', value: '6 active' },
+  { name: 'A$cent Score', enabled: true, summary: 'Overall financial health assessment', value: '72/100' },
+];
+
+// --- MoneyMemory Data ---
+export const moneyMemoryComparisons: MoneyMemoryComparison[] = [
+  { label: 'Net Worth', then: 73800, now: 82450, change: 8650, changePercent: 11.7 },
+  { label: 'Monthly Spending', then: 5200, now: 4320, change: -880, changePercent: -16.9 },
+  { label: 'Savings Rate', then: 27, now: 39, change: 12, changePercent: 44.4 },
+  { label: 'Total Debt', then: 28600, now: 24400, change: -4200, changePercent: -14.7 },
+];
+
+export const retrospectiveTimeline: RetrospectiveItem[] = [
+  { month: 'May 2025', highlight: 'Started A$cent tracking', metric: 'NW: $72,400', good: true },
+  { month: 'Jun 2025', highlight: 'First savings goal created', metric: 'Emergency fund started', good: true },
+  { month: 'Jul 2025', highlight: 'Holiday overspend', metric: 'Budget exceeded by $800', good: false },
+  { month: 'Aug 2025', highlight: 'Channelle freelance boost', metric: '+$1,200 extra income', good: true },
+  { month: 'Sep 2025', highlight: 'Insurance rate increase', metric: '+$38/mo', good: false },
+  { month: 'Oct 2025', highlight: 'Paid off credit card', metric: '-$2,400 debt', good: true },
+  { month: 'Nov 2025', highlight: 'Black Friday discipline', metric: 'Only $45 spent', good: true },
+  { month: 'Dec 2025', highlight: 'Holiday spending spike', metric: '$350 over budget', good: false },
+  { month: 'Jan 2026', highlight: 'New Year savings reset', metric: '40% savings rate', good: true },
+  { month: 'Feb 2026', highlight: 'Auto-save increase', metric: '+$5/day savings', good: true },
+  { month: 'Mar 2026', highlight: 'Net worth record', metric: '$81,900 ATH', good: true },
+  { month: 'Apr 2026', highlight: 'Budget streak: 14 days', metric: 'Under budget daily', good: true },
+];
+
+// --- SplitSense Data ---
+export const sharedExpenses: SharedExpense[] = [
+  { name: 'Whole Foods Groceries', amount: 124.30, paidBy: 'Christian', date: 'Apr 14', category: 'Groceries' },
+  { name: 'Electric Bill', amount: 145.00, paidBy: 'Christian', date: 'Apr 10', category: 'Bills' },
+  { name: 'Date Night Dinner', amount: 86.00, paidBy: 'Channelle', date: 'Apr 9', category: 'Dining' },
+  { name: 'Netflix', amount: 15.49, paidBy: 'Christian', date: 'Apr 10', category: 'Subscriptions' },
+  { name: 'Water Bill', amount: 65.00, paidBy: 'Christian', date: 'Apr 12', category: 'Bills' },
+  { name: 'Costco Run', amount: 189.00, paidBy: 'Channelle', date: 'Apr 8', category: 'Groceries' },
+  { name: 'Internet', amount: 89.00, paidBy: 'Christian', date: 'Apr 15', category: 'Bills' },
+  { name: 'Gym (Joint)', amount: 50.00, paidBy: 'Christian', date: 'Apr 1', category: 'Fitness' },
+];
+
+// --- NudgeIQ Data ---
+export const nudgeItems: NudgeItem[] = [
+  { id: 'n1', message: 'Your dining budget is 93% spent with 12 days left. Skip eating out this weekend to stay on track.', category: 'spending', impact: 'Save ~$60', saved: false, date: 'Today' },
+  { id: 'n2', message: 'Moving $50/mo from flex to your Hawaii fund gets you there 2 months sooner.', category: 'goal', impact: 'Hawaii by Aug', saved: true, date: 'Today' },
+  { id: 'n3', message: 'You have 3 subscriptions with under 5% usage. Canceling saves $52/mo.', category: 'savings', impact: 'Save $624/yr', saved: false, date: 'Yesterday' },
+  { id: 'n4', message: 'Paying $50 extra on Chase Visa this month saves $127 in interest over the loan.', category: 'debt', impact: 'Save $127', saved: true, date: 'Yesterday' },
+  { id: 'n5', message: 'Your grocery spending is 8% below average this month. Keep it up!', category: 'spending', impact: 'On track', saved: false, date: 'Apr 12' },
+  { id: 'n6', message: 'Emergency fund is at 72% — increase daily auto-save by $2 to hit goal by July.', category: 'savings', impact: 'Goal by Jul', saved: false, date: 'Apr 11' },
+  { id: 'n7', message: 'Switching your phone plan to Mint Mobile saves $60/mo ($720/yr).', category: 'savings', impact: 'Save $720/yr', saved: true, date: 'Apr 10' },
+  { id: 'n8', message: 'Your net worth crossed $82k — up 11.7% from last year. Celebrate responsibly!', category: 'goal', impact: 'Milestone', saved: false, date: 'Apr 8' },
+  { id: 'n9', message: 'Amazon spending averages $74/order. Consider a 24-hour rule before checkout.', category: 'spending', impact: 'Save ~$180/mo', saved: false, date: 'Apr 5' },
+  { id: 'n10', message: 'Car loan payoff in 22 months. Adding $50/mo cuts it to 18 months and saves $340.', category: 'debt', impact: 'Save $340', saved: true, date: 'Apr 3' },
+];
+
+// --- IncomeShield Data ---
+export const incomeShieldMonths: IncomeShieldMonth[] = [
+  { m: 'Nov', baseline: 7080, actual: 7080 },
+  { m: 'Dec', baseline: 7080, actual: 7080 },
+  { m: 'Jan', baseline: 7080, actual: 7280 },
+  { m: 'Feb', baseline: 7080, actual: 7080 },
+  { m: 'Mar', baseline: 7080, actual: 7280 },
+  { m: 'Apr', baseline: 7080, actual: 7080 },
+  { m: 'May', baseline: 7080, actual: 6400 },
+  { m: 'Jun', baseline: 7080, actual: 8200 },
+  { m: 'Jul', baseline: 7080, actual: 5800 },
+  { m: 'Aug', baseline: 7080, actual: 7600 },
+  { m: 'Sep', baseline: 7080, actual: 7080 },
+  { m: 'Oct', baseline: 7080, actual: 8100 },
+];
+
+export const incomeSourceReliability: IncomeSourceReliability[] = [
+  { source: 'ALTA Payroll', reliability: 98, avgAmount: 4280, variance: 0 },
+  { source: 'Freelance (Channelle)', reliability: 72, avgAmount: 2800, variance: 15 },
+  { source: 'Rental Income', reliability: 95, avgAmount: 1200, variance: 0 },
+  { source: 'Etsy Shop', reliability: 45, avgAmount: 320, variance: 40 },
+  { source: 'Stock Dividends', reliability: 85, avgAmount: 185, variance: 10 },
+];
+
+// --- DebtDuel Data ---
+export const debtDuelMoves: DebtDuelMove[] = [
+  { who: 'Christian', action: 'Extra $100 on Chase Visa', points: 50, date: 'Apr 14', debt: 'Chase Visa' },
+  { who: 'Channelle', action: 'Skipped Uber Eats, cooked instead', points: 25, date: 'Apr 13', debt: 'General' },
+  { who: 'Christian', action: 'Round-up savings to debt', points: 15, date: 'Apr 12', debt: 'Student Loan' },
+  { who: 'Channelle', action: 'Sold old clothes on Poshmark', points: 40, date: 'Apr 11', debt: 'Chase Visa' },
+  { who: 'Christian', action: 'Cancelled Headspace ($15/mo)', points: 30, date: 'Apr 10', debt: 'General' },
+  { who: 'Channelle', action: 'Extra freelance gig ($200)', points: 60, date: 'Apr 8', debt: 'Car Loan' },
+  { who: 'Christian', action: 'Meal prepped all week', points: 20, date: 'Apr 7', debt: 'General' },
+  { who: 'Channelle', action: 'Returned Amazon impulse buy', points: 35, date: 'Apr 5', debt: 'Chase Visa' },
+];
+
+export const debtDuelBadges: DebtDuelBadge[] = [
+  { name: 'First Blood', description: 'Made first extra payment', earned: true, icon: 'sword' },
+  { name: 'Streak Master', description: '7-day no-spend streak', earned: true, icon: 'flame' },
+  { name: 'Side Hustle Hero', description: 'Earned extra income for debt', earned: true, icon: 'rocket' },
+  { name: 'Budget Boss', description: 'Under budget for 30 days', earned: false, icon: 'crown' },
+  { name: 'Debt Slayer', description: 'Paid off one debt completely', earned: false, icon: 'trophy' },
+  { name: 'Summit Seeker', description: 'Reached 50% debt reduction', earned: false, icon: 'mountain' },
+];
+
+// --- TaxRadar Data ---
+export const taxThresholdAlerts: TaxThresholdAlert[] = [
+  { title: 'Charitable Giving', description: '$50 more in donations unlocks $800 in additional tax savings', potentialSavings: 800, status: 'near' },
+  { title: 'HSA Contribution', description: 'Contribute $1,200 more to max out HSA for the year', potentialSavings: 300, status: 'far' },
+  { title: 'Home Office Deduction', description: 'Channelle qualifies — claim $120/mo for dedicated workspace', potentialSavings: 1440, status: 'met' },
+  { title: 'Education Credits', description: 'Online courses may qualify for Lifetime Learning Credit', potentialSavings: 400, status: 'near' },
+];
+
+export const quarterlyPayments: QuarterlyPayment[] = [
+  { quarter: 'Q1', due: 'Apr 15', amount: 2100, status: 'paid' },
+  { quarter: 'Q2', due: 'Jun 15', amount: 2100, status: 'upcoming' },
+  { quarter: 'Q3', due: 'Sep 15', amount: 2100, status: 'upcoming' },
+  { quarter: 'Q4', due: 'Jan 15', amount: 2100, status: 'upcoming' },
+];
+
+// --- Legacy Data ---
+export const legacyMilestones: LegacyMilestone[] = [
+  { age: 28, label: 'Today', projectedNW: 82450 },
+  { age: 30, label: 'Age 30', projectedNW: 115000 },
+  { age: 40, label: 'Age 40', projectedNW: 340000 },
+  { age: 50, label: 'Age 50', projectedNW: 720000 },
+  { age: 60, label: 'Age 60', projectedNW: 1300000 },
+  { age: 65, label: 'Retirement', projectedNW: 1650000 },
+];
+
+export const vaultDocuments: VaultDocument[] = [
+  { name: 'Will & Testament', type: 'Legal', uploaded: true, date: 'Jan 2026' },
+  { name: 'Life Insurance Policy', type: 'Insurance', uploaded: true, date: 'Mar 2026' },
+  { name: 'Trust Documents', type: 'Legal', uploaded: false },
+  { name: 'Power of Attorney', type: 'Legal', uploaded: false },
+  { name: 'Property Deeds', type: 'Property', uploaded: false },
+  { name: 'Investment Account Beneficiaries', type: 'Financial', uploaded: true, date: 'Feb 2026' },
 ];
 
 // --- Coach AI Responses ---

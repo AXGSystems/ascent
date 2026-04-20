@@ -54,6 +54,26 @@ export const navigation: NavSection[] = [
     ],
   },
   {
+    title: 'INNOVATE',
+    items: [
+      { label: 'MoneyMind', href: '/moneymind', icon: 'brain' },
+      { label: 'LifeLine', href: '/lifeline', icon: 'timeline' },
+      { label: 'PriceGhost', href: '/priceghost', icon: 'ghost' },
+      { label: 'DriftGuard', href: '/driftguard', icon: 'gauge' },
+      { label: 'CoupleSync', href: '/couplesync', icon: 'hearts' },
+      { label: 'PaycheckMap', href: '/paycheckmap', icon: 'map' },
+      { label: 'SpendShield', href: '/spendshield', icon: 'zap' },
+      { label: 'WealthPrint', href: '/wealthprint', icon: 'printer' },
+      { label: 'MoneyMemory', href: '/moneymemory', icon: 'clock' },
+      { label: 'SplitSense', href: '/splitsense', icon: 'split' },
+      { label: 'NudgeIQ', href: '/nudgeiq', icon: 'lightbulb' },
+      { label: 'IncomeShield', href: '/incomeshield', icon: 'shield-plus' },
+      { label: 'DebtDuel', href: '/debtduel', icon: 'swords' },
+      { label: 'TaxRadar', href: '/taxradar', icon: 'radar' },
+      { label: 'Legacy', href: '/legacy', icon: 'landmark' },
+    ],
+  },
+  {
     title: 'SYSTEM',
     items: [
       { label: 'Settings', href: '/settings', icon: 'settings' },

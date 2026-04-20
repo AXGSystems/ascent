@@ -224,6 +224,114 @@ export default function NavIcon({ name, className = 'w-5 h-5' }: NavIconProps) {
           <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
         </svg>
       );
+    case 'brain':
+      return (
+        <svg {...props}>
+          <path d="M12 2a7 7 0 00-4.6 12.3c.3.2.6.5.7.9l.9 3.8h6l.9-3.8c.1-.4.4-.7.7-.9A7 7 0 0012 2z" />
+          <path d="M10 19h4M10 22h4M12 2v4" />
+        </svg>
+      );
+    case 'timeline':
+      return (
+        <svg {...props}>
+          <path d="M12 2v20M5 6h4M15 10h4M7 14h4M15 18h4" />
+          <circle cx="12" cy="6" r="2" />
+          <circle cx="12" cy="10" r="2" />
+          <circle cx="12" cy="14" r="2" />
+          <circle cx="12" cy="18" r="2" />
+        </svg>
+      );
+    case 'ghost':
+      return (
+        <svg {...props}>
+          <path d="M9 10h.01M15 10h.01M12 2a8 8 0 00-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 00-8-8z" />
+        </svg>
+      );
+    case 'gauge':
+      return (
+        <svg {...props}>
+          <path d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10z" />
+          <path d="M12 6v6l4 2" />
+          <path d="M16.24 7.76l-4.24 4.24" />
+        </svg>
+      );
+    case 'hearts':
+      return (
+        <svg {...props}>
+          <path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z" />
+        </svg>
+      );
+    case 'map':
+      return (
+        <svg {...props}>
+          <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" />
+          <path d="M8 2v16M16 6v16" />
+        </svg>
+      );
+    case 'zap':
+      return (
+        <svg {...props}>
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+      );
+    case 'printer':
+      return (
+        <svg {...props}>
+          <path d="M6 9V2h12v7" />
+          <path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2" />
+          <rect x="6" y="14" width="12" height="8" />
+        </svg>
+      );
+    case 'clock':
+      return (
+        <svg {...props}>
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </svg>
+      );
+    case 'split':
+      return (
+        <svg {...props}>
+          <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5" />
+        </svg>
+      );
+    case 'lightbulb':
+      return (
+        <svg {...props}>
+          <path d="M9 18h6M10 22h4" />
+          <path d="M12 2a7 7 0 00-4 12.7V17h8v-2.3A7 7 0 0012 2z" />
+        </svg>
+      );
+    case 'shield-plus':
+      return (
+        <svg {...props}>
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="M12 9v6M9 12h6" />
+        </svg>
+      );
+    case 'swords':
+      return (
+        <svg {...props}>
+          <path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 7l4-4 4 4-4 4" />
+          <path d="M9.5 17.5L21 6V3h-3L6.5 14.5M11 7L7 3 3 7l4 4" />
+        </svg>
+      );
+    case 'radar':
+      return (
+        <svg {...props}>
+          <circle cx="12" cy="12" r="10" />
+          <circle cx="12" cy="12" r="6" />
+          <circle cx="12" cy="12" r="2" />
+          <path d="M12 2v4M12 18v4" />
+        </svg>
+      );
+    case 'landmark':
+      return (
+        <svg {...props}>
+          <path d="M3 22h18M6 18v-4M10 18v-4M14 18v-4M18 18v-4M2 10l10-8 10 8" />
+          <rect x="2" y="18" width="20" height="4" rx="1" />
+        </svg>
+      );
     default:
       return (
         <svg {...props}>
