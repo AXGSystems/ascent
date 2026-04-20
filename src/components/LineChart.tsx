@@ -15,16 +15,22 @@ export default function LineChart({
   color = '#0a8ebc',
   formatValue = (v) => fmtCurrency(v, true),
 }: LineChartProps) {
-  if (data.length < 2) return null;
+  if (data.length < 2) {
+    return (
+      <div className="flex items-center justify-center text-sm text-[var(--text-muted)]" style={{ height }}>
+        No data available
+      </div>
+    );
+  }
 
-  const w = 100;
-  const h = 100;
-  const padTop = 10;
-  const padBottom = 20;
-  const padLeft = 2;
-  const padRight = 2;
-  const innerW = w - padLeft - padRight;
-  const innerH = h - padTop - padBottom;
+  const svgW = 600;
+  const svgH = 280;
+  const padTop = 20;
+  const padBottom = 40;
+  const padLeft = 10;
+  const padRight = 10;
+  const innerW = svgW - padLeft - padRight;
+  const innerH = svgH - padTop - padBottom;
 
   const values = data.map((d) => d.value);
   const min = Math.min(...values) * 0.98;
@@ -43,11 +49,19 @@ export default function LineChart({
   return (
     <div className="w-full" style={{ height }}>
       <svg
-        viewBox={`0 0 ${w} ${h}`}
-        preserveAspectRatio="none"
+        viewBox={`0 0 ${svgW} ${svgH}`}
+        preserveAspectRatio="xMidYMid meet"
         className="w-full h-full"
+        role="img"
         aria-label="Line chart"
       >
+        <defs>
+          <linearGradient id={`fill-${color.replace(/[^a-z0-9]/gi, '')}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity={0.2} />
+            <stop offset="100%" stopColor={color} stopOpacity={0.02} />
+          </linearGradient>
+        </defs>
+
         {/* Grid lines */}
         {[0, 0.25, 0.5, 0.75, 1].map((pct) => {
           const y = padTop + innerH * (1 - pct);
@@ -59,53 +73,48 @@ export default function LineChart({
               x2={padLeft + innerW}
               y2={y}
               stroke="var(--border-color)"
-              strokeWidth={0.3}
+              strokeWidth={1}
+              strokeDasharray="4 4"
             />
           );
         })}
 
-        {/* Fill */}
-        <path d={fillPath} fill={color} fillOpacity={0.1} />
+        {/* Area fill */}
+        <path d={fillPath} fill={`url(#fill-${color.replace(/[^a-z0-9]/gi, '')})`} />
 
         {/* Line */}
         <path
           d={linePath}
           fill="none"
           stroke={color}
-          strokeWidth={0.8}
+          strokeWidth={2.5}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
 
         {/* Dots */}
         {points.map((p, i) => (
-          <circle key={i} cx={p.x} cy={p.y} r={1} fill={color} />
+          <g key={`dot-${p.label}-${i}`}>
+            <circle cx={p.x} cy={p.y} r={4} fill={color} stroke="white" strokeWidth={2} />
+            <title>{`${p.label}: ${formatValue(p.value)}`}</title>
+          </g>
         ))}
 
-        {/* Labels */}
+        {/* X-axis month labels */}
         {points.map((p, i) => (
           <text
-            key={`label-${i}`}
+            key={`lbl-${p.label}-${i}`}
             x={p.x}
-            y={h - 3}
+            y={svgH - 8}
             textAnchor="middle"
-            fontSize={3.5}
+            fontSize={12}
+            fontWeight={500}
             fill="var(--text-muted)"
-            fontFamily="var(--font-sans)"
           >
             {p.label}
           </text>
         ))}
       </svg>
-      {/* Value labels */}
-      <div className="flex justify-between px-1 -mt-2">
-        <span className="text-xs tabular-nums text-[var(--text-muted)]">
-          {formatValue(values[0])}
-        </span>
-        <span className="text-xs tabular-nums font-medium text-[var(--text-primary)]">
-          {formatValue(values[values.length - 1])}
-        </span>
-      </div>
     </div>
   );
 }
