@@ -18,7 +18,10 @@ export default function FeedbackPage() {
       {/* Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Feedback</p>
             <p className="text-3xl md:text-4xl font-bold text-white">Help Us Improve A$cent</p>
@@ -70,30 +73,34 @@ export default function FeedbackPage() {
           {/* Form Fields */}
           <div className="space-y-4">
             <div>
-              <label className="text-xs font-semibold text-[var(--text-muted)] uppercase mb-1 block">
+              <label htmlFor="feedback-title" className="text-xs font-semibold text-[var(--text-muted)] uppercase mb-1 block">
                 Title
               </label>
               <input
+                id="feedback-title"
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder={feedbackType === 'feature' ? 'Describe the feature...' : 'Describe the bug...'}
+                maxLength={200}
                 className="w-full px-4 py-2.5 rounded-xl bg-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-brand-teal/50 min-h-[44px]"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-[var(--text-muted)] uppercase mb-1 block">
+              <label htmlFor="feedback-details" className="text-xs font-semibold text-[var(--text-muted)] uppercase mb-1 block">
                 Details
               </label>
               <textarea
+                id="feedback-details"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Provide more details..."
                 rows={4}
+                maxLength={2000}
                 className="w-full px-4 py-2.5 rounded-xl bg-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-brand-teal/50 resize-none"
               />
             </div>
-            <button className="w-full py-3 rounded-xl bg-brand-teal text-white font-semibold hover:bg-brand-teal-dark transition-colors min-h-[44px]">
+            <button type="button" className="w-full py-3 rounded-xl bg-brand-teal text-white font-semibold hover:bg-brand-teal-dark transition-colors min-h-[44px]">
               Submit {feedbackType === 'feature' ? 'Feature Request' : 'Bug Report'}
             </button>
           </div>

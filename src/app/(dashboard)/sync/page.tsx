@@ -41,7 +41,10 @@ export default function SyncPage() {
       {/* Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Sync Status</p>
             <p className="text-4xl md:text-5xl font-bold text-white">{connected}<span className="text-lg font-normal text-white/50">/{syncAccounts.length} connected</span></p>
@@ -81,7 +84,7 @@ export default function SyncPage() {
                     <p className="text-xs text-[var(--text-muted)]">Next: {account.nextSync}</p>
                   </div>
                   {account.status !== 'connected' && (
-                    <button className="px-3 py-1.5 text-xs font-medium rounded-lg bg-brand-teal text-white hover:bg-brand-teal-dark transition-colors">
+                    <button type="button" className="px-3 py-1.5 text-xs font-medium rounded-lg bg-brand-teal text-white hover:bg-brand-teal-dark transition-colors">
                       {account.status === 'disconnected' ? 'Reconnect' : 'Retry'}
                     </button>
                   )}

@@ -35,7 +35,10 @@ export default function PartnerPage() {
       {/* Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Partner Trust Score</p>
@@ -102,7 +105,7 @@ export default function PartnerPage() {
                     </div>
                     <div className="text-right flex items-center gap-2">
                       <span className="text-sm font-semibold tabular-nums text-[var(--text-primary)]">{tx.amount}</span>
-                      <button className="px-3 py-1.5 text-xs font-medium rounded-lg bg-brand-teal text-white hover:bg-brand-teal-dark transition-colors">
+                      <button type="button" className="px-3 py-1.5 text-xs font-medium rounded-lg bg-brand-teal text-white hover:bg-brand-teal-dark transition-colors">
                         Restore
                       </button>
                     </div>

@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { coachResponses } from '@/lib/data';
 import { cn } from '@/lib/utils';
-import Card from '@/components/Card';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -109,7 +108,7 @@ export default function CoachPage() {
             key={p.key}
             type="button"
             onClick={() => handleSend(p.key)}
-            className="px-3 py-1.5 rounded-full text-xs font-medium bg-brand-teal/10 text-brand-teal hover:bg-brand-teal/20 transition-colors min-h-[36px]"
+            className="px-3 py-2 rounded-full text-xs font-medium bg-brand-teal/10 text-brand-teal hover:bg-brand-teal/20 transition-colors min-h-[44px]"
           >
             {p.label}
           </button>

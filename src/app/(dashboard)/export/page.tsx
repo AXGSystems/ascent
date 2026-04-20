@@ -30,7 +30,10 @@ export default function ExportPage() {
       {/* Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Export</p>
             <p className="text-3xl md:text-4xl font-bold text-white">Export Your Data</p>
@@ -85,7 +88,7 @@ export default function ExportPage() {
           </Card>
 
           {/* Export Button */}
-          <button className="w-full py-3 rounded-xl bg-brand-teal text-white font-semibold hover:bg-brand-teal-dark transition-colors min-h-[44px]">
+          <button type="button" className="w-full py-3 rounded-xl bg-brand-teal text-white font-semibold hover:bg-brand-teal-dark transition-colors min-h-[44px]">
             Generate Export
           </button>
         </div>
@@ -104,7 +107,7 @@ export default function ExportPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge>{record.format}</Badge>
-                  <button className="text-xs text-brand-teal hover:underline font-medium">Download</button>
+                  <button type="button" className="text-xs text-brand-teal hover:underline font-medium">Download</button>
                 </div>
               </div>
             ))}

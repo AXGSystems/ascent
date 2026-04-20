@@ -148,6 +148,7 @@ export default function MoneyPage() {
                 placeholder="Search..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                maxLength={200}
                 className="flex-1 px-3 py-2 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:ring-2 focus:ring-brand-teal/30 min-h-[44px]"
               />
               <label className="sr-only" htmlFor="tx-filter">Filter by category</label>

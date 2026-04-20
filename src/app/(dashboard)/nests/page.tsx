@@ -41,14 +41,17 @@ export default function NestsPage() {
       {/* Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Total Saved</p>
               <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">{fmtCurrency(totalSaved)}</p>
               <p className="mt-2 text-sm text-white/60">{overallPct}% of {fmtCurrency(totalGoals)} across {nests.length} nests</p>
             </div>
-            <button className="px-4 py-2 rounded-xl bg-white/15 hover:bg-white/25 transition-colors text-white text-sm font-medium">
+            <button type="button" className="px-4 py-2 rounded-xl bg-white/15 hover:bg-white/25 transition-colors text-white text-sm font-medium">
               + Add Nest
             </button>
           </div>

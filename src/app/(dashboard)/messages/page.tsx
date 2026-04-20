@@ -10,11 +10,12 @@ export default function MessagesPage() {
   const [input, setInput] = useState('');
 
   const handleSend = () => {
-    if (!input.trim()) return;
+    const sanitized = input.trim().slice(0, 500);
+    if (!sanitized) return;
     const newMsg = {
       id: `m${messages.length + 1}`,
       from: 'Christian' as const,
-      text: input.trim(),
+      text: sanitized,
       time: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
       date: 'Today',
     };
@@ -36,7 +37,10 @@ export default function MessagesPage() {
       {/* Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-white/15 flex items-center justify-center">
               <span className="text-white font-bold text-sm">C+C</span>
@@ -75,15 +79,19 @@ export default function MessagesPage() {
             ))}
           </div>
           <div className="p-4 border-t border-[var(--border-color)] flex gap-2">
+            <label className="sr-only" htmlFor="message-input">Type a message</label>
             <input
+              id="message-input"
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder="Type a message..."
+              maxLength={500}
               className="flex-1 px-4 py-2.5 rounded-xl bg-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-brand-teal/50 min-h-[44px]"
             />
             <button
+              type="button"
               onClick={handleSend}
               className="px-4 py-2.5 rounded-xl bg-brand-teal text-white text-sm font-medium hover:bg-brand-teal-dark transition-colors min-h-[44px]"
             >

@@ -263,7 +263,7 @@ export default function HomePage() {
                 Upcoming Bills
               </h2>
               <Link
-                href="/spend"
+                href="/bills"
                 className="text-xs font-medium text-brand-teal hover:underline"
               >
                 View all &rarr;

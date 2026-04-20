@@ -1,7 +1,7 @@
 'use client';
 
 import { budgetCategories, monthlyBudgetHistory, bills, subscriptions, monthlySpending } from '@/lib/data';
-import { fmtCurrency, cn, pct } from '@/lib/utils';
+import { fmtCurrency, pct } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import ProgressBar from '@/components/ProgressBar';

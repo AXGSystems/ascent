@@ -19,7 +19,10 @@ export default function BillAuditPage() {
       {/* Hero */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
+          <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
+          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Bill Audit</p>
             <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">{fmtCurrency(totalSavings)}<span className="text-lg font-normal text-white/50">/mo savings</span></p>
@@ -69,7 +72,7 @@ export default function BillAuditPage() {
             <div className="flex items-center justify-between">
               <span className="text-sm font-bold text-brand-green">Save {fmtCurrency(item.savings)}/mo ({fmtCurrency(item.savings * 12)}/yr)</span>
               {item.status === 'actionable' && (
-                <button className="px-4 py-2 text-xs font-semibold rounded-xl bg-brand-teal text-white hover:bg-brand-teal-dark transition-colors min-h-[44px]">
+                <button type="button" className="px-4 py-2 text-xs font-semibold rounded-xl bg-brand-teal text-white hover:bg-brand-teal-dark transition-colors min-h-[44px]">
                   Take Action
                 </button>
               )}
