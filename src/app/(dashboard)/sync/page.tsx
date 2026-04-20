@@ -15,10 +15,17 @@ const syncTimeline = [
   { label: 'Mon', value: 6 },
   { label: 'Tue', value: 6 },
   { label: 'Wed', value: 5 },
-  { label: 'Thu', value: 5 },
+  { label: 'Thu', value: 4 },
   { label: 'Fri', value: 5 },
-  { label: 'Sat', value: 5 },
-  { label: 'Sun', value: 5 },
+  { label: 'Sat', value: 4 },
+  { label: 'Sun', value: 4 },
+  { label: 'Mon', value: 5 },
+  { label: 'Tue', value: 4 },
+  { label: 'Wed', value: 4 },
+  { label: 'Thu', value: 4 },
+  { label: 'Fri', value: 4 },
+  { label: 'Sat', value: 4 },
+  { label: 'Sun', value: 4 },
 ];
 
 function statusBadge(status: 'connected' | 'warning' | 'disconnected'): 'success' | 'warning' | 'danger' {
@@ -47,7 +54,7 @@ export default function SyncPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Sync Status</p>
-            <p className="text-4xl md:text-5xl font-bold text-white">{connected}<span className="text-lg font-normal text-white/50">/{syncAccounts.length} connected</span></p>
+            <p className="text-4xl md:text-5xl font-black text-white tabular-nums">{connected}<span className="text-lg font-normal text-white/50">/{syncAccounts.length} connected</span></p>
             <p className="mt-2 text-sm text-white/60">{warning} warning, {disconnected} disconnected</p>
           </div>
         </div>
@@ -98,7 +105,7 @@ export default function SyncPage() {
         <div className="space-y-6">
           {/* Sync Timeline */}
           <Card>
-            <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Weekly Sync Activity</h2>
+            <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">2-Week Sync Activity</h2>
             <LineChart
               data={syncTimeline}
               height={180}

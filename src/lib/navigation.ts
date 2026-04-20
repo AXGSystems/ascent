@@ -31,6 +31,7 @@ export const navigation: NavSection[] = [
       { label: 'Credit', href: '/credit', icon: 'shield' },
       { label: 'Forecast', href: '/forecast', icon: 'trending-up' },
       { label: 'Fee Analyzer', href: '/fees', icon: 'percent' },
+      { label: 'Bill Audit', href: '/billaudit', icon: 'file-text' },
     ],
   },
   {
@@ -56,6 +57,7 @@ export const navigation: NavSection[] = [
     title: 'SYSTEM',
     items: [
       { label: 'Settings', href: '/settings', icon: 'settings' },
+      { label: 'Sync', href: '/sync', icon: 'refresh' },
       { label: 'Export', href: '/export', icon: 'download' },
       { label: 'Feedback', href: '/feedback', icon: 'message-square' },
     ],

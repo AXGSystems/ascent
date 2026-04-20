@@ -31,7 +31,7 @@ export default function SpendPage() {
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
                 April Budget
               </p>
-              <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">
+              <p className="text-4xl md:text-5xl font-black tabular-nums text-white">
                 {fmtCurrency(totalSpent)} <span className="text-lg font-normal text-white/50">/ {fmtCurrency(totalBudget)}</span>
               </p>
               <div className="mt-3 max-w-md">

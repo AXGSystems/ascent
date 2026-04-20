@@ -37,7 +37,7 @@ export default function AccountsPage() {
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
                 Accounts Overview
               </p>
-              <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">
+              <p className="text-4xl md:text-5xl font-black tabular-nums text-white">
                 {fmtCurrency(netWorth)}
               </p>
               <p className="mt-2 text-sm text-white/50">

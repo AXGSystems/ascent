@@ -25,7 +25,7 @@ export default function BillAuditPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Bill Audit</p>
-            <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">{fmtCurrency(totalSavings)}<span className="text-lg font-normal text-white/50">/mo savings</span></p>
+            <p className="text-4xl md:text-5xl font-black tabular-nums text-white">{fmtCurrency(totalSavings)}<span className="text-lg font-normal text-white/50">/mo savings</span></p>
             <p className="mt-2 text-sm text-emerald-300 font-semibold">{fmtCurrency(annualSavings)}/yr potential savings found</p>
           </div>
         </div>

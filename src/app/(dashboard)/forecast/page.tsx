@@ -50,7 +50,7 @@ export default function ForecastPage() {
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
                 Financial Forecast
               </p>
-              <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">
+              <p className="text-4xl md:text-5xl font-black tabular-nums text-white">
                 {fmtCurrency(projected12m)}
               </p>
               <p className="mt-2 text-sm text-white/50">

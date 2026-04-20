@@ -50,7 +50,7 @@ export default function EmergencyPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col items-center text-center">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-2">Emergency Fund Coverage</p>
-            <p className="text-5xl font-bold text-white tabular-nums">{coverage.toFixed(1)}<span className="text-lg font-normal text-white/50"> months</span></p>
+            <p className="text-5xl font-black text-white tabular-nums">{coverage.toFixed(1)}<span className="text-lg font-normal text-white/50"> months</span></p>
             <p className="mt-2 text-sm text-white/60">Target: {targetMonths} months ({fmtCurrency(target)})</p>
             <div className="mt-4 w-full max-w-md">
               <div className="w-full h-3 rounded-full overflow-hidden bg-white/20">

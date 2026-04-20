@@ -48,7 +48,7 @@ export default function NestsPage() {
           <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Total Saved</p>
-              <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">{fmtCurrency(totalSaved)}</p>
+              <p className="text-4xl md:text-5xl font-black tabular-nums text-white">{fmtCurrency(totalSaved)}</p>
               <p className="mt-2 text-sm text-white/60">{overallPct}% of {fmtCurrency(totalGoals)} across {nests.length} nests</p>
             </div>
             <button type="button" className="px-4 py-2 rounded-xl bg-white/15 hover:bg-white/25 transition-colors text-white text-sm font-medium">

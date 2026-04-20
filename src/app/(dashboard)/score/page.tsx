@@ -68,7 +68,7 @@ export default function ScorePage() {
               />
             </svg>
             <div className="-mt-16">
-              <p className="text-5xl font-bold text-white tabular-nums">{overallScore}</p>
+              <p className="text-5xl font-black text-white tabular-nums">{overallScore}</p>
               <p className="text-sm text-white/50">out of {maxScore}</p>
             </div>
             <p className="mt-3 text-sm text-emerald-300 font-semibold">Good - Keep improving!</p>

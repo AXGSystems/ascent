@@ -42,7 +42,7 @@ export default function MoneyDatePage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative text-center">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Money Date</p>
-            <p className="text-3xl md:text-4xl font-bold text-white">Christian & Channelle</p>
+            <p className="text-3xl md:text-4xl font-black text-white">Christian & Channelle</p>
             <p className="mt-2 text-sm text-white/60">April 2026 - Weekly Review</p>
           </div>
         </div>

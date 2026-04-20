@@ -60,7 +60,7 @@ export default function AlertsPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Alerts</p>
-            <p className="text-4xl md:text-5xl font-bold text-white">{unread} <span className="text-lg font-normal text-white/50">unread</span></p>
+            <p className="text-4xl md:text-5xl font-black text-white tabular-nums">{unread} <span className="text-lg font-normal text-white/50">unread</span></p>
             <p className="mt-2 text-sm text-white/60">{alertItems.length} total alerts</p>
           </div>
         </div>

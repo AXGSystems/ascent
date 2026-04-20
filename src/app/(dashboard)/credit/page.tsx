@@ -37,7 +37,7 @@ export default function CreditPage() {
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-2">
                 Current Score
               </p>
-              <p className="text-6xl md:text-7xl font-bold tabular-nums text-white">
+              <p className="text-6xl md:text-7xl font-black tabular-nums text-white">
                 {current.score}
               </p>
               <div className="flex items-center justify-center md:justify-start gap-2 mt-2">

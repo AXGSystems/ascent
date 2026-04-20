@@ -47,7 +47,7 @@ export default function DebtPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Total Debt</p>
-            <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">{fmtCurrency(totalDebt)}</p>
+            <p className="text-4xl md:text-5xl font-black tabular-nums text-white">{fmtCurrency(totalDebt)}</p>
             <p className="mt-2 text-sm text-white/60">{debtAccounts.length} accounts - {weightedRate.toFixed(1)}% weighted avg rate</p>
           </div>
         </div>

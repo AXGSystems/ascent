@@ -421,6 +421,9 @@ export const feedbackItems: FeedbackItem[] = [
   { id: 'f1', type: 'feature', title: 'Add receipt scanning from camera', status: 'planned', date: 'Apr 10' },
   { id: 'f2', type: 'bug', title: 'Dark mode flickers on page load', status: 'done', date: 'Apr 5' },
   { id: 'f3', type: 'feature', title: 'Export to Google Sheets', status: 'open', date: 'Mar 28' },
+  { id: 'f4', type: 'feature', title: 'Recurring transaction detection', status: 'planned', date: 'Mar 15' },
+  { id: 'f5', type: 'bug', title: 'Chart labels overlap on small screens', status: 'done', date: 'Mar 10' },
+  { id: 'f6', type: 'feature', title: 'Joint account split tracking', status: 'open', date: 'Feb 20' },
 ];
 
 // --- Export Records ---
@@ -428,6 +431,8 @@ export const exportRecords: ExportRecord[] = [
   { id: 'e1', format: 'PDF', range: 'Q1 2026', date: 'Apr 14', size: '2.4 MB' },
   { id: 'e2', format: 'CSV', range: 'March 2026', date: 'Apr 1', size: '148 KB' },
   { id: 'e3', format: 'JSON', range: 'Full Year 2025', date: 'Jan 15', size: '5.1 MB' },
+  { id: 'e4', format: 'Excel', range: 'Q4 2025', date: 'Jan 5', size: '1.8 MB' },
+  { id: 'e5', format: 'PDF', range: 'Year-End Summary 2025', date: 'Dec 31', size: '3.2 MB' },
 ];
 
 // --- Sync Accounts ---

@@ -37,7 +37,7 @@ export default function BillsPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">April Bills</p>
-            <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">{fmtCurrency(totalBills)}</p>
+            <p className="text-4xl md:text-5xl font-black tabular-nums text-white">{fmtCurrency(totalBills)}</p>
             <p className="mt-2 text-sm text-white/60">{bills.length} bills - {autopayCount} on autopay</p>
           </div>
         </div>
@@ -135,6 +135,16 @@ export default function BillsPage() {
                   <td className="py-2 font-medium text-[var(--text-primary)]">{bill.name}</td>
                   <td className="py-2 tabular-nums text-[var(--text-primary)]">{fmtCurrency(bill.amount)}</td>
                   <td className="py-2 text-[var(--text-secondary)]">Apr {bill.dueDay}</td>
+                  <td className="py-2 text-[var(--text-secondary)]">{bill.autopay ? 'Autopay' : 'Manual'}</td>
+                  <td className="py-2"><Badge variant="success">Paid</Badge></td>
+                </tr>
+              ))}
+              {/* Previous month for more history */}
+              {bills.slice(0, 4).map((bill) => (
+                <tr key={`prev-${bill.name}`} className="opacity-70">
+                  <td className="py-2 font-medium text-[var(--text-primary)]">{bill.name}</td>
+                  <td className="py-2 tabular-nums text-[var(--text-primary)]">{fmtCurrency(bill.amount)}</td>
+                  <td className="py-2 text-[var(--text-secondary)]">Mar {bill.dueDay}</td>
                   <td className="py-2 text-[var(--text-secondary)]">{bill.autopay ? 'Autopay' : 'Manual'}</td>
                   <td className="py-2"><Badge variant="success">Paid</Badge></td>
                 </tr>

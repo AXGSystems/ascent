@@ -31,7 +31,7 @@ export default function SavePage() {
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
                 Total Saved in Goals
               </p>
-              <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">
+              <p className="text-4xl md:text-5xl font-black tabular-nums text-white">
                 {fmtCurrency(totalSaved)}
               </p>
               <div className="mt-3 max-w-md">

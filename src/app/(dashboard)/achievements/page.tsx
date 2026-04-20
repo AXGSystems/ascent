@@ -40,7 +40,7 @@ export default function AchievementsPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative text-center">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Achievements</p>
-            <p className="text-4xl md:text-5xl font-bold text-white">{done.length}<span className="text-lg font-normal text-white/50"> / {achievements.length}</span></p>
+            <p className="text-4xl md:text-5xl font-black text-white tabular-nums">{done.length}<span className="text-lg font-normal text-white/50"> / {achievements.length}</span></p>
             <p className="mt-2 text-sm text-white/60">Keep going! {inProgress.length} in progress</p>
           </div>
         </div>

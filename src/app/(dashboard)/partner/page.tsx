@@ -42,7 +42,7 @@ export default function PartnerPage() {
           <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Partner Trust Score</p>
-              <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">{trustScore}<span className="text-lg font-normal text-white/50">/100</span></p>
+              <p className="text-4xl md:text-5xl font-black tabular-nums text-white">{trustScore}<span className="text-lg font-normal text-white/50">/100</span></p>
               <p className="mt-2 text-sm text-white/60">Transparency and account health between partners</p>
             </div>
             <div className="flex items-center gap-3">

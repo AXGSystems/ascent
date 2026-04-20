@@ -52,7 +52,7 @@ export default function TaxPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">YTD Deductions</p>
-            <p className="text-4xl md:text-5xl font-bold tabular-nums text-white">{fmtCurrency(totalDeductions)}</p>
+            <p className="text-4xl md:text-5xl font-black tabular-nums text-white">{fmtCurrency(totalDeductions)}</p>
             <p className="mt-2 text-sm text-white/60">{taxDeductions.length} deduction categories tracked</p>
           </div>
         </div>
@@ -115,15 +115,35 @@ export default function TaxPage() {
         </div>
 
         {/* Right Column */}
-        <Card>
-          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Deductions Breakdown</h2>
-          <DonutChart
-            segments={donutSegments}
-            size={160}
-            centerLabel="YTD"
-            centerValue={fmtCurrency(totalDeductions)}
-          />
-        </Card>
+        <div className="space-y-6">
+          <Card>
+            <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Deductions Breakdown</h2>
+            <DonutChart
+              segments={donutSegments}
+              size={160}
+              centerLabel="YTD"
+              centerValue={fmtCurrency(totalDeductions)}
+            />
+          </Card>
+
+          <Card>
+            <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Quick Tips</h2>
+            <div className="space-y-3">
+              <div className="p-3 rounded-xl bg-brand-green/5 border border-brand-green/10">
+                <p className="text-sm font-medium text-[var(--text-primary)]">Maximize Home Office</p>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">Channelle&apos;s freelance qualifies for a home office deduction of up to $1,500/yr.</p>
+              </div>
+              <div className="p-3 rounded-xl bg-brand-teal/5 border border-brand-teal/10">
+                <p className="text-sm font-medium text-[var(--text-primary)]">Track Charitable Giving</p>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">Keep receipts for all donations. Items valued over $250 need a written acknowledgment.</p>
+              </div>
+              <div className="p-3 rounded-xl bg-brand-gold/5 border border-brand-gold/10">
+                <p className="text-sm font-medium text-[var(--text-primary)]">Review Medical Expenses</p>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">Medical expenses above 7.5% of AGI may be deductible. Track all out-of-pocket costs.</p>
+              </div>
+            </div>
+          </Card>
+        </div>
       </div>
     </div>
   );
