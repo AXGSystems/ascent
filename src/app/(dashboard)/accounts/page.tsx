@@ -40,13 +40,13 @@ export default function AccountsPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
+              <p className="text-[10px] md:text-xs font-medium uppercase tracking-wider text-white/60 mb-0.5 md:mb-1">
                 Accounts Overview
               </p>
-              <p className="text-3xl md:text-4xl lg:text-5xl font-black tabular-nums text-white">
+              <p className="text-2xl md:text-4xl lg:text-5xl font-black tabular-nums text-white">
                 <CountUp value={netWorth} prefix="$" />
               </p>
-              <p className="mt-2 text-sm text-white/50">
+              <p className="mt-1.5 md:mt-2 text-xs md:text-sm text-white/50">
                 {accounts.length} linked accounts - {okCount} synced
               </p>
             </div>
@@ -104,7 +104,17 @@ export default function AccountsPage() {
         </div>
         <div className="divide-y divide-[var(--border-color)]">
           {accounts.map((acct) => (
-            <div key={acct.name} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
+            <button
+              key={acct.name}
+              type="button"
+              className="w-full flex items-center justify-between px-4 md:px-5 py-3 min-h-[44px] hover:bg-[var(--bg-card-hover)] transition-colors text-left active:scale-[0.98]"
+              onClick={() =>
+                openSheet(
+                  acct.name,
+                  `Type: ${acct.type}\nBalance: ${fmtCurrency(acct.value)}\nOwner: ${acct.owner}\nLast Sync: ${acct.lastSync} ago\nStatus: ${acct.status.toUpperCase()}`
+                )
+              }
+            >
               <div className="flex items-center gap-3">
                 <span className={cn('w-2.5 h-2.5 rounded-full shrink-0', statusColor(acct.status))} />
                 <div>
@@ -123,7 +133,7 @@ export default function AccountsPage() {
                 {acct.status === 'warn' && <Badge variant="warning">Delayed</Badge>}
                 {acct.status === 'stale' && <Badge variant="danger">Reconnect</Badge>}
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </Card>

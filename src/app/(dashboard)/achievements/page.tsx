@@ -12,6 +12,7 @@ import StaggeredList from '@/components/StaggeredList';
 import ScrollReveal from '@/components/ScrollReveal';
 import LearnTooltip from '@/components/LearnTooltip';
 import QuickTip from '@/components/QuickTip';
+import { useStore } from '@/lib/store';
 
 const done = achievements.filter((a) => a.done);
 const inProgress = achievements.filter((a) => !a.done);
@@ -33,6 +34,8 @@ const leaderboard = [
 ];
 
 export default function AchievementsPage() {
+  const openSheet = useStore((s) => s.openSheet);
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <h1 className="sr-only">Achievements</h1>
@@ -45,16 +48,16 @@ export default function AchievementsPage() {
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative text-center">
-            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1"><LearnTooltip term="Financial Independence"><span>Achievements</span></LearnTooltip></p>
-            <p className="text-3xl md:text-4xl lg:text-5xl font-black text-white tabular-nums"><CountUp value={done.length} /><span className="text-lg font-normal text-white/50"> / {achievements.length}</span></p>
-            <p className="mt-2 text-sm text-white/60">Keep going! {inProgress.length} in progress</p>
+            <p className="text-[10px] md:text-xs font-medium uppercase tracking-wider text-white/60 mb-0.5 md:mb-1"><LearnTooltip term="Financial Independence"><span>Achievements</span></LearnTooltip></p>
+            <p className="text-2xl md:text-4xl lg:text-5xl font-black text-white tabular-nums"><CountUp value={done.length} /><span className="text-sm md:text-lg font-normal text-white/50"> / {achievements.length}</span></p>
+            <p className="mt-1.5 md:mt-2 text-xs md:text-sm text-white/60">Keep going! {inProgress.length} in progress</p>
           </div>
         </div>
       </section>
 
       {/* Stats */}
       <section>
-        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4" delay={80}>
         <StatCard label="Completed" value={`${done.length}`} accent="text-brand-green" sub="Achievements" />
         <StatCard label="In Progress" value={`${inProgress.length}`} sub="Working on it" />
         <StatCard label="Current Streak" value="14 days" accent="text-brand-teal" sub="Under budget" />
@@ -77,7 +80,15 @@ export default function AchievementsPage() {
       {/* Achievement Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {achievements.map((a) => (
-          <Card key={a.name}>
+          <Card
+            key={a.name}
+            onClick={() =>
+              openSheet(
+                a.name,
+                `${a.description}${a.done ? `\n\nCompleted: ${a.date}` : `\n\nProgress: ${a.progress ?? 0}%`}\n\n${a.done ? 'Great work! This achievement is complete.' : 'Keep going! You are making progress toward this milestone.'}`
+              )
+            }
+          >
             <div className="flex items-start gap-3">
               <div className={cn(
                 'w-10 h-10 rounded-full flex items-center justify-center text-lg shrink-0',

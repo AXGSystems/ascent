@@ -1,7 +1,9 @@
 'use client';
 
 import { useMemo, useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { useStore } from '@/lib/store';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import {
   nwHistory,
   monthlySpending,
@@ -35,6 +37,9 @@ import GuidedActions from '@/components/GuidedActions';
 import DailySpendTracker from '@/components/DailySpendTracker';
 import WelcomeTour from '@/components/WelcomeTour';
 import QuickTip from '@/components/QuickTip';
+import WeeklyDigest from '@/components/WeeklyDigest';
+import MobileSection from '@/components/MobileSection';
+import ShowMore from '@/components/ShowMore';
 import Link from 'next/link';
 
 const currentNW = nwHistory[nwHistory.length - 1].v;
@@ -66,8 +71,328 @@ function getGreeting(): string {
   return 'Good evening';
 }
 
-export default function HomePage() {
+/* ------------------------------------------------------------------ */
+/*  MOBILE HOME                                                        */
+/* ------------------------------------------------------------------ */
+function MobileHome() {
   const openSheet = useStore((s) => s.openSheet);
+  const router = useRouter();
+  const [typewriterDone, setTypewriterDone] = useState(false);
+
+  const recentTx = transactions.slice(0, 3);
+  const upcomingBills = bills.filter((b) => !b.paid).slice(0, 2);
+  const doneAchievements = achievements.filter((a) => a.done).length;
+  const totalAchievements = achievements.length;
+
+  const greetingText = useMemo(() => {
+    const g = getGreeting();
+    return `${g}, Christian. ${fmtCurrency(safeToSpend)} safe to spend \u2014 ${fmtCurrency(dailySafe)}/day.`;
+  }, []);
+
+  const handleTypewriterComplete = useCallback(() => {
+    setTypewriterDone(true);
+  }, []);
+
+  // Latest spending
+  const latest = monthlySpending[monthlySpending.length - 1];
+  const totalSpent = latest.g + latest.d + latest.s + latest.e + latest.t;
+
+  return (
+    <div className="max-w-lg mx-auto space-y-4">
+      <h1 className="sr-only">A$cent Dashboard</h1>
+
+      <WelcomeTour />
+      <AchievementToast
+        message="14-day budget streak! You're on fire, Christian."
+        delay={2500}
+        duration={5000}
+      />
+
+      {/* COMPACT GREETING */}
+      <section>
+        <Card className="bg-gradient-to-r from-[var(--bg-card)] to-[var(--bg-card-hover)]">
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center shrink-0 mt-0.5">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-teal" aria-hidden="true">
+                <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" />
+                <path d="M18 15l.75 2.25L21 18l-2.25.75L18 21l-.75-2.25L15 18l2.25-.75L18 15z" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <Typewriter
+                text={greetingText}
+                speed={22}
+                className="text-sm leading-relaxed text-[var(--text-secondary)]"
+                onComplete={handleTypewriterComplete}
+              />
+              {typewriterDone && (
+                <div className="flex gap-2 mt-2 overflow-x-auto scrollbar-hide -mr-4 pr-4">
+                  {[
+                    { label: 'Spending', href: '/spend' },
+                    { label: 'Goals', href: '/save' },
+                    { label: 'Coach', href: '/coach' },
+                  ].map((action, i) => (
+                    <Link
+                      key={action.href}
+                      href={action.href}
+                      className="animate-quick-action shrink-0 px-3 py-1.5 rounded-full text-xs font-medium bg-brand-teal/10 text-brand-teal hover:bg-brand-teal/20 transition-colors action-link min-h-[32px] flex items-center"
+                      style={{ animationDelay: `${i * 100}ms` }}
+                    >
+                      {action.label} &rarr;
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </Card>
+      </section>
+
+      {/* COMPACT NET WORTH HERO */}
+      <section>
+        <button
+          type="button"
+          onClick={() => router.push('/money')}
+          className="w-full text-left"
+        >
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-4 shadow-lg shadow-brand-teal/10 hero-sweep">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
+            <div className="absolute inset-0 hero-pattern" />
+            <div className="relative flex items-center justify-between">
+              <div>
+                <p className="text-[10px] font-medium uppercase tracking-wider text-white/60 mb-0.5">
+                  Net Worth
+                </p>
+                <p className="text-2xl font-black text-white">
+                  <CountUp value={currentNW} prefix="$" duration={1800} />
+                </p>
+                <p className="mt-1 text-xs flex items-center gap-1">
+                  <span className="text-emerald-300 font-semibold">
+                    {'\u25B2'} +{fmtCurrency(nwDelta)} ({nwPct}%)
+                  </span>
+                </p>
+              </div>
+              <Sparkline
+                data={nwHistory.map((p) => p.v)}
+                width={120}
+                height={40}
+                color="rgba(255,255,255,0.85)"
+              />
+            </div>
+          </div>
+        </button>
+      </section>
+
+      {/* 4 STAT CARDS - 2x2 grid, ALL clickable */}
+      <section>
+        <StaggeredList className="grid grid-cols-2 gap-3" delay={60}>
+          <StatCard
+            label="Safe to Spend"
+            value={fmtCurrency(safeToSpend)}
+            sub={`${fmtCurrency(dailySafe)}/day`}
+            accent="text-brand-green"
+            href="/spend"
+            tooltip="Safe to Spend: Your remaining discretionary budget after bills and savings are covered."
+          />
+          <StatCard
+            label="Budget Spent"
+            value={fmtCurrency(totalSpent)}
+            trendLabel={`${budgetPct}%`}
+            trend="flat"
+            href="/spend"
+            tooltip="Budget Spent: Total spending against your monthly budget allocation."
+          />
+          <StatCard
+            label="Savings Rate"
+            value="39%"
+            trendLabel="+1%"
+            trend="up"
+            accent="text-brand-teal"
+            href="/save"
+            tooltip="Savings Rate: The percentage of income directed to savings."
+          />
+          <StatCard
+            label="Achievements"
+            value={`${doneAchievements}/${totalAchievements}`}
+            sub="Tap to view"
+            href="/achievements"
+            tooltip="Achievements: Financial milestones you've hit."
+          />
+        </StaggeredList>
+      </section>
+
+      {/* SMART ALERTS - horizontal scroll, top 3 */}
+      <SmartAlertBanner count={3} />
+
+      {/* QUICK ACTIONS - horizontal scroll row */}
+      <section>
+        <h2 className="text-sm font-bold text-[var(--text-primary)] mb-2">Quick Actions</h2>
+        <div className="flex gap-2 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4 pb-1">
+          {[
+            { label: 'Budget', href: '/spend', icon: 'credit-card' },
+            { label: 'Goals', href: '/save', icon: 'piggy-bank' },
+            { label: 'Coach', href: '/coach', icon: 'sparkles' },
+            { label: 'ChargeIQ', href: '/chargeiq', icon: 'search' },
+            { label: 'Credit', href: '/credit', icon: 'shield' },
+            { label: 'Forecast', href: '/forecast', icon: 'trending-up' },
+          ].map((action) => (
+            <Link
+              key={action.href}
+              href={action.href}
+              className="snap-start shrink-0 flex flex-col items-center gap-1.5 p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] glass-blur ring-1 ring-[var(--border-glass)] ring-inset min-w-[72px] min-h-[72px] hover:bg-[var(--bg-card-hover)] active:scale-[0.95] transition-all"
+            >
+              <div className="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  {action.icon === 'credit-card' && <><rect x="2" y="5" width="20" height="14" rx="2" /><path d="M2 10h20" /></>}
+                  {action.icon === 'piggy-bank' && <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.3-11-.5-11 5 0 4.3 2.7 7 7 8v2h4v-2c1 0 2-.5 3-1l2 1V14l-1-1c.7-2 .2-4-1-5z" />}
+                  {action.icon === 'sparkles' && <><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" /><path d="M18 15l.75 2.25L21 18l-2.25.75L18 21l-.75-2.25L15 18l2.25-.75L18 15z" /></>}
+                  {action.icon === 'search' && <><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></>}
+                  {action.icon === 'shield' && <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />}
+                  {action.icon === 'trending-up' && <><polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" /></>}
+                </svg>
+              </div>
+              <span className="text-[10px] font-medium text-[var(--text-secondary)]">
+                {action.label}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* YOUR WEEK - tap to expand */}
+      <MobileSection title="Your Week">
+        <WeeklyDigest />
+      </MobileSection>
+
+      {/* RECENT TRANSACTIONS - 3 items + See all */}
+      <MobileSection
+        title="Recent Transactions"
+        trailing={
+          <Link href="/transactions" className="text-xs font-medium text-brand-teal hover:underline action-link md:hidden">
+            See all &rarr;
+          </Link>
+        }
+      >
+        <Card padding={false}>
+          <div className="divide-y divide-[var(--border-color)]">
+            {recentTx.map((tx) => (
+              <button
+                key={`${tx.name}-${tx.date}`}
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[var(--bg-card-hover)] transition-colors text-left min-h-[44px] active:scale-[0.98]"
+                type="button"
+                onClick={() =>
+                  openSheet(
+                    tx.name,
+                    `Category: ${tx.category}\nAmount: ${fmtCurrency(tx.amount)}\nDate: ${tx.date}\nWho: ${whoLabel(tx.who)}${tx.flagged ? '\n\nFLAGGED: Unusual amount' : ''}`
+                  )
+                }
+              >
+                <div
+                  className={cn(
+                    'w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-semibold shrink-0',
+                    whoBadgeColor(tx.who)
+                  )}
+                >
+                  {tx.who}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-[var(--text-primary)] truncate flex items-center gap-1.5">
+                    {tx.name}
+                    {tx.flagged && (
+                      <span className="text-brand-red text-[10px]" aria-label="Flagged transaction">{'\u26A0'}</span>
+                    )}
+                  </p>
+                  <p className="text-xs text-[var(--text-muted)]">
+                    {tx.category} - {tx.date}
+                  </p>
+                </div>
+                <span
+                  className={cn(
+                    'text-sm font-semibold tabular-nums',
+                    tx.amount >= 0 ? 'text-brand-green' : 'text-[var(--text-primary)]'
+                  )}
+                >
+                  {tx.amount >= 0 ? '+' : ''}{fmtCurrency(tx.amount)}
+                </span>
+              </button>
+            ))}
+          </div>
+          <Link
+            href="/transactions"
+            className="flex items-center justify-center py-3 text-sm font-semibold text-brand-teal hover:text-brand-teal-dark transition-colors border-t border-[var(--border-color)] min-h-[44px]"
+          >
+            See all transactions &rarr;
+          </Link>
+        </Card>
+      </MobileSection>
+
+      {/* UPCOMING BILLS - 2 items + See all */}
+      <MobileSection
+        title="Upcoming Bills"
+        trailing={
+          <Link href="/bills" className="text-xs font-medium text-brand-teal hover:underline action-link md:hidden">
+            See all &rarr;
+          </Link>
+        }
+      >
+        <Card padding={false}>
+          <div className="divide-y divide-[var(--border-color)]">
+            {upcomingBills.map((bill) => (
+              <button
+                key={bill.name}
+                type="button"
+                className="w-full flex items-center justify-between px-4 py-3 min-h-[44px] hover:bg-[var(--bg-card-hover)] transition-colors text-left active:scale-[0.98]"
+                onClick={() =>
+                  openSheet(
+                    bill.name,
+                    `Amount: ${fmtCurrency(bill.amount)}\nDue: ${bill.dueLabel}\n${bill.autopay ? 'Autopay enabled' : 'Manual payment required'}`
+                  )
+                }
+              >
+                <div>
+                  <p className="text-sm font-medium text-[var(--text-primary)]">{bill.name}</p>
+                  <p className="text-xs text-[var(--text-muted)]">
+                    Due {bill.dueLabel}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-semibold tabular-nums text-[var(--text-primary)]">
+                    {fmtCurrency(bill.amount)}
+                  </span>
+                  {bill.autopay ? (
+                    <Badge variant="success">Auto</Badge>
+                  ) : (
+                    <Badge variant="warning">Due</Badge>
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
+          <Link
+            href="/bills"
+            className="flex items-center justify-center py-3 text-sm font-semibold text-brand-teal hover:text-brand-teal-dark transition-colors border-t border-[var(--border-color)] min-h-[44px]"
+          >
+            See all bills &rarr;
+          </Link>
+        </Card>
+      </MobileSection>
+
+      {/* DAILY SPEND TRACKER */}
+      <MobileSection title="Today" defaultCollapsed>
+        <DailySpendTracker />
+      </MobileSection>
+
+      <QuickTip page="home" />
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  DESKTOP HOME (original layout, preserved)                          */
+/* ------------------------------------------------------------------ */
+function DesktopHome() {
+  const openSheet = useStore((s) => s.openSheet);
+  const router = useRouter();
   const [typewriterDone, setTypewriterDone] = useState(false);
 
   const recentTx = transactions.slice(0, 8);
@@ -92,7 +417,7 @@ export default function HomePage() {
   const prevCF = cashFlow[cashFlow.length - 2];
   const prevSurplus = prevCF.inc - prevCF.exp;
 
-  // Greeting text with emoji and personality
+  // Greeting text
   const greetingText = useMemo(() => {
     const g = getGreeting();
     if (shoppingOver > 0) {
@@ -109,10 +434,7 @@ export default function HomePage() {
     <div className="max-w-7xl mx-auto space-y-6">
       <h1 className="sr-only">A$cent Dashboard</h1>
 
-      {/* WELCOME TOUR */}
       <WelcomeTour />
-
-      {/* ACHIEVEMENT TOAST */}
       <AchievementToast
         message="14-day budget streak! You're on fire, Christian."
         delay={2500}
@@ -136,7 +458,6 @@ export default function HomePage() {
                 className="text-sm leading-relaxed text-[var(--text-secondary)]"
                 onComplete={handleTypewriterComplete}
               />
-              {/* Quick action buttons after greeting */}
               {typewriterDone && (
                 <div className="flex flex-wrap gap-2 mt-3">
                   {[
@@ -160,7 +481,6 @@ export default function HomePage() {
         </Card>
       </section>
 
-      {/* SMART ALERTS BANNER */}
       <SmartAlertBanner count={3} />
 
       {/* HERO: Net Worth */}
@@ -207,6 +527,7 @@ export default function HomePage() {
             value={fmtCurrency(safeToSpend)}
             sub={`${fmtCurrency(dailySafe)}/day for ${daysLeft} days`}
             accent="text-brand-green"
+            href="/spend"
             tooltip="Safe to Spend: Your remaining discretionary budget after bills and savings are covered."
           />
           <StatCard
@@ -214,6 +535,7 @@ export default function HomePage() {
             value={fmtCurrency(totalSpent)}
             trendLabel={`${budgetPct}% of ${fmtCurrency(totalBudget)}`}
             trend="flat"
+            href="/spend"
             tooltip="Budget Spent: Total spending against your monthly budget allocation across all categories."
           />
           <StatCard
@@ -222,22 +544,18 @@ export default function HomePage() {
             trendLabel="+1% vs Feb"
             trend="up"
             accent="text-brand-teal"
+            href="/save"
             tooltip="Savings Rate: The percentage of income directed to savings and debt payoff. 20%+ is excellent."
           />
           <StatCard
             label="Achievements"
             value={`${doneAchievements}/${totalAchievements}`}
-            onClick={() => {
-              const list = achievements
-                .map((a) => `${a.done ? '[x]' : '[ ]'} ${a.name} - ${a.description}${a.progress ? ` (${a.progress}%)` : ''}`)
-                .join('\n');
-              openSheet('Achievements', list);
-            }}
+            href="/achievements"
             sub="Tap to view all"
             tooltip="Achievements: Financial milestones you have completed or are working toward."
           />
           {/* A$cent Score Ring */}
-          <Card className="flex items-center justify-center min-h-[100px]">
+          <Card onClick={() => router.push('/score')} className="flex items-center justify-center min-h-[100px]">
             <LearnTooltip term="A$cent Score">
               <ProgressRing
                 value={ascentScorePct}
@@ -252,12 +570,12 @@ export default function HomePage() {
         </StaggeredList>
       </section>
 
-      {/* GUIDED ACTIONS — "What Should I Do?" */}
+      {/* GUIDED ACTIONS */}
       <ScrollReveal>
         <GuidedActions />
       </ScrollReveal>
 
-      {/* NET WORTH CHART (full width) */}
+      {/* NET WORTH CHART */}
       <ScrollReveal>
         <section>
           <ExpandableCard
@@ -463,9 +781,8 @@ export default function HomePage() {
           </ScrollReveal>
         </div>
 
-        {/* RIGHT COLUMN — 4 sections max */}
+        {/* RIGHT COLUMN */}
         <div className="space-y-6">
-          {/* Daily Spend Tracker */}
           <ScrollReveal>
             <DailySpendTracker />
           </ScrollReveal>
@@ -626,8 +943,16 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* QUICK TIP */}
       <QuickTip page="home" />
     </div>
   );
+}
+
+/* ------------------------------------------------------------------ */
+/*  MAIN EXPORT — switches between mobile and desktop                  */
+/* ------------------------------------------------------------------ */
+export default function HomePage() {
+  const isMobile = useIsMobile();
+
+  return isMobile ? <MobileHome /> : <DesktopHome />;
 }

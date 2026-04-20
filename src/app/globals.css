@@ -335,6 +335,20 @@ html {
   border-radius: 4px;
 }
 
+/* Hide scrollbar for horizontal scroll sections */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth collapse/expand */
+.mobile-collapse {
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
 /* Print styles for glass cards */
 @media print {
   .glass-blur {

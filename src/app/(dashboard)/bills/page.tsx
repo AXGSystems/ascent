@@ -11,6 +11,10 @@ import StaggeredList from '@/components/StaggeredList';
 import ScrollReveal from '@/components/ScrollReveal';
 import LearnTooltip from '@/components/LearnTooltip';
 import QuickTip from '@/components/QuickTip';
+import MobileSection from '@/components/MobileSection';
+import ShowMore from '@/components/ShowMore';
+import { useStore } from '@/lib/store';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const totalBills = bills.reduce((a, b) => a + b.amount, 0);
 const paidBills = bills.filter((b) => b.paid);
@@ -30,6 +34,9 @@ const startDow = 3;
 const blanks = Array.from({ length: startDow }, (_, i) => i);
 
 export default function BillsPage() {
+  const openSheet = useStore((s) => s.openSheet);
+  const isMobile = useIsMobile();
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <h1 className="sr-only">Bills</h1>
@@ -42,19 +49,19 @@ export default function BillsPage() {
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
-            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
+            <p className="text-[10px] md:text-xs font-medium uppercase tracking-wider text-white/60 mb-0.5 md:mb-1">
               <LearnTooltip term="Recurring Expense"><span>April Bills</span></LearnTooltip>
             </p>
-            <p className="text-3xl md:text-4xl lg:text-5xl font-black tabular-nums text-white"><CountUp value={totalBills} prefix="$" /></p>
-            <p className="mt-2 text-sm text-white/60">{bills.length} bills - {autopayCount} on <LearnTooltip term="Autopay"><span>autopay</span></LearnTooltip></p>
+            <p className="text-2xl md:text-4xl lg:text-5xl font-black tabular-nums text-white"><CountUp value={totalBills} prefix="$" /></p>
+            <p className="mt-1.5 md:mt-2 text-xs md:text-sm text-white/60">{bills.length} bills - {autopayCount} on <LearnTooltip term="Autopay"><span>autopay</span></LearnTooltip></p>
           </div>
         </div>
       </section>
 
       {/* Stats */}
       <section>
-        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
-          <StatCard label="Total Bills" value={fmtCurrency(totalBills)} sub="9 recurring" />
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4" delay={80}>
+          <StatCard label="Total Bills" value={fmtCurrency(totalBills)} sub="9 recurring" href="/bills" />
           <StatCard label="Paid" value={fmtCurrency(paidTotal)} accent="text-brand-green" sub={`${paidBills.length} bills`} />
           <StatCard label="Remaining" value={fmtCurrency(unpaidTotal)} accent="text-brand-gold" sub={`${unpaidBills.length} bills`} />
           <StatCard label="Autopay" value={`${autopayCount}/${bills.length}`} sub="Coverage" />
@@ -113,9 +120,22 @@ export default function BillsPage() {
           <div className="px-5 pt-5 pb-3">
             <h2 className="text-base font-bold text-[var(--text-primary)]">All Bills</h2>
           </div>
-          <div className="divide-y divide-[var(--border-color)]">
-            {bills.map((bill) => (
-              <div key={bill.name} className="flex items-center justify-between px-5 py-3 min-h-[44px]">
+          <ShowMore
+            items={bills}
+            mobileLimit={4}
+            className="divide-y divide-[var(--border-color)]"
+            renderItem={(bill) => (
+              <button
+                key={bill.name}
+                type="button"
+                className="w-full flex items-center justify-between px-4 md:px-5 py-3 min-h-[44px] hover:bg-[var(--bg-card-hover)] transition-colors text-left active:scale-[0.98]"
+                onClick={() =>
+                  openSheet(
+                    bill.name,
+                    `Amount: ${fmtCurrency(bill.amount)}\nDue: ${bill.dueLabel}\nMethod: ${bill.autopay ? 'Autopay' : 'Manual'}\nStatus: ${bill.paid ? 'Paid' : 'Unpaid'}`
+                  )
+                }
+              >
                 <div>
                   <p className="text-sm font-medium text-[var(--text-primary)]">{bill.name}</p>
                   <p className="text-xs text-[var(--text-muted)]">
@@ -134,17 +154,17 @@ export default function BillsPage() {
                     <Badge variant="warning">Due</Badge>
                   )}
                 </div>
-              </div>
-            ))}
-          </div>
+              </button>
+            )}
+          />
         </Card>
         </ScrollReveal>
       </div>
 
       {/* Payment History */}
       <ScrollReveal>
+      <MobileSection title="Recent Payment History" defaultCollapsed={isMobile}>
       <Card>
-        <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Recent Payment History</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -180,6 +200,7 @@ export default function BillsPage() {
           </table>
         </div>
       </Card>
+      </MobileSection>
       </ScrollReveal>
 
       {/* QUICK TIP */}

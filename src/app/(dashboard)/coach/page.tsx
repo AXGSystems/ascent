@@ -140,23 +140,23 @@ export default function CoachPage() {
 
   return (
     <div className="max-w-3xl mx-auto flex flex-col h-[calc(100dvh-8rem)] lg:h-[calc(100dvh-6rem)]">
-      {/* Header */}
-      <section className="mb-4">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-4 md:p-6 lg:p-8 shadow-lg shadow-brand-teal/10 hero-sweep">
+      {/* Header — compact on mobile */}
+      <section className="mb-2 md:mb-4">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-3 md:p-6 lg:p-8 shadow-lg shadow-brand-teal/10 hero-sweep">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/5 hero-shimmer" />
           <div className="relative flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center relative">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/20 flex items-center justify-center relative">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="md:w-5 md:h-5">
                 <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" />
                 <path d="M18 15l.75 2.25L21 18l-2.25.75L18 21l-.75-2.25L15 18l2.25-.75L18 15z" />
               </svg>
               <span className="absolute -top-0.5 -right-0.5 breathing-dot" style={{ width: '6px', height: '6px' }} />
             </div>
             <div>
-              <h1 className="text-lg font-semibold text-white">A$cent Coach</h1>
-              <p className="text-xs text-white/50">Your AI financial advisor — 22 topics available</p>
+              <h1 className="text-base md:text-lg font-semibold text-white">A$cent Coach</h1>
+              <p className="text-[10px] md:text-xs text-white/50">Your AI financial advisor</p>
             </div>
           </div>
         </div>
@@ -201,14 +201,14 @@ export default function CoachPage() {
         ))}
       </div>
 
-      {/* Primary quick prompts */}
-      <div className="flex flex-wrap gap-2 mb-2">
+      {/* Primary quick prompts — horizontal scroll on mobile */}
+      <div className="flex gap-2 mb-2 overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap">
         {quickPrompts.map((p) => (
           <button
             key={p.key}
             type="button"
             onClick={() => handleSend(p.key)}
-            className="px-3 py-2 rounded-full text-xs font-medium bg-brand-teal/10 text-brand-teal hover:bg-brand-teal/20 transition-all min-h-[44px] active:scale-[0.95] action-link"
+            className="shrink-0 px-3 py-2 rounded-full text-xs font-medium bg-brand-teal/10 text-brand-teal hover:bg-brand-teal/20 transition-all min-h-[36px] md:min-h-[44px] active:scale-[0.95] action-link"
           >
             {p.label}
           </button>
@@ -216,15 +216,15 @@ export default function CoachPage() {
       </div>
 
       {/* Rotating "Ask me about..." chips */}
-      <div className="mb-3">
-        <p className="text-[10px] text-[var(--text-muted)] mb-1.5">Ask me about...</p>
-        <div className="flex flex-wrap gap-2">
+      <div className="mb-2 md:mb-3">
+        <p className="text-[10px] text-[var(--text-muted)] mb-1">Ask me about...</p>
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap">
           {currentChipSet.map((p) => (
             <button
               key={p.key}
               type="button"
               onClick={() => handleSend(p.key)}
-              className="px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--border-color)] text-[var(--text-secondary)] hover:bg-brand-teal/10 hover:text-brand-teal hover:border-brand-teal/30 transition-all active:scale-[0.95]"
+              className="shrink-0 px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--border-color)] text-[var(--text-secondary)] hover:bg-brand-teal/10 hover:text-brand-teal hover:border-brand-teal/30 transition-all active:scale-[0.95]"
             >
               {p.label}
             </button>
@@ -233,7 +233,7 @@ export default function CoachPage() {
       </div>
 
       {/* Input */}
-      <div className="flex gap-2">
+      <div className="flex gap-2 pb-[env(safe-area-inset-bottom)]">
         <label className="sr-only" htmlFor="coach-input">Ask your coach</label>
         <input
           id="coach-input"
@@ -243,13 +243,13 @@ export default function CoachPage() {
           onKeyDown={(e) => e.key === 'Enter' && handleSend(input)}
           placeholder="Ask about your finances..."
           maxLength={500}
-          className="flex-1 px-4 py-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:ring-2 focus:ring-brand-teal/30 min-h-[48px] backdrop-blur-xl transition-shadow"
+          className="flex-1 px-3 md:px-4 py-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:ring-2 focus:ring-brand-teal/30 min-h-[48px] backdrop-blur-xl transition-shadow"
         />
         <button
           type="button"
           onClick={() => handleSend(input)}
           disabled={!input.trim()}
-          className="min-h-[48px] px-5 rounded-2xl bg-brand-teal text-white font-medium text-sm hover:bg-brand-teal-dark transition-all active:scale-[0.95] disabled:opacity-40 disabled:cursor-not-allowed"
+          className="min-h-[48px] px-4 md:px-5 rounded-2xl bg-brand-teal text-white font-medium text-sm hover:bg-brand-teal-dark transition-all active:scale-[0.95] disabled:opacity-40 disabled:cursor-not-allowed"
         >
           Send
         </button>
