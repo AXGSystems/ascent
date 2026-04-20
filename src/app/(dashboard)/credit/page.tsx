@@ -6,6 +6,8 @@ import StatCard from '@/components/StatCard';
 import LineChart from '@/components/LineChart';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const current = creditHistory[creditHistory.length - 1];
 const prev = creditHistory[creditHistory.length - 2];
@@ -35,7 +37,9 @@ export default function CreditPage() {
           <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="text-center md:text-left">
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-2">
-                Current Score
+                <LearnTooltip term="Credit Score">
+                  <span>Current Score</span>
+                </LearnTooltip>
               </p>
               <p className="text-6xl md:text-7xl font-black tabular-nums text-white">
                 {current.score}
@@ -78,7 +82,7 @@ export default function CreditPage() {
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard label="12-Month Change" value={`+${yearDelta}`} trend="up" trendLabel="Improving" accent="text-brand-green" />
         <StatCard label="Best Score" value={`${Math.max(...creditHistory.map((h) => h.score))}`} sub="All time high" />
-        <StatCard label="Utilization" value="12%" sub="Keep under 30%" accent="text-brand-green" />
+        <StatCard label="Utilization" value="12%" sub="Keep under 30%" accent="text-brand-green" tooltip="Credit Utilization: The percentage of your available credit you're using. Keep it under 30% — ideally under 10% — for the best credit score impact." />
         <StatCard label="Avg Age" value="4.2 yr" sub="Average account age" />
       </section>
 
@@ -197,6 +201,9 @@ export default function CreditPage() {
           ))}
         </div>
       </Card>
+
+      {/* QUICK TIP */}
+      <QuickTip page="credit" />
     </div>
   );
 }

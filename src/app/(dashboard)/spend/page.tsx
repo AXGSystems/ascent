@@ -11,6 +11,8 @@ import AdvisorTip from '@/components/AdvisorTip';
 import CountUp from '@/components/CountUp';
 import StaggeredList from '@/components/StaggeredList';
 import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 import { useStore } from '@/lib/store';
 
 const totalBudget = 4600;
@@ -33,7 +35,9 @@ export default function SpendPage() {
           <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
-                April Budget
+                <LearnTooltip term="Budget">
+                  <span>April Budget</span>
+                </LearnTooltip>
               </p>
               <p className="text-4xl md:text-5xl font-black text-white">
                 <CountUp value={totalSpent} prefix="$" duration={1500} /> <span className="text-lg font-normal text-white/50">/ {fmtCurrency(totalBudget)}</span>
@@ -51,7 +55,11 @@ export default function SpendPage() {
               </p>
             </div>
             <div className="text-right">
-              <p className="text-sm text-white/50">Safe to Spend</p>
+              <p className="text-sm text-white/50">
+                <LearnTooltip term="Safe to Spend">
+                  <span>Safe to Spend</span>
+                </LearnTooltip>
+              </p>
               <p className="text-2xl font-bold tabular-nums text-emerald-300">
                 <CountUp value={remaining} prefix="$" duration={1200} />
               </p>
@@ -78,7 +86,10 @@ export default function SpendPage() {
             Shopping is $35 over its $200 budget. You have 12 days left &mdash; consider a spending freeze on non-essentials to get back on track.
           </AdvisorTip>
           <AdvisorTip type="tip">
-            Dining Out is at 93% of budget with 12 days left. Cooking 3 more meals at home this week could save ~$45 and keep you under limit.
+            <LearnTooltip term="Variable Spending">
+              <span>Dining Out</span>
+            </LearnTooltip>{' '}
+            is at 93% of budget with 12 days left. Cooking 3 more meals at home this week could save ~$45 and keep you under limit.
           </AdvisorTip>
         </section>
       </ScrollReveal>
@@ -173,7 +184,11 @@ export default function SpendPage() {
         <ScrollReveal>
           <Card padding={false}>
             <div className="px-5 pt-5 pb-3">
-              <h2 className="text-base font-bold text-[var(--text-primary)]">Bills</h2>
+              <h2 className="text-base font-bold text-[var(--text-primary)]">
+                <LearnTooltip term="Recurring Expense">
+                  <span>Bills</span>
+                </LearnTooltip>
+              </h2>
             </div>
             <div className="divide-y divide-[var(--border-color)]">
               {bills.map((bill) => (
@@ -207,7 +222,9 @@ export default function SpendPage() {
           <Card padding={false}>
             <div className="px-5 pt-5 pb-3">
               <h2 className="text-base font-bold text-[var(--text-primary)]">
-                Subscriptions
+                <LearnTooltip term="Subscription">
+                  <span>Subscriptions</span>
+                </LearnTooltip>
                 <span className="ml-2 text-xs font-normal text-[var(--text-muted)]">
                   {fmtCurrency(subscriptions.reduce((a, s) => a + s.amount, 0))}/mo
                 </span>
@@ -244,6 +261,9 @@ export default function SpendPage() {
           </Card>
         </ScrollReveal>
       </div>
+
+      {/* QUICK TIP */}
+      <QuickTip page="spend" />
     </div>
   );
 }

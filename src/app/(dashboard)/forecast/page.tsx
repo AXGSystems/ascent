@@ -6,6 +6,8 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import AreaChart from '@/components/AreaChart';
 import Badge from '@/components/Badge';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 // Projections
 const currentNW = nwHistory[nwHistory.length - 1].v;
@@ -48,7 +50,9 @@ export default function ForecastPage() {
           <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
-                Financial Forecast
+                <LearnTooltip term="Compound Interest">
+                  <span>Financial Forecast</span>
+                </LearnTooltip>
               </p>
               <p className="text-4xl md:text-5xl font-black tabular-nums text-white">
                 {fmtCurrency(projected12m)}
@@ -245,6 +249,9 @@ export default function ForecastPage() {
           ))}
         </div>
       </Card>
+
+      {/* QUICK TIP */}
+      <QuickTip page="forecast" />
     </div>
   );
 }

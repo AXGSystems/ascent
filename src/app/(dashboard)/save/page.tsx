@@ -11,6 +11,8 @@ import AdvisorTip from '@/components/AdvisorTip';
 import CountUp from '@/components/CountUp';
 import StaggeredList from '@/components/StaggeredList';
 import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 import { useStore } from '@/lib/store';
 
 const totalSaved = nests.reduce((a, n) => a + n.current, 0);
@@ -51,7 +53,11 @@ export default function SavePage() {
               </p>
             </div>
             <div className="text-right">
-              <p className="text-sm text-white/50">Savings Rate</p>
+              <p className="text-sm text-white/50">
+                <LearnTooltip term="Savings Rate">
+                  <span>Savings Rate</span>
+                </LearnTooltip>
+              </p>
               <p className="text-2xl font-bold tabular-nums text-emerald-300">
                 <CountUp value={currentRate} suffix="%" duration={1200} />
               </p>
@@ -78,7 +84,11 @@ export default function SavePage() {
             Your savings rate has been above 30% for 4 months straight &mdash; that puts you in the top 15% of households. Keep this momentum going!
           </AdvisorTip>
           <AdvisorTip type="tip">
-            Moving $50 more per month to your Emergency Fund would reach 1 full month of coverage by June and your $5,000 target by September.
+            Moving $50 more per month to your{' '}
+            <LearnTooltip term="Emergency Fund">
+              <span>Emergency Fund</span>
+            </LearnTooltip>{' '}
+            would reach 1 full month of coverage by June and your $5,000 target by September.
           </AdvisorTip>
         </section>
       </ScrollReveal>
@@ -86,7 +96,11 @@ export default function SavePage() {
       {/* Goals Grid */}
       <ScrollReveal>
         <section>
-          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Savings Goals</h2>
+          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
+            <LearnTooltip term="Sinking Fund">
+              <span>Savings Goals</span>
+            </LearnTooltip>
+          </h2>
           <StaggeredList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" delay={100}>
             {nests.map((nest) => (
               <Card
@@ -115,7 +129,10 @@ export default function SavePage() {
                   showLabel
                 />
                 <p className="mt-2 text-xs text-[var(--text-secondary)]">
-                  Auto-saving {fmtCurrency(nest.autoAmount)} {nest.frequency.toLowerCase()}
+                  <LearnTooltip term="Dollar Cost Averaging">
+                    <span>Auto-saving</span>
+                  </LearnTooltip>{' '}
+                  {fmtCurrency(nest.autoAmount)} {nest.frequency.toLowerCase()}
                 </p>
               </Card>
             ))}
@@ -128,7 +145,10 @@ export default function SavePage() {
         <ScrollReveal>
           <Card>
             <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
-              Savings Rate Trend
+              <LearnTooltip term="Savings Rate">
+                <span>Savings Rate</span>
+              </LearnTooltip>{' '}
+              Trend
             </h2>
             <LineChart
               data={savingsRateHistory.map((p) => ({ label: p.m, value: p.r }))}
@@ -142,7 +162,10 @@ export default function SavePage() {
         <ScrollReveal delay={100}>
           <Card>
             <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
-              Cumulative Savings 2026
+              <LearnTooltip term="Compound Interest">
+                <span>Cumulative Savings</span>
+              </LearnTooltip>{' '}
+              2026
             </h2>
             <LineChart
               data={actualSavings.map((p) => ({ label: p.m, value: p.v }))}
@@ -194,6 +217,9 @@ export default function SavePage() {
           </Card>
         </section>
       </ScrollReveal>
+
+      {/* QUICK TIP */}
+      <QuickTip page="save" />
     </div>
   );
 }

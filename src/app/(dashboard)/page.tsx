@@ -30,6 +30,14 @@ import StaggeredList from '@/components/StaggeredList';
 import ProgressRing from '@/components/ProgressRing';
 import ScrollReveal from '@/components/ScrollReveal';
 import AchievementToast from '@/components/AchievementToast';
+import LearnTooltip from '@/components/LearnTooltip';
+import SmartAlertBanner from '@/components/SmartAlertBanner';
+import GuidedActions from '@/components/GuidedActions';
+import DailySpendTracker from '@/components/DailySpendTracker';
+import TrendMini from '@/components/TrendMini';
+import UpcomingEvents from '@/components/UpcomingEvents';
+import WelcomeTour from '@/components/WelcomeTour';
+import QuickTip from '@/components/QuickTip';
 import Link from 'next/link';
 
 const currentNW = nwHistory[nwHistory.length - 1].v;
@@ -104,6 +112,9 @@ export default function HomePage() {
     <div className="max-w-7xl mx-auto space-y-6">
       <h1 className="sr-only">A$cent Dashboard</h1>
 
+      {/* WELCOME TOUR */}
+      <WelcomeTour />
+
       {/* ACHIEVEMENT TOAST */}
       <AchievementToast
         message="14-day budget streak! You're on fire, Christian."
@@ -152,6 +163,9 @@ export default function HomePage() {
         </Card>
       </section>
 
+      {/* SMART ALERTS BANNER */}
+      <SmartAlertBanner count={3} />
+
       {/* HERO: Net Worth */}
       <section>
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10 hero-sweep">
@@ -162,7 +176,9 @@ export default function HomePage() {
           <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
-                Net Worth
+                <LearnTooltip term="Net Worth">
+                  <span>Net Worth</span>
+                </LearnTooltip>
               </p>
               <p className="text-4xl md:text-5xl font-black text-white">
                 <CountUp value={currentNW} prefix="$" duration={1800} />
@@ -225,17 +241,24 @@ export default function HomePage() {
           />
           {/* A$cent Score Ring */}
           <Card className="flex items-center justify-center min-h-[100px]">
-            <ProgressRing
-              value={ascentScorePct}
-              size={100}
-              strokeWidth={8}
-              color="#0a8ebc"
-              label="A$cent"
-              sublabel={`${ascentScore} / 1,000`}
-            />
+            <LearnTooltip term="A$cent Score">
+              <ProgressRing
+                value={ascentScorePct}
+                size={100}
+                strokeWidth={8}
+                color="#0a8ebc"
+                label="A$cent"
+                sublabel={`${ascentScore} / 1,000`}
+              />
+            </LearnTooltip>
           </Card>
         </StaggeredList>
       </section>
+
+      {/* GUIDED ACTIONS — "What Should I Do?" */}
+      <ScrollReveal>
+        <GuidedActions />
+      </ScrollReveal>
 
       {/* NET WORTH CHART (full width) */}
       <ScrollReveal>
@@ -265,7 +288,10 @@ export default function HomePage() {
             }
           >
             <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
-              Net Worth - 12 Months
+              <LearnTooltip term="Net Worth">
+                <span>Net Worth</span>
+              </LearnTooltip>{' '}
+              - 12 Months
             </h2>
             <LineChart
               data={nwHistory.map((p) => ({ label: p.m, value: p.v }))}
@@ -442,6 +468,21 @@ export default function HomePage() {
 
         {/* RIGHT COLUMN */}
         <div className="space-y-6">
+          {/* Daily Spend Tracker */}
+          <ScrollReveal>
+            <DailySpendTracker />
+          </ScrollReveal>
+
+          {/* 30-Day Trends Mini */}
+          <ScrollReveal delay={50}>
+            <TrendMini />
+          </ScrollReveal>
+
+          {/* Upcoming Money Events */}
+          <ScrollReveal delay={100}>
+            <UpcomingEvents />
+          </ScrollReveal>
+
           {/* Cash Flow */}
           <ScrollReveal>
             <ExpandableCard
@@ -458,7 +499,11 @@ export default function HomePage() {
                       <p className="text-sm font-bold tabular-nums text-brand-red">{fmtCurrency(latestCF.exp)}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-[var(--text-muted)]">Surplus</p>
+                      <p className="text-xs text-[var(--text-muted)]">
+                        <LearnTooltip term="Surplus">
+                          <span>Surplus</span>
+                        </LearnTooltip>
+                      </p>
                       <p className="text-sm font-bold tabular-nums text-brand-teal">{fmtCurrency(surplus)}</p>
                     </div>
                   </div>
@@ -473,7 +518,9 @@ export default function HomePage() {
               }
             >
               <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
-                Cash Flow
+                <LearnTooltip term="Cash Flow">
+                  <span>Cash Flow</span>
+                </LearnTooltip>
               </h2>
               <AreaChart
                 labels={cashFlow.map((c) => c.m)}
@@ -485,11 +532,6 @@ export default function HomePage() {
               />
             </ExpandableCard>
           </ScrollReveal>
-          <ScrollReveal delay={100}>
-            <AdvisorTip type="insight">
-              Your income-to-expense gap has been widening for 3 consecutive months. This is a sign of strengthening financial health.
-            </AdvisorTip>
-          </ScrollReveal>
 
           {/* Upcoming Bills */}
           <ScrollReveal>
@@ -499,7 +541,11 @@ export default function HomePage() {
                 <div className="space-y-3">
                   <div className="grid grid-cols-2 gap-3 text-center">
                     <div>
-                      <p className="text-xs text-[var(--text-muted)]">On Autopay</p>
+                      <p className="text-xs text-[var(--text-muted)]">
+                        <LearnTooltip term="Autopay">
+                          <span>On Autopay</span>
+                        </LearnTooltip>
+                      </p>
                       <p className="text-sm font-bold">{bills.filter(b => b.autopay).length}/{bills.length}</p>
                     </div>
                     <div>
@@ -647,6 +693,9 @@ export default function HomePage() {
           </ScrollReveal>
         </div>
       </div>
+
+      {/* QUICK TIP */}
+      <QuickTip page="home" />
     </div>
   );
 }

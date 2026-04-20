@@ -8,6 +8,7 @@ import StatCard from '@/components/StatCard';
 import Badge from '@/components/Badge';
 import ProgressBar from '@/components/ProgressBar';
 import DonutChart from '@/components/DonutChart';
+import QuickTip from '@/components/QuickTip';
 import { useStore } from '@/lib/store';
 
 const avgConfidence = Math.round(
@@ -216,6 +217,9 @@ export default function ChargeIQPage() {
           )}
         </div>
       </section>
+
+      {/* QUICK TIP */}
+      <QuickTip page="chargeiq" />
     </div>
   );
 }

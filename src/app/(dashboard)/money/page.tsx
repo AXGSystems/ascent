@@ -11,6 +11,8 @@ import AdvisorTip from '@/components/AdvisorTip';
 import CountUp from '@/components/CountUp';
 import StaggeredList from '@/components/StaggeredList';
 import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 import { useStore } from '@/lib/store';
 
 const totalAssets = accounts.filter((a) => a.value > 0).reduce((acc, a) => acc + a.value, 0);
@@ -42,7 +44,9 @@ export default function MoneyPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
-              Total Net Worth
+              <LearnTooltip term="Net Worth">
+                <span>Total Net Worth</span>
+              </LearnTooltip>
             </p>
             <p className="text-4xl md:text-5xl font-black text-white">
               <CountUp value={netWorth} prefix="$" duration={1800} />
@@ -68,10 +72,18 @@ export default function MoneyPage() {
       <ScrollReveal>
         <section className="space-y-3">
           <AdvisorTip type="warning">
-            Cap One Savings has not synced in 47 days. Reconnect it to ensure your net worth calculation is accurate.
+            Cap One Savings has not synced in 47 days. Reconnect it to ensure your{' '}
+            <LearnTooltip term="Net Worth">
+              <span>net worth</span>
+            </LearnTooltip>{' '}
+            calculation is accurate.
           </AdvisorTip>
           <AdvisorTip type="insight">
-            Your debt-to-asset ratio is {(totalDebt / totalAssets * 100).toFixed(1)}% &mdash; this is healthy. Most financial advisors recommend staying below 30%.
+            Your{' '}
+            <LearnTooltip term="Debt-to-Income">
+              <span>debt-to-asset ratio</span>
+            </LearnTooltip>{' '}
+            is {(totalDebt / totalAssets * 100).toFixed(1)}% &mdash; this is healthy. Most financial advisors recommend staying below 30%.
           </AdvisorTip>
         </section>
       </ScrollReveal>
@@ -127,7 +139,11 @@ export default function MoneyPage() {
           <ScrollReveal>
             <Card padding={false}>
               <div className="px-5 pt-5 pb-3">
-                <h2 className="text-base font-bold text-[var(--text-primary)]">Income Sources</h2>
+                <h2 className="text-base font-bold text-[var(--text-primary)]">
+                  <LearnTooltip term="Passive Income">
+                    <span>Income Sources</span>
+                  </LearnTooltip>
+                </h2>
               </div>
               <div className="divide-y divide-[var(--border-color)]">
                 {incomeSources.map((src) => (
@@ -239,6 +255,9 @@ export default function MoneyPage() {
           </Card>
         </ScrollReveal>
       </div>
+
+      {/* QUICK TIP */}
+      <QuickTip page="money" />
     </div>
   );
 }
