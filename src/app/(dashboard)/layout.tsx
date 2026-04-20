@@ -7,11 +7,11 @@ import Sheet from '@/components/Sheet';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-dvh">
+    <div className="flex h-dvh overflow-hidden">
       <Sidebar />
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 h-full">
         <Header />
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6 pb-20 lg:pb-6">
+        <main className="flex-1 overflow-y-auto overscroll-contain p-4 lg:p-6 pb-24 lg:pb-6">
           {children}
           {/* Footer */}
           <footer className="mt-12 pb-4 text-center">

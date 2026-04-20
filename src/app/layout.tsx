@@ -29,7 +29,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full bg-[var(--bg-secondary)] text-[var(--text-primary)]">
+      <body className="h-full overflow-hidden bg-[var(--bg-secondary)] text-[var(--text-primary)]">
         <Providers>{children}</Providers>
       </body>
     </html>
