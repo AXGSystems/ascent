@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect, useRef } from 'react';
 import { cn, clamp } from '@/lib/utils';
 
 interface ProgressBarProps {
@@ -22,6 +23,19 @@ export default function ProgressBar({
   over,
 }: ProgressBarProps) {
   const pct = clamp((value / max) * 100, 0, 100);
+  const [mounted, setMounted] = useState(false);
+  const ref = useRef(false);
+
+  useEffect(() => {
+    if (ref.current) return;
+    ref.current = true;
+    // Delay to trigger CSS transition from 0
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setMounted(true);
+      });
+    });
+  }, []);
 
   const barColor = over
     ? 'bg-brand-red'
@@ -40,8 +54,8 @@ export default function ProgressBar({
       )}
       <div className={cn('w-full rounded-full overflow-hidden bg-[var(--border-color)]', height)}>
         <div
-          className={cn('h-full rounded-full transition-all duration-700 ease-out', barColor)}
-          style={{ width: `${pct}%` }}
+          className={cn('h-full rounded-full transition-all duration-1000 ease-out', barColor)}
+          style={{ width: mounted ? `${pct}%` : '0%' }}
         />
       </div>
     </div>

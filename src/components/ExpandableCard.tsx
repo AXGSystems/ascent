@@ -30,7 +30,7 @@ export default function ExpandableCard({
   const colors = 'bg-[var(--bg-card)] border-[var(--border-color)]';
   const shadow = 'shadow-[var(--shadow-card)]';
   const ring = 'ring-1 ring-[var(--border-glass)] ring-inset';
-  const hover = 'cursor-pointer hover:bg-[var(--bg-card-hover)] hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 active:scale-[0.98] active:shadow-none';
+  const hover = 'cursor-pointer hover:bg-[var(--bg-card-hover)] hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 active:scale-[0.985] active:shadow-none';
 
   return (
     <div className={cn(base, colors, shadow, ring, hover, className)}>

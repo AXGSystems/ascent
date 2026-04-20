@@ -15,9 +15,11 @@ export default function Card({ children, onClick, className, padding = true }: C
   const shadow = 'shadow-[var(--shadow-card)]';
   const ring = 'ring-1 ring-[var(--border-glass)] ring-inset';
   const pad = padding ? 'p-5' : '';
+  const hoverLift = 'hover:bg-[var(--bg-card-hover)] hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5';
+  const press = 'active:scale-[0.98] active:shadow-none';
   const hover = onClick
-    ? 'cursor-pointer hover:bg-[var(--bg-card-hover)] hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 active:scale-[0.98] active:shadow-none'
-    : '';
+    ? `cursor-pointer ${hoverLift} ${press}`
+    : hoverLift;
 
   const Tag = onClick ? 'button' : 'div';
   return (

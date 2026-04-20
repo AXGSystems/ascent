@@ -8,6 +8,9 @@ import ProgressBar from '@/components/ProgressBar';
 import LineChart from '@/components/LineChart';
 import Badge from '@/components/Badge';
 import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
 import { useStore } from '@/lib/store';
 
 const totalSaved = nests.reduce((a, n) => a + n.current, 0);
@@ -22,7 +25,7 @@ export default function SavePage() {
       <h1 className="sr-only">Savings Goals</h1>
       {/* Hero */}
       <section>
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-green via-brand-teal to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-green/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-green via-brand-teal to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-green/10 hero-sweep">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
@@ -32,13 +35,13 @@ export default function SavePage() {
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
                 Total Saved in Goals
               </p>
-              <p className="text-4xl md:text-5xl font-black tabular-nums text-white">
-                {fmtCurrency(totalSaved)}
+              <p className="text-4xl md:text-5xl font-black text-white">
+                <CountUp value={totalSaved} prefix="$" duration={1800} />
               </p>
               <div className="mt-3 max-w-md">
                 <div className="w-full h-3 rounded-full overflow-hidden bg-white/20">
                   <div
-                    className="h-full rounded-full bg-white/90 transition-all duration-700"
+                    className="h-full rounded-full bg-white/90 transition-all duration-1000 ease-out animate-progress-fill"
                     style={{ width: `${pct(totalSaved, totalGoals)}%` }}
                   />
                 </div>
@@ -49,7 +52,9 @@ export default function SavePage() {
             </div>
             <div className="text-right">
               <p className="text-sm text-white/50">Savings Rate</p>
-              <p className="text-2xl font-bold tabular-nums text-emerald-300">{currentRate}%</p>
+              <p className="text-2xl font-bold tabular-nums text-emerald-300">
+                <CountUp value={currentRate} suffix="%" duration={1200} />
+              </p>
               <p className="text-xs text-white/40">+1% vs last month</p>
             </div>
           </div>
@@ -57,128 +62,138 @@ export default function SavePage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Active Goals" value={`${nests.length}`} sub="Saving simultaneously" tooltip="Active Goals: The number of savings goals you are currently funding through auto-save." />
-        <StatCard label="This Month" value={fmtCurrency(2760)} trend="up" trendLabel="On track" accent="text-brand-green" tooltip="This Month: Total amount saved across all goals during the current month." />
-        <StatCard label="YTD Saved" value={fmtCurrency(10760)} sub="Jan - Apr 2026" tooltip="Year-to-Date Saved: Cumulative savings since January 1st across all goals." />
-        <StatCard label="Emergency" value={`${pct(3600, 5000)}%`} sub="$3,600 of $5,000" accent="text-brand-gold" tooltip="Emergency Fund: Progress toward your emergency fund target. 3-6 months of expenses is recommended." />
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
+          <StatCard label="Active Goals" value={`${nests.length}`} sub="Saving simultaneously" tooltip="Active Goals: The number of savings goals you are currently funding through auto-save." />
+          <StatCard label="This Month" value={fmtCurrency(2760)} trend="up" trendLabel="On track" accent="text-brand-green" tooltip="This Month: Total amount saved across all goals during the current month." />
+          <StatCard label="YTD Saved" value={fmtCurrency(10760)} sub="Jan - Apr 2026" tooltip="Year-to-Date Saved: Cumulative savings since January 1st across all goals." />
+          <StatCard label="Emergency" value={`${pct(3600, 5000)}%`} sub="$3,600 of $5,000" accent="text-brand-gold" tooltip="Emergency Fund: Progress toward your emergency fund target. 3-6 months of expenses is recommended." />
+        </StaggeredList>
       </section>
 
       {/* Advisor Tips */}
-      <section className="space-y-3">
-        <AdvisorTip type="celebration">
-          Your savings rate has been above 30% for 4 months straight &mdash; that puts you in the top 15% of households. Keep this momentum going!
-        </AdvisorTip>
-        <AdvisorTip type="tip">
-          Moving $50 more per month to your Emergency Fund would reach 1 full month of coverage by June and your $5,000 target by September.
-        </AdvisorTip>
-      </section>
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="celebration">
+            Your savings rate has been above 30% for 4 months straight &mdash; that puts you in the top 15% of households. Keep this momentum going!
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Moving $50 more per month to your Emergency Fund would reach 1 full month of coverage by June and your $5,000 target by September.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Goals Grid */}
-      <section>
-        <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Savings Goals</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {nests.map((nest) => (
-            <Card
-              key={nest.name}
-              onClick={() =>
-                openSheet(
-                  nest.name,
-                  `Current: ${fmtCurrency(nest.current)}\nGoal: ${fmtCurrency(nest.goal)}\nProgress: ${pct(nest.current, nest.goal)}%\nAuto-Save: ${fmtCurrency(nest.autoAmount)} ${nest.frequency}\n\nRemaining: ${fmtCurrency(nest.goal - nest.current)}`
-                )
-              }
-            >
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-semibold text-[var(--text-primary)]">{nest.name}</h3>
-                <Badge variant="info">{nest.frequency}</Badge>
-              </div>
-              <p className="text-2xl font-bold tabular-nums text-[var(--text-primary)] mb-1">
-                {fmtCurrency(nest.current)}
-              </p>
-              <p className="text-xs text-[var(--text-muted)] mb-3">
-                of {fmtCurrency(nest.goal)} goal
-              </p>
-              <ProgressBar
-                value={nest.current}
-                max={nest.goal}
-                color="bg-brand-green"
-                showLabel
-              />
-              <p className="mt-2 text-xs text-[var(--text-secondary)]">
-                Auto-saving {fmtCurrency(nest.autoAmount)} {nest.frequency.toLowerCase()}
-              </p>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Savings Rate */}
-        <Card>
-          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
-            Savings Rate Trend
-          </h2>
-          <LineChart
-            data={savingsRateHistory.map((p) => ({ label: p.m, value: p.r }))}
-            height={180}
-            color="#2d8f5e"
-            formatValue={(v) => `${v}%`}
-          />
-        </Card>
-
-        {/* Cumulative Savings */}
-        <Card>
-          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
-            Cumulative Savings 2026
-          </h2>
-          <LineChart
-            data={actualSavings.map((p) => ({ label: p.m, value: p.v }))}
-            height={180}
-            color="#0a8ebc"
-          />
-        </Card>
-      </div>
-
-      {/* Achievements */}
-      <section>
-        <Card>
-          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Achievements</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {achievements.map((a) => (
-              <button
-                key={a.name}
-                type="button"
-                className={cn(
-                  'p-3 rounded-xl border text-left transition-all min-h-[44px]',
-                  a.done
-                    ? 'border-brand-green/30 bg-brand-green/5'
-                    : 'border-[var(--border-color)] bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)]'
-                )}
+      <ScrollReveal>
+        <section>
+          <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Savings Goals</h2>
+          <StaggeredList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" delay={100}>
+            {nests.map((nest) => (
+              <Card
+                key={nest.name}
                 onClick={() =>
                   openSheet(
-                    a.name,
-                    `${a.description}${a.done ? `\n\nCompleted: ${a.date}` : `\n\nProgress: ${a.progress}%`}`
+                    nest.name,
+                    `Current: ${fmtCurrency(nest.current)}\nGoal: ${fmtCurrency(nest.goal)}\nProgress: ${pct(nest.current, nest.goal)}%\nAuto-Save: ${fmtCurrency(nest.autoAmount)} ${nest.frequency}\n\nRemaining: ${fmtCurrency(nest.goal - nest.current)}`
                   )
                 }
               >
-                <div className="flex items-center gap-2 mb-1">
-                  <span className={cn('text-sm', a.done ? 'text-brand-green' : 'text-[var(--text-muted)]')}>
-                    {a.done ? '\u2713' : '\u25CB'}
-                  </span>
-                  <span className="text-sm font-medium text-[var(--text-primary)]">{a.name}</span>
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-sm font-semibold text-[var(--text-primary)]">{nest.name}</h3>
+                  <Badge variant="info">{nest.frequency}</Badge>
                 </div>
-                <p className="text-xs text-[var(--text-muted)] ml-6">{a.description}</p>
-                {!a.done && a.progress !== undefined && (
-                  <div className="mt-2 ml-6">
-                    <ProgressBar value={a.progress} max={100} height="h-1" />
-                  </div>
-                )}
-              </button>
+                <p className="text-2xl font-bold tabular-nums text-[var(--text-primary)] mb-1">
+                  {fmtCurrency(nest.current)}
+                </p>
+                <p className="text-xs text-[var(--text-muted)] mb-3">
+                  of {fmtCurrency(nest.goal)} goal
+                </p>
+                <ProgressBar
+                  value={nest.current}
+                  max={nest.goal}
+                  color="bg-brand-green"
+                  showLabel
+                />
+                <p className="mt-2 text-xs text-[var(--text-secondary)]">
+                  Auto-saving {fmtCurrency(nest.autoAmount)} {nest.frequency.toLowerCase()}
+                </p>
+              </Card>
             ))}
-          </div>
-        </Card>
-      </section>
+          </StaggeredList>
+        </section>
+      </ScrollReveal>
+
+      {/* Charts Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <ScrollReveal>
+          <Card>
+            <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
+              Savings Rate Trend
+            </h2>
+            <LineChart
+              data={savingsRateHistory.map((p) => ({ label: p.m, value: p.r }))}
+              height={180}
+              color="#2d8f5e"
+              formatValue={(v) => `${v}%`}
+            />
+          </Card>
+        </ScrollReveal>
+
+        <ScrollReveal delay={100}>
+          <Card>
+            <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">
+              Cumulative Savings 2026
+            </h2>
+            <LineChart
+              data={actualSavings.map((p) => ({ label: p.m, value: p.v }))}
+              height={180}
+              color="#0a8ebc"
+            />
+          </Card>
+        </ScrollReveal>
+      </div>
+
+      {/* Achievements */}
+      <ScrollReveal>
+        <section>
+          <Card>
+            <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Achievements</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {achievements.map((a) => (
+                <button
+                  key={a.name}
+                  type="button"
+                  className={cn(
+                    'p-3 rounded-xl border text-left transition-all min-h-[44px] active:scale-[0.98]',
+                    a.done
+                      ? 'border-brand-green/30 bg-brand-green/5'
+                      : 'border-[var(--border-color)] bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)]'
+                  )}
+                  onClick={() =>
+                    openSheet(
+                      a.name,
+                      `${a.description}${a.done ? `\n\nCompleted: ${a.date}` : `\n\nProgress: ${a.progress}%`}`
+                    )
+                  }
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={cn('text-sm', a.done ? 'text-brand-green' : 'text-[var(--text-muted)]')}>
+                      {a.done ? '\u2713' : '\u25CB'}
+                    </span>
+                    <span className="text-sm font-medium text-[var(--text-primary)]">{a.name}</span>
+                  </div>
+                  <p className="text-xs text-[var(--text-muted)] ml-6">{a.description}</p>
+                  {!a.done && a.progress !== undefined && (
+                    <div className="mt-2 ml-6">
+                      <ProgressBar value={a.progress} max={100} height="h-1" />
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+          </Card>
+        </section>
+      </ScrollReveal>
     </div>
   );
 }

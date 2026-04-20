@@ -43,6 +43,14 @@ export default function Sparkline({
   const linePath = `M ${points.map((p) => `${p.x},${p.y}`).join(' L ')}`;
   const fillPath = `${linePath} L ${pad + innerW},${pad + innerH} L ${pad},${pad + innerH} Z`;
 
+  // Approximate line length for draw animation
+  let lineLen = 0;
+  for (let i = 1; i < points.length; i++) {
+    const dx = points[i].x - points[i - 1].x;
+    const dy = points[i].y - points[i - 1].y;
+    lineLen += Math.sqrt(dx * dx + dy * dy);
+  }
+
   return (
     <div
       className="relative inline-block"
@@ -50,7 +58,14 @@ export default function Sparkline({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} aria-hidden="true">
+      <svg
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+        aria-hidden="true"
+        className="sparkline-animate"
+        style={{ '--line-length': Math.ceil(lineLen) } as React.CSSProperties}
+      >
         {fill && (
           <path d={fillPath} fill={color} fillOpacity={0.15} />
         )}

@@ -68,6 +68,9 @@ export default function Sidebar() {
                       >
                         <NavIcon name={item.icon} className="w-5 h-5 shrink-0" />
                         {item.label}
+                        {(item.label === 'Sync' || item.label === 'Coach') && (
+                          <span className="breathing-dot ml-auto shrink-0" aria-label="Live" />
+                        )}
                       </Link>
                     </li>
                   );

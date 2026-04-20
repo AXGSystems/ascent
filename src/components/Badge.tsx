@@ -17,11 +17,13 @@ const variants: Record<string, string> = {
 };
 
 export default function Badge({ children, variant = 'default', className }: BadgeProps) {
+  const isAlert = variant === 'danger' || variant === 'warning';
   return (
     <span
       className={cn(
         'inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold leading-tight',
         variants[variant],
+        isAlert && 'animate-badge-bounce',
         className
       )}
     >

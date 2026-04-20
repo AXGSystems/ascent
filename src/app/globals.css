@@ -109,6 +109,23 @@ html {
   animation: card-in 0.4s ease-out both;
 }
 
+/* Staggered children animation (StaggeredList) */
+@keyframes stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-stagger-in {
+  opacity: 0;
+  animation: stagger-in 0.5s ease-out both;
+}
+
 /* Staggered children animation */
 @keyframes fade-in-up {
   from {
@@ -125,15 +142,158 @@ html {
   animation: fade-in-up 0.5s ease-out both;
 }
 
-/* Hero shimmer decoration */
+/* Hero shimmer sweep - moving light across the hero */
 @keyframes hero-shimmer {
-  0% { opacity: 0.4; }
-  50% { opacity: 0.7; }
-  100% { opacity: 0.4; }
+  0% { opacity: 0.4; transform: translateX(-100%); }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.4; transform: translateX(100%); }
 }
 
 .hero-shimmer {
-  animation: hero-shimmer 4s ease-in-out infinite;
+  animation: hero-shimmer 6s ease-in-out infinite;
+}
+
+/* Additional shimmer sweep overlay for heroes */
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.hero-sweep::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255,255,255,0.08) 45%,
+    rgba(255,255,255,0.12) 50%,
+    rgba(255,255,255,0.08) 55%,
+    transparent 60%
+  );
+  animation: shimmer-sweep 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Pulse glow for alerts/warnings */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 168, 67, 0); }
+  50% { box-shadow: 0 0 12px 2px rgba(212, 168, 67, 0.15); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Breathing dot for live indicators */
+@keyframes breathing-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.breathing-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2d8f5e;
+  animation: breathing-dot 2s ease-in-out infinite;
+  box-shadow: 0 0 6px rgba(45, 143, 94, 0.4);
+}
+
+/* Badge bounce-in */
+@keyframes badge-bounce {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.2); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-badge-bounce {
+  animation: badge-bounce 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) both;
+}
+
+/* Sparkline draw animation */
+@keyframes draw-line {
+  from { stroke-dashoffset: var(--line-length, 1000); }
+  to { stroke-dashoffset: 0; }
+}
+
+.sparkline-animate path {
+  stroke-dasharray: var(--line-length, 1000);
+  animation: draw-line 1.2s ease-out both;
+}
+
+/* Progress bar dramatic fill */
+@keyframes progress-fill {
+  from { width: 0%; }
+}
+
+.animate-progress-fill {
+  animation: progress-fill 1s ease-out both;
+}
+
+/* Trend arrow bounce */
+@keyframes trend-bounce-up {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes trend-bounce-down {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
+.group:hover .trend-arrow-up {
+  animation: trend-bounce-up 0.6s ease-in-out infinite;
+}
+
+.group:hover .trend-arrow-down {
+  animation: trend-bounce-down 0.6s ease-in-out infinite;
+}
+
+/* Ripple click effect */
+@keyframes ripple-click {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.action-link:active {
+  animation: ripple-click 0.3s ease-out;
+}
+
+/* Achievement toast glow */
+@keyframes toast-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 168, 67, 0); }
+  50% { box-shadow: 0 0 20px 4px rgba(212, 168, 67, 0.2); }
+}
+
+.achievement-toast-glow {
+  animation: toast-glow 2s ease-in-out infinite;
+}
+
+/* Achievement bounce icon */
+@keyframes bounce-icon {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.2) rotate(-5deg); }
+  50% { transform: scale(1.1) rotate(5deg); }
+  75% { transform: scale(1.15) rotate(-3deg); }
+}
+
+.achievement-bounce-icon {
+  animation: bounce-icon 1.5s ease-in-out infinite;
+}
+
+/* Quick action button fade-in */
+@keyframes quick-action-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-quick-action {
+  opacity: 0;
+  animation: quick-action-in 0.4s ease-out both;
 }
 
 /* Typewriter cursor blink */
@@ -149,10 +309,23 @@ html {
 @media (prefers-reduced-motion: reduce) {
   .animate-card-in,
   .animate-fade-in,
+  .animate-stagger-in,
   .animate-blink,
-  .hero-shimmer {
+  .animate-pulse-glow,
+  .animate-badge-bounce,
+  .animate-progress-fill,
+  .animate-quick-action,
+  .achievement-toast-glow,
+  .achievement-bounce-icon,
+  .breathing-dot,
+  .hero-shimmer,
+  .hero-sweep::after,
+  .sparkline-animate path {
     animation: none;
   }
+  .breathing-dot { opacity: 1; }
+  .animate-stagger-in { opacity: 1; }
+  .animate-quick-action { opacity: 1; }
 }
 
 /* Focus-visible styles for keyboard navigation */

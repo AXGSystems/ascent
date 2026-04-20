@@ -43,7 +43,8 @@ export default function AdvisorTip({ type, children }: AdvisorTipProps) {
         'flex items-start gap-2.5 px-4 py-3 rounded-xl border',
         c.border,
         c.bg,
-        'animate-card-in'
+        'animate-card-in',
+        type === 'warning' && 'animate-pulse-glow'
       )}
     >
       <span className="text-base shrink-0 mt-0.5" aria-hidden="true">

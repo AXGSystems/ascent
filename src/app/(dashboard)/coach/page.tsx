@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { coachResponses } from '@/lib/data';
 import { cn } from '@/lib/utils';
 import AdvisorTip from '@/components/AdvisorTip';
+import ScrollReveal from '@/components/ScrollReveal';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -56,16 +57,17 @@ export default function CoachPage() {
     <div className="max-w-3xl mx-auto flex flex-col h-[calc(100dvh-8rem)] lg:h-[calc(100dvh-6rem)]">
       {/* Header */}
       <section className="mb-4">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-navy p-6 md:p-8 shadow-lg shadow-brand-teal/10 hero-sweep">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="absolute inset-0 hero-pattern" />
           <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/5 hero-shimmer" />
           <div className="relative flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center relative">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" />
                 <path d="M18 15l.75 2.25L21 18l-2.25.75L18 21l-.75-2.25L15 18l2.25-.75L18 15z" />
               </svg>
+              <span className="absolute -top-0.5 -right-0.5 breathing-dot" style={{ width: '6px', height: '6px' }} />
             </div>
             <div>
               <h1 className="text-lg font-semibold text-white">A$cent Coach</h1>
@@ -84,13 +86,14 @@ export default function CoachPage() {
           <div
             key={i}
             className={cn(
-              'flex',
+              'flex animate-fade-in',
               msg.role === 'user' ? 'justify-end' : 'justify-start'
             )}
+            style={{ animationDelay: `${Math.min(i * 50, 300)}ms` }}
           >
             <div
               className={cn(
-                'max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed',
+                'max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed transition-all',
                 msg.role === 'user'
                   ? 'bg-brand-teal text-white rounded-br-sm'
                   : 'bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-primary)] rounded-bl-sm backdrop-blur-xl'
@@ -116,7 +119,7 @@ export default function CoachPage() {
             key={p.key}
             type="button"
             onClick={() => handleSend(p.key)}
-            className="px-3 py-2 rounded-full text-xs font-medium bg-brand-teal/10 text-brand-teal hover:bg-brand-teal/20 transition-colors min-h-[44px]"
+            className="px-3 py-2 rounded-full text-xs font-medium bg-brand-teal/10 text-brand-teal hover:bg-brand-teal/20 transition-all min-h-[44px] active:scale-[0.95] action-link"
           >
             {p.label}
           </button>
@@ -134,13 +137,13 @@ export default function CoachPage() {
           onKeyDown={(e) => e.key === 'Enter' && handleSend(input)}
           placeholder="Ask about your finances..."
           maxLength={500}
-          className="flex-1 px-4 py-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:ring-2 focus:ring-brand-teal/30 min-h-[48px] backdrop-blur-xl"
+          className="flex-1 px-4 py-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:ring-2 focus:ring-brand-teal/30 min-h-[48px] backdrop-blur-xl transition-shadow"
         />
         <button
           type="button"
           onClick={() => handleSend(input)}
           disabled={!input.trim()}
-          className="min-h-[48px] px-5 rounded-2xl bg-brand-teal text-white font-medium text-sm hover:bg-brand-teal-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="min-h-[48px] px-5 rounded-2xl bg-brand-teal text-white font-medium text-sm hover:bg-brand-teal-dark transition-all active:scale-[0.95] disabled:opacity-40 disabled:cursor-not-allowed"
         >
           Send
         </button>
