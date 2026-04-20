@@ -5,6 +5,12 @@ import { fmtCurrency } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const totalPortfolio = 26500;
 const totalAnnualCost = investmentFees.reduce((a, f) => a + f.annualCost, 0);
@@ -41,19 +47,33 @@ export default function FeesPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Weighted Avg Expense Ratio</p>
-            <p className="text-4xl md:text-5xl font-black tabular-nums text-white">{displayAvg}%</p>
+            <p className="text-4xl md:text-5xl font-black tabular-nums text-white"><CountUp value={displayAvg} decimals={2} suffix="%" /></p>
             <p className="mt-2 text-sm text-white/60">{fmtCurrency(totalAnnualCost)}/yr in fees across {investmentFees.length} funds</p>
           </div>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Avg Ratio" value={`${displayAvg}%`} sub="Weighted average" />
         <StatCard label="Annual Cost" value={fmtCurrency(totalAnnualCost)} sub="Total fees/yr" />
         <StatCard label="Portfolio" value={fmtCurrency(totalPortfolio)} sub="Total invested" />
         <StatCard label="Potential Save" value={fmtCurrency(148)} accent="text-brand-green" sub="Switch to low-cost" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="warning">
+            Your growth fund charges 0.85% &mdash; switching to an <LearnTooltip term="Index Fund"><span>index fund</span></LearnTooltip> at 0.03% saves over $31K in 30 years.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Every 0.1% in <LearnTooltip term="Expense Ratio"><span>expense ratio</span></LearnTooltip> costs you real money. Low-cost <LearnTooltip term="ETF"><span>ETFs</span></LearnTooltip> outperform 85% of actively managed funds.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Fund Table */}
       <Card>
@@ -136,6 +156,9 @@ export default function FeesPage() {
           </div>
         </Card>
       </div>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="fees" />
     </div>
   );
 }

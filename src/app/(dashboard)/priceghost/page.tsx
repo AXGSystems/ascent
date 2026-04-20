@@ -6,6 +6,12 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Sparkline from '@/components/Sparkline';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const totalCreep = priceCreepItems.reduce((a, s) => a + (s.currentPrice - s.originalPrice), 0);
 const annualOverpay = totalCreep * 12;
@@ -34,7 +40,7 @@ export default function PriceGhostPage() {
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Monthly Creep</p>
-              <p className="text-5xl font-black tabular-nums text-white">{fmtCurrency(totalCreep)}</p>
+              <p className="text-5xl font-black tabular-nums text-white"><CountUp value={totalCreep} prefix="$" /></p>
               <p className="text-sm text-red-300 font-medium mt-1">Extra per month</p>
             </div>
           </div>
@@ -42,12 +48,26 @@ export default function PriceGhostPage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Monthly Creep" value={fmtCurrency(totalCreep)} sub="vs original prices" accent="text-brand-red" />
         <StatCard label="Annual Overpay" value={fmtCurrency(annualOverpay)} sub="Total extra per year" accent="text-brand-red" />
         <StatCard label="Avg Increase" value={`${avgIncrease}%`} sub="Across all subs" />
         <StatCard label="Worst Offender" value={worstOffender.name} sub={`+${worstOffender.increasePercent}%`} accent="text-brand-red" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="warning">
+            <LearnTooltip term="Subscription"><span>Subscription</span></LearnTooltip> prices have crept up {avgIncrease}% on average since you signed up. That is {fmtCurrency(annualOverpay)}/yr in silent increases.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Call or chat with the worst offender to negotiate back to your original price. Most providers will offer a discount to retain you.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -125,6 +145,9 @@ export default function PriceGhostPage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="priceghost" />
     </div>
   );
 }

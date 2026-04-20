@@ -5,6 +5,12 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import DonutChart from '@/components/DonutChart';
 import LineChart from '@/components/LineChart';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const current = 3600;
 const monthlyExpenses = 4500;
@@ -50,7 +56,7 @@ export default function EmergencyPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col items-center text-center">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-2">Emergency Fund Coverage</p>
-            <p className="text-5xl font-black text-white tabular-nums">{coverage.toFixed(1)}<span className="text-lg font-normal text-white/50"> months</span></p>
+            <p className="text-5xl font-black text-white tabular-nums"><CountUp value={coverage} decimals={1} /><span className="text-lg font-normal text-white/50"> months</span></p>
             <p className="mt-2 text-sm text-white/60">Target: {targetMonths} months ({fmtCurrency(target)})</p>
             <div className="mt-4 w-full max-w-md">
               <div className="w-full h-3 rounded-full overflow-hidden bg-white/20">
@@ -66,12 +72,26 @@ export default function EmergencyPage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Current Fund" value={fmtCurrency(current)} sub={`${coverage.toFixed(1)} months`} />
         <StatCard label="Target" value={fmtCurrency(target)} sub={`${targetMonths} months expenses`} />
         <StatCard label="Remaining" value={fmtCurrency(target - current)} accent="text-brand-gold" sub={`${pct(current, target)}% funded`} />
         <StatCard label="Mo. Expenses" value={fmtCurrency(monthlyExpenses)} sub="Essential costs" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="warning">
+            At {coverage.toFixed(1)} months coverage, one car repair or medical bill could wipe your <LearnTooltip term="Emergency Fund"><span>emergency fund</span></LearnTooltip>. Aim for 3 months minimum.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Move your emergency fund to a <LearnTooltip term="HYSA"><span>high-yield savings account</span></LearnTooltip> &mdash; earn 4-5% APY instead of 0.01% at a traditional bank.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Content */}
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -129,6 +149,9 @@ export default function EmergencyPage() {
           </div>
         </Card>
       </div>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="emergency" />
     </div>
   );
 }

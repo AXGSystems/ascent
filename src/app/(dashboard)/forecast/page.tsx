@@ -8,6 +8,11 @@ import AreaChart from '@/components/AreaChart';
 import Badge from '@/components/Badge';
 import LearnTooltip from '@/components/LearnTooltip';
 import QuickTip from '@/components/QuickTip';
+import AdvisorTip from '@/components/AdvisorTip';
+import NetWorthTimeline from '@/components/NetWorthTimeline';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
 
 // Projections
 const currentNW = nwHistory[nwHistory.length - 1].v;
@@ -55,7 +60,7 @@ export default function ForecastPage() {
                 </LearnTooltip>
               </p>
               <p className="text-4xl md:text-5xl font-black tabular-nums text-white">
-                {fmtCurrency(projected12m)}
+                <CountUp value={projected12m} prefix="$" />
               </p>
               <p className="mt-2 text-sm text-white/50">
                 Projected net worth in 12 months (+{fmtCurrency(projected12m - currentNW)})
@@ -71,7 +76,8 @@ export default function ForecastPage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Current NW" value={fmtCurrency(currentNW)} accent="text-brand-teal" />
         <StatCard
           label="3-Month Projection"
@@ -92,7 +98,20 @@ export default function ForecastPage() {
           trend="up"
           trendLabel={`+${fmtCurrency(projected12m - currentNW)}`}
         />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="insight">
+            At current pace, you will cross $100K <LearnTooltip term="Net Worth"><span>net worth</span></LearnTooltip> by March 2027 &mdash; small changes today compound dramatically.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Applying bill audit savings of $147/mo adds $1,764/yr to your net worth. That is the highest-impact action available.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* NW Projections */}
       <Card>
@@ -249,6 +268,9 @@ export default function ForecastPage() {
           ))}
         </div>
       </Card>
+
+      {/* NET WORTH MILESTONES TIMELINE */}
+      <NetWorthTimeline />
 
       {/* QUICK TIP */}
       <QuickTip page="forecast" />

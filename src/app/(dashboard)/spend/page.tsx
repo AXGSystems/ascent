@@ -13,6 +13,9 @@ import StaggeredList from '@/components/StaggeredList';
 import ScrollReveal from '@/components/ScrollReveal';
 import LearnTooltip from '@/components/LearnTooltip';
 import QuickTip from '@/components/QuickTip';
+import SpendingHeatmap from '@/components/SpendingHeatmap';
+import SpendByDayOfWeek from '@/components/SpendByDayOfWeek';
+import BudgetSimulator from '@/components/BudgetSimulator';
 import { useStore } from '@/lib/store';
 
 const totalBudget = 4600;
@@ -261,6 +264,21 @@ export default function SpendPage() {
           </Card>
         </ScrollReveal>
       </div>
+
+      {/* SPENDING HEATMAP + DAY OF WEEK */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <ScrollReveal>
+          <SpendingHeatmap />
+        </ScrollReveal>
+        <ScrollReveal delay={100}>
+          <SpendByDayOfWeek />
+        </ScrollReveal>
+      </div>
+
+      {/* BUDGET SIMULATOR */}
+      <ScrollReveal>
+        <BudgetSimulator />
+      </ScrollReveal>
 
       {/* QUICK TIP */}
       <QuickTip page="spend" />

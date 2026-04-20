@@ -7,6 +7,12 @@ import StatCard from '@/components/StatCard';
 import AreaChart from '@/components/AreaChart';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const baseline = 7080;
 const stabilityScore = 78;
@@ -25,14 +31,14 @@ export default function IncomeShieldPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">IncomeShield</p>
+              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1"><LearnTooltip term="Cash Flow"><span>IncomeShield</span></LearnTooltip></p>
               <h1 className="sr-only">IncomeShield — Variable Income Stabilizer</h1>
               <p className="text-3xl md:text-4xl font-black text-white">Variable Income Stabilizer</p>
               <p className="mt-2 text-sm text-white/70">Smooth out income volatility and protect your budget.</p>
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Income Stability Score</p>
-              <p className="text-5xl font-black tabular-nums text-white">{stabilityScore}</p>
+              <p className="text-5xl font-black tabular-nums text-white"><CountUp value={stabilityScore} /></p>
               <p className="text-sm text-white/60 mt-1">out of 100</p>
             </div>
           </div>
@@ -40,12 +46,26 @@ export default function IncomeShieldPage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Stability Score" value={`${stabilityScore}/100`} sub="Good stability" accent="text-brand-teal" />
         <StatCard label="Buffer Status" value={`${bufferMonths} mo`} sub="Income buffer secured" accent="text-brand-green" />
         <StatCard label="Baseline Income" value={fmtCurrency(baseline)} sub="Monthly target" />
         <StatCard label="Avg Actual" value={fmtCurrency(avgActual)} sub="12-month average" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="tip">
+            Income volatility is normal with freelance work. A {bufferMonths}-month buffer is good &mdash; build to 3 months to fully smooth out uneven periods.
+          </AdvisorTip>
+          <AdvisorTip type="insight">
+            Stability score is {stabilityScore}/100. Your ALTA salary anchors reliability while freelance adds growth potential. A strong combo.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -101,7 +121,7 @@ export default function IncomeShieldPage() {
             <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Buffer Status</h2>
             <div className="text-center py-4">
               <div className="relative inline-block">
-                <svg viewBox="0 0 120 120" width={160} height={160}>
+                <svg viewBox="0 0 120 120" width={160} height={160} aria-hidden="true">
                   <circle cx="60" cy="60" r="50" fill="none" stroke="var(--border-color)" strokeWidth="10" />
                   <circle
                     cx="60" cy="60" r="50" fill="none"
@@ -164,6 +184,9 @@ export default function IncomeShieldPage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="incomeshield" />
     </div>
   );
 }

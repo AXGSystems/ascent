@@ -13,6 +13,7 @@ import StaggeredList from '@/components/StaggeredList';
 import ScrollReveal from '@/components/ScrollReveal';
 import LearnTooltip from '@/components/LearnTooltip';
 import QuickTip from '@/components/QuickTip';
+import GoalProgressRings from '@/components/GoalProgressRings';
 import { useStore } from '@/lib/store';
 
 const totalSaved = nests.reduce((a, n) => a + n.current, 0);
@@ -216,6 +217,11 @@ export default function SavePage() {
             </div>
           </Card>
         </section>
+      </ScrollReveal>
+
+      {/* GOAL PROGRESS RINGS */}
+      <ScrollReveal>
+        <GoalProgressRings />
       </ScrollReveal>
 
       {/* QUICK TIP */}

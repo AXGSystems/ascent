@@ -4,6 +4,11 @@ import { nudgeItems } from '@/lib/data';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const savedNudges = nudgeItems.filter((n) => n.saved);
 const totalImpact = nudgeItems.filter((n) => n.saved).length;
@@ -40,12 +45,26 @@ export default function NudgeIQPage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Active Nudges" value={`${nudgeItems.length}`} sub="This week" accent="text-brand-gold" />
         <StatCard label="Saved" value={`${totalImpact}`} sub="Actionable nudges saved" accent="text-brand-teal" />
         <StatCard label="Categories" value="4" sub="Savings, Debt, Spending, Goals" />
         <StatCard label="Est. Impact" value="$2,500+" sub="Annual savings potential" accent="text-brand-green" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="tip">
+            Small nudges create big results. Each saved nudge is a micro-decision that <LearnTooltip term="Compound Interest"><span>compounds</span></LearnTooltip> into real wealth over time.
+          </AdvisorTip>
+          <AdvisorTip type="insight">
+            {totalImpact} nudges saved this week with $2,500+ annual savings potential. Acting on even half changes your trajectory.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -156,6 +175,9 @@ export default function NudgeIQPage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="nudgeiq" />
     </div>
   );
 }

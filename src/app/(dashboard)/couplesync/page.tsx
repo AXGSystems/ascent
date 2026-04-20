@@ -10,6 +10,13 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
+import PartnerComparison from '@/components/PartnerComparison';
 
 const alignmentScore = 72;
 const alignedCount = coupleSyncAreas.filter((a) => a.aligned).length;
@@ -29,14 +36,14 @@ export default function CoupleSyncPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">CoupleSync</p>
+              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1"><LearnTooltip term="Budget"><span>CoupleSync</span></LearnTooltip></p>
               <h1 className="sr-only">CoupleSync — Financial Alignment Score</h1>
               <p className="text-3xl md:text-4xl font-black text-white">Financial Alignment</p>
               <p className="mt-2 text-sm text-white/70">How aligned are you and Channelle on money?</p>
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Alignment Score</p>
-              <p className="text-6xl font-black tabular-nums text-white">{alignmentScore}</p>
+              <p className="text-6xl font-black tabular-nums text-white"><CountUp value={alignmentScore} /></p>
               <p className="text-sm text-white/60 mt-1">out of 100</p>
             </div>
           </div>
@@ -44,12 +51,26 @@ export default function CoupleSyncPage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Alignment Score" value={`${alignmentScore}/100`} sub="Good alignment" accent="text-brand-teal" />
         <StatCard label="Aligned Areas" value={`${alignedCount}/${coupleSyncAreas.length}`} sub="Areas in sync" accent="text-brand-green" />
         <StatCard label="Top Friction" value={frictionAreas[0]?.area ?? 'None'} sub={`${Math.abs(frictionAreas[0]?.christianScore - frictionAreas[0]?.channelleScore)}pt gap`} accent="text-brand-red" />
         <StatCard label="Conversations" value={`${conversationStarters.length}`} sub="Starter topics ready" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="insight">
+            Financial alignment score is {alignmentScore}/100 &mdash; you and Channelle are aligned in {alignedCount} areas. Address the top friction point to jump 10+ points.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Use the conversation starters before your next money date. Structured questions prevent arguments and build financial partnership.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -184,6 +205,13 @@ export default function CoupleSyncPage() {
           </Card>
         </div>
       </section>
+
+      {/* PARTNER COMPARISON WIDGET */}
+      <ScrollReveal>
+        <PartnerComparison />
+      </ScrollReveal>
+
+      <QuickTip page="couplesync" />
     </div>
   );
 }

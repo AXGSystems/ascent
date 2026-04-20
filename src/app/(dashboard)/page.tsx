@@ -38,6 +38,9 @@ import TrendMini from '@/components/TrendMini';
 import UpcomingEvents from '@/components/UpcomingEvents';
 import WelcomeTour from '@/components/WelcomeTour';
 import QuickTip from '@/components/QuickTip';
+import SpendingHeatmap from '@/components/SpendingHeatmap';
+import NetWorthTimeline from '@/components/NetWorthTimeline';
+import WeeklyDigest from '@/components/WeeklyDigest';
 import Link from 'next/link';
 
 const currentNW = nwHistory[nwHistory.length - 1].v;
@@ -692,6 +695,21 @@ export default function HomePage() {
             </ExpandableCard>
           </ScrollReveal>
         </div>
+      </div>
+
+      {/* WEEKLY DIGEST */}
+      <ScrollReveal>
+        <WeeklyDigest />
+      </ScrollReveal>
+
+      {/* SPENDING HEATMAP + NET WORTH TIMELINE */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <ScrollReveal>
+          <SpendingHeatmap />
+        </ScrollReveal>
+        <ScrollReveal delay={100}>
+          <NetWorthTimeline />
+        </ScrollReveal>
       </div>
 
       {/* QUICK TIP */}

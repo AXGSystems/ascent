@@ -5,6 +5,12 @@ import { cn } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const trustScore = 74;
 
@@ -41,8 +47,8 @@ export default function PartnerPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Partner Trust Score</p>
-              <p className="text-4xl md:text-5xl font-black tabular-nums text-white">{trustScore}<span className="text-lg font-normal text-white/50">/100</span></p>
+              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1"><LearnTooltip term="Diversification"><span>Partner Trust Score</span></LearnTooltip></p>
+              <p className="text-4xl md:text-5xl font-black tabular-nums text-white"><CountUp value={trustScore} /><span className="text-lg font-normal text-white/50">/100</span></p>
               <p className="mt-2 text-sm text-white/60">Transparency and account health between partners</p>
             </div>
             <div className="flex items-center gap-3">
@@ -55,12 +61,26 @@ export default function PartnerPage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Trust Score" value={`${trustScore}/100`} accent="text-brand-gold" sub="Needs improvement" />
         <StatCard label="Audit Events" value={`${auditTrail.length}`} sub="Last 60 days" />
         <StatCard label="Deleted Txns" value={`${deletedTransactions.length}`} accent="text-brand-red" sub="Pending review" />
         <StatCard label="Sync Health" value="83%" sub="5/6 accounts connected" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="insight">
+            Trust score is {trustScore}/100 &mdash; reconnecting Cap One Savings would push it to 89. Transparency builds financial alignment.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Joint finances require openness. Schedule a monthly money date to review the audit trail together without judgment.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Audit Trail + Settings */}
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -141,6 +161,9 @@ export default function PartnerPage() {
           </Card>
         </div>
       </div>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="partner" />
     </div>
   );
 }

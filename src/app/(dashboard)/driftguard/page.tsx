@@ -6,6 +6,12 @@ import StatCard from '@/components/StatCard';
 import AreaChart from '@/components/AreaChart';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const driftRate = 28;
 const prevDriftRate = 22;
@@ -31,7 +37,7 @@ export default function DriftGuardPage() {
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Drift Rate</p>
-              <p className="text-6xl font-black tabular-nums text-white">{driftRate}%</p>
+              <p className="text-6xl font-black tabular-nums text-white"><CountUp value={driftRate} suffix="%" /></p>
               <p className="text-sm text-red-300 font-medium mt-1">
                 {'\u25B2'} +{driftRate - prevDriftRate}% vs last quarter
               </p>
@@ -41,12 +47,26 @@ export default function DriftGuardPage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Drift Rate" value={`${driftRate}%`} trend="up" trendLabel="+6% vs Q4" accent="text-brand-gold" />
         <StatCard label="Income Growth" value={`${latestData.incomeGrowth}%`} sub="Year over year" accent="text-brand-green" />
         <StatCard label="Spending Growth" value={`${latestData.spendingGrowth}%`} sub="Year over year" accent="text-brand-red" />
         <StatCard label="Spend Gap" value={`${spendGap}%`} sub="Spending outpacing income" trend="up" trendLabel="Warning" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="warning">
+            Lifestyle <LearnTooltip term="Inflation"><span>inflation</span></LearnTooltip> is the silent wealth killer. Your spending is growing {spendGap}% faster than your income &mdash; time to course correct.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Set a lifestyle cap: limit spending growth to your income growth rate. Automate savings increases every time you get a raise.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -70,7 +90,7 @@ export default function DriftGuardPage() {
             <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">Drift Rate Gauge</h2>
             <div className="flex flex-col items-center py-4">
               <div className="relative w-48 h-24 overflow-hidden">
-                <svg viewBox="0 0 200 100" className="w-full h-full">
+                <svg viewBox="0 0 200 100" className="w-full h-full" aria-hidden="true">
                   <path d="M 10 100 A 90 90 0 0 1 190 100" fill="none" stroke="var(--border-color)" strokeWidth="16" strokeLinecap="round" />
                   <path d="M 10 100 A 90 90 0 0 1 190 100" fill="none" stroke="url(#drift-gradient)" strokeWidth="16" strokeLinecap="round" strokeDasharray={`${driftRate * 2.82} 282`} />
                   <defs>
@@ -142,6 +162,9 @@ export default function DriftGuardPage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="driftguard" />
     </div>
   );
 }

@@ -8,6 +8,12 @@ import Badge from '@/components/Badge';
 import BarChart from '@/components/BarChart';
 import ProgressBar from '@/components/ProgressBar';
 import { useStore } from '@/lib/store';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const byType = (type: string) => accounts.filter((a) => a.type === type);
 const totalVal = (accts: typeof accounts) => accts.reduce((a, c) => a + c.value, 0);
@@ -38,7 +44,7 @@ export default function AccountsPage() {
                 Accounts Overview
               </p>
               <p className="text-4xl md:text-5xl font-black tabular-nums text-white">
-                {fmtCurrency(netWorth)}
+                <CountUp value={netWorth} prefix="$" />
               </p>
               <p className="mt-2 text-sm text-white/50">
                 {accounts.length} linked accounts - {okCount} synced
@@ -54,12 +60,26 @@ export default function AccountsPage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Total Assets" value={fmtCurrency(totalAssets)} accent="text-brand-green" />
         <StatCard label="Total Debt" value={fmtCurrency(totalDebt)} accent="text-brand-red" />
         <StatCard label="Synced" value={`${okCount}/${accounts.length}`} sub="Accounts connected" />
         <StatCard label="Issues" value={`${issueCount}`} accent="text-brand-gold" sub="Need attention" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="tip">
+            Keep at least 2 months of expenses in checking as a buffer. Move everything above that to a <LearnTooltip term="HYSA"><span>high-yield savings account</span></LearnTooltip>.
+          </AdvisorTip>
+          <AdvisorTip type="warning">
+            {issueCount} account{issueCount !== 1 ? 's' : ''} need attention &mdash; stale connections mean your <LearnTooltip term="Net Worth"><span>net worth</span></LearnTooltip> and budget data may be off.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Balance Distribution Chart */}
       <Card>
@@ -184,6 +204,9 @@ export default function AccountsPage() {
           </section>
         );
       })}
+    
+      {/* QUICK TIP */}
+      <QuickTip page="accounts" />
     </div>
   );
 }

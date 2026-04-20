@@ -6,6 +6,11 @@ import { cn } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 type AlertType = 'overspending' | 'bill' | 'goal' | 'sync' | 'security' | 'insight';
 
@@ -59,7 +64,7 @@ export default function AlertsPage() {
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
-            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Alerts</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1"><LearnTooltip term="Overdraft"><span>Alerts</span></LearnTooltip></p>
             <p className="text-4xl md:text-5xl font-black text-white tabular-nums">{unread} <span className="text-lg font-normal text-white/50">unread</span></p>
             <p className="mt-2 text-sm text-white/60">{alertItems.length} total alerts</p>
           </div>
@@ -67,12 +72,26 @@ export default function AlertsPage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Unread" value={`${unread}`} accent="text-brand-red" sub="Need attention" />
         <StatCard label="Total" value={`${alertItems.length}`} sub="All alerts" />
         <StatCard label="Types" value="6" sub="Alert categories" />
         <StatCard label="Channels" value="3" sub="Email, SMS, Push" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="tip">
+            Enable SMS alerts for bills over $100 &mdash; never miss a big payment. Addressing overage alerts today prevents bigger problems next month.
+          </AdvisorTip>
+          <AdvisorTip type="insight">
+            You have {unread} unread alerts. Staying on top of alerts is one of the simplest ways to protect your finances.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Alert History + Preferences */}
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -181,6 +200,9 @@ export default function AlertsPage() {
           </Card>
         </div>
       </div>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="alerts" />
     </div>
   );
 }

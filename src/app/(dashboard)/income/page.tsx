@@ -7,6 +7,12 @@ import StatCard from '@/components/StatCard';
 import LineChart from '@/components/LineChart';
 import DonutChart from '@/components/DonutChart';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const totalMonthly = incomeSources.reduce((a, s) => a + s.amountNum, 0);
 const totalAnnual = totalMonthly * 12;
@@ -32,19 +38,33 @@ export default function IncomePage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Monthly Income</p>
-            <p className="text-4xl md:text-5xl font-black tabular-nums text-white">~{fmtCurrency(totalMonthly)}</p>
+            <p className="text-4xl md:text-5xl font-black tabular-nums text-white">~<CountUp value={totalMonthly} prefix="$" /></p>
             <p className="mt-2 text-sm text-white/60">{incomeSources.length} income sources - {fmtCurrency(totalAnnual)}/yr estimated</p>
           </div>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Monthly Est." value={`~${fmtCurrency(totalMonthly)}`} sub="All sources" />
         <StatCard label="12mo Average" value={fmtCurrency(avgIncome)} sub="Per month" />
         <StatCard label="Sources" value={`${incomeSources.length}`} sub="Active income streams" />
         <StatCard label="Next Payment" value="Apr 15" sub="Freelance (Channelle)" accent="text-brand-gold" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="insight">
+            Your income is diversified across {incomeSources.length} sources &mdash; top 10% of households for income diversification.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Multiple <LearnTooltip term="Passive Income"><span>income streams</span></LearnTooltip> reduce financial risk. Track each source to spot trends early.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Content */}
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -123,6 +143,9 @@ export default function IncomePage() {
           </Card>
         </div>
       </div>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="income" />
     </div>
   );
 }

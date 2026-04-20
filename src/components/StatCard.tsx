@@ -15,7 +15,7 @@ interface StatCardProps {
   href?: string;
 }
 
-export default function StatCard({ label, value, sub, trend, trendLabel, accent, onClick, tooltip, href }: StatCardProps) {
+export default function StatCard({ label, value, sub, trend, trendLabel, accent, onClick, tooltip }: StatCardProps) {
   return (
     <Card onClick={onClick} className="group min-h-[100px] hover:bg-gradient-to-br hover:from-[var(--bg-card-hover)] hover:to-[var(--bg-card)]">
       <p

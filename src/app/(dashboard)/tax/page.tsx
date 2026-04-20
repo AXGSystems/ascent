@@ -6,11 +6,16 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import DonutChart from '@/components/DonutChart';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const totalDeductions = taxDeductions.reduce((a, d) => a + d.amount, 0);
 const claimed = taxDeductions.filter((d) => d.status === 'claimed');
 const potential = taxDeductions.filter((d) => d.status === 'potential');
-const review = taxDeductions.filter((d) => d.status === 'review');
 const claimedTotal = claimed.reduce((a, d) => a + d.amount, 0);
 const potentialTotal = potential.reduce((a, d) => a + d.amount, 0);
 
@@ -52,19 +57,33 @@ export default function TaxPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">YTD Deductions</p>
-            <p className="text-4xl md:text-5xl font-black tabular-nums text-white">{fmtCurrency(totalDeductions)}</p>
+            <p className="text-4xl md:text-5xl font-black tabular-nums text-white"><CountUp value={totalDeductions} prefix="$" /></p>
             <p className="mt-2 text-sm text-white/60">{taxDeductions.length} deduction categories tracked</p>
           </div>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="YTD Total" value={fmtCurrency(totalDeductions)} sub={`${taxDeductions.length} categories`} />
         <StatCard label="Claimed" value={fmtCurrency(claimedTotal)} accent="text-brand-green" sub={`${claimed.length} items`} />
         <StatCard label="Potential" value={fmtCurrency(potentialTotal)} accent="text-brand-gold" sub={`${potential.length} items`} />
         <StatCard label="Est. Savings" value={fmtCurrency(totalDeductions * 0.22)} sub="At 22% bracket" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="tip">
+            You are $50 away from the itemization threshold &mdash; one more <LearnTooltip term="Tax Deduction"><span>charitable donation</span></LearnTooltip> could push you over and save hundreds.
+          </AdvisorTip>
+          <AdvisorTip type="insight">
+            Track <LearnTooltip term="Tax Deduction"><span>deductible expenses</span></LearnTooltip> year-round, not just at tax time. You may be missing $200+/month in potential deductions.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Content */}
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -145,6 +164,9 @@ export default function TaxPage() {
           </Card>
         </div>
       </div>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="tax" />
     </div>
   );
 }

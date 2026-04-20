@@ -5,6 +5,10 @@ import { feedbackItems } from '@/lib/data';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import QuickTip from '@/components/QuickTip';
 
 export default function FeedbackPage() {
   const [feedbackType, setFeedbackType] = useState<'feature' | 'bug'>('feature');
@@ -31,12 +35,26 @@ export default function FeedbackPage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Submitted" value={`${feedbackItems.length}`} sub="Total items" />
         <StatCard label="Open" value={`${feedbackItems.filter((f) => f.status === 'open').length}`} sub="Under review" />
         <StatCard label="Planned" value={`${feedbackItems.filter((f) => f.status === 'planned').length}`} sub="In roadmap" accent="text-brand-teal" />
         <StatCard label="Done" value={`${feedbackItems.filter((f) => f.status === 'done').length}`} sub="Shipped!" accent="text-brand-green" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="tip">
+            Feature requests help us build what YOU need &mdash; the most-requested features ship first. Your voice shapes the roadmap.
+          </AdvisorTip>
+          <AdvisorTip type="insight">
+            {feedbackItems.filter((f) => f.status === 'planned').length} of your suggestions are in the roadmap. Community feedback drives real product improvements.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Form + History */}
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -129,6 +147,9 @@ export default function FeedbackPage() {
           </div>
         </Card>
       </div>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="feedback" />
     </div>
   );
 }

@@ -7,6 +7,9 @@ import { cn, statusColor } from '@/lib/utils';
 import Card from '@/components/Card';
 import Avatar from '@/components/Avatar';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import ScrollReveal from '@/components/ScrollReveal';
+import QuickTip from '@/components/QuickTip';
 
 function Toggle({ on, onToggle, label }: { on: boolean; onToggle: () => void; label: string }) {
   return (
@@ -64,6 +67,18 @@ export default function SettingsPage() {
           </div>
         </div>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="tip">
+            Review your connected accounts and notification preferences monthly to make sure everything is current.
+          </AdvisorTip>
+          <AdvisorTip type="insight">
+            Enabling the weekly summary notification keeps you informed without daily noise &mdash; the best balance of awareness and peace.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Profile Details */}
       <Card>
@@ -244,6 +259,9 @@ export default function SettingsPage() {
       </Card>
 
       {/* Version info is in the global dashboard footer */}
+    
+      {/* QUICK TIP */}
+      <QuickTip page="settings" />
     </div>
   );
 }

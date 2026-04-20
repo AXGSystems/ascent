@@ -6,6 +6,12 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Badge from '@/components/Badge';
 import BarChart from '@/components/BarChart';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const totalSavings = billAuditItems.reduce((a, b) => a + b.savings, 0);
 const annualSavings = totalSavings * 12;
@@ -24,20 +30,34 @@ export default function BillAuditPage() {
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
-            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Bill Audit</p>
-            <p className="text-4xl md:text-5xl font-black tabular-nums text-white">{fmtCurrency(totalSavings)}<span className="text-lg font-normal text-white/50">/mo savings</span></p>
+            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1"><LearnTooltip term="Recurring Expense"><span>Bill Audit</span></LearnTooltip></p>
+            <p className="text-4xl md:text-5xl font-black tabular-nums text-white"><CountUp value={totalSavings} prefix="$" /><span className="text-lg font-normal text-white/50">/mo savings</span></p>
             <p className="mt-2 text-sm text-emerald-300 font-semibold">{fmtCurrency(annualSavings)}/yr potential savings found</p>
           </div>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Monthly Savings" value={fmtCurrency(totalSavings)} accent="text-brand-green" sub="If all applied" />
         <StatCard label="Annual Savings" value={fmtCurrency(annualSavings)} accent="text-brand-green" sub="Projected yearly" />
         <StatCard label="Opportunities" value={`${billAuditItems.length}`} sub="Bills analyzed" />
         <StatCard label="Actionable" value={`${actionable.length}`} accent="text-brand-teal" sub="Ready to apply" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="celebration">
+            {fmtCurrency(annualSavings)}/yr in potential savings found! Most people overpay for insurance, internet, and phone by $100+/month.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            A yearly negotiation call can save $1,200+. Start with {actionable.length} actionable items &mdash; one phone call each could transform your budget.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Opportunities */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -93,6 +113,9 @@ export default function BillAuditPage() {
           horizontal
         />
       </Card>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="billaudit" />
     </div>
   );
 }

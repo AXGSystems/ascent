@@ -4,6 +4,11 @@ import { wealthPrintSections } from '@/lib/data';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const enabledSections = wealthPrintSections.filter((s) => s.enabled).length;
 
@@ -27,12 +32,26 @@ export default function WealthPrintPage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Report Sections" value={`${enabledSections}`} sub={`of ${wealthPrintSections.length} available`} accent="text-brand-teal" />
         <StatCard label="Last Generated" value="Apr 14" sub="2 days ago" />
         <StatCard label="Format" value="PDF" sub="Most popular" />
         <StatCard label="Status" value="Ready" sub="All data current" accent="text-brand-green" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="insight">
+            Your WealthPrint is a snapshot of your complete financial picture. Review it quarterly with your partner to stay aligned.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Share your WealthPrint PDF with a financial advisor for personalized feedback. Your <LearnTooltip term="Net Worth"><span>net worth</span></LearnTooltip> trend tells a powerful story.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -150,6 +169,9 @@ export default function WealthPrintPage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="wealthprint" />
     </div>
   );
 }

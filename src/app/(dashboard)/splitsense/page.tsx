@@ -4,8 +4,13 @@ import { sharedExpenses } from '@/lib/data';
 import { fmtCurrency } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
-import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const christianIncome = 4280;
 const channelleIncome = 2800;
@@ -31,7 +36,7 @@ export default function SplitSensePage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">SplitSense</p>
+              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1"><LearnTooltip term="Cash Flow"><span>SplitSense</span></LearnTooltip></p>
               <h1 className="sr-only">SplitSense — Intelligent Expense Splitting</h1>
               <p className="text-3xl md:text-4xl font-black text-white">Intelligent Expense Splitting</p>
               <p className="mt-2 text-sm text-white/70">Fair, proportional, transparent expense sharing.</p>
@@ -39,7 +44,7 @@ export default function SplitSensePage() {
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Running Balance</p>
               <p className="text-4xl font-black tabular-nums text-white">
-                {fmtCurrency(Math.abs(balance))}
+                <CountUp value={Math.abs(balance)} prefix="$" />
               </p>
               <p className="text-sm text-white/60 mt-1">
                 {balance > 0 ? 'Channelle owes Christian' : 'Christian owes Channelle'}
@@ -50,12 +55,26 @@ export default function SplitSensePage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Christian Income" value={fmtCurrency(christianIncome)} sub={`${christianPercent}% of total`} accent="text-brand-teal" />
         <StatCard label="Channelle Income" value={fmtCurrency(channelleIncome)} sub={`${channellePercent}% of total`} accent="text-brand-gold" />
         <StatCard label="Split Ratio" value={`${christianPercent}/${channellePercent}`} sub="Proportional" />
         <StatCard label="Total Shared" value={fmtCurrency(totalShared)} sub="This month" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="insight">
+            Fair does not always mean 50/50. Your proportional split ({christianPercent}/{channellePercent}) reflects income differences and keeps things equitable.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Settle up weekly to prevent running balances from becoming friction points. Regular settling keeps both partners feeling respected.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -200,6 +219,9 @@ export default function SplitSensePage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="splitsense" />
     </div>
   );
 }

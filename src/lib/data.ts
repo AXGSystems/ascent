@@ -758,4 +758,24 @@ export const coachResponses: CoachResponses = {
     'At current pace:\n- End of April: $84,800\n- End of Q2: $89,200\n- End of Year: $115,400\n\nWith bill audit savings applied:\n- End of Year: $117,200 (+$1,764)',
   Budget:
     "April budget: $4,600 total, $2,920 spent (63%).\n\nYou have $1,680 left across 12 days ($140/day safe rate).\n\nShopping is $35 over cap. All other categories are tracking within limits.\n\nAt this pace, you'll finish April with ~$1,000 surplus.",
+  Mortgage:
+    "Your mortgage is $2,000/month on autopay — great. At current rates, you're paying ~$480/month in interest. Making one extra payment per year ($2,000) cuts 4 years off a 30-year loan and saves $42,000+ in interest. You could also round up to $2,200/month for a similar effect with less impact on monthly cash flow.",
+  'Savings Account':
+    "You have $20,600 in savings across Chase and Cap One. Chase Savings earns ~0.01% APY — that's $2/year on $20K. Moving to a HYSA like Marcus (4.5% APY) earns $927/year instead. That's $925 of free money you're leaving on the table. Keep 2 months expenses in checking, move the rest.",
+  'Credit Cards':
+    "Your Chase Visa has a $1,800 balance at 22.99% APR — that's $34/month in interest alone. Paying the minimum ($45) means $11 goes to principal. At that rate, payoff takes 7+ years. Double your payment to $90 and you'll be clear in 24 months, saving $1,100 in interest. Consider a 0% balance transfer card.",
+  'Student Loans':
+    "Student loan: $14,200 at 5.5% with $320/month payment. You're on track for payoff in ~4 years. Refinancing to 4.0% would save $820 in total interest. However, you'd lose federal protections (income-driven repayment, forgiveness options). Since you have stable ALTA income, refinancing may be worth it. Run the numbers in Forecast.",
+  'Car Buying':
+    "Your car loan is $8,400 at 4.2% — reasonable rate. It'll be paid off in ~22 months. When it's time for the next car, buy 1-2 years used to avoid 20% first-year depreciation. Save $300/month in your New Car nest starting now — you'll have $6,600+ by payoff time. Aim for 20% down to keep the next loan manageable.",
+  'Wedding Planning':
+    "Your Wedding Fund has $1,200 of $5,000 saved at $30/week. At this pace, you'll hit $5,000 in about 27 weeks (October 2026). The average wedding costs $30K, but amazing weddings happen at every budget. Lock in venue early (biggest cost), DIY where Channelle's creative skills shine, and set a hard cap. Every $100 saved here is $100 toward your house fund.",
+  'Baby Costs':
+    "Planning for a baby at age 32 means ~4 years to prepare. Average first-year cost: $12,000-$15,000 (gear, diapers, medical, childcare). Start a 'Baby Fund' nest saving $250/month now — you'll have $12,000 by then. Channelle's freelance income may shift; build 4-6 months expenses in emergency fund as buffer. Check if ALTA offers dependent care FSA ($5,000 pre-tax).",
+  'Home Repairs':
+    "As future homeowners, budget 1-2% of home value annually for repairs. On a $300K home, that's $3,000-$6,000/year. Create a 'Home Maintenance' sinking fund saving $250-500/month. Common first-5-year costs: HVAC ($5K-$8K), roof repairs ($1K-$3K), appliance replacements ($500-$2K each). Prevention saves 5x the cost of emergency repairs.",
+  'Vacation Budgeting':
+    "Your Hawaii fund is at $1,800 of $4,000 (45%). At $25/week, you'll reach it by October. Pro tip: book flights 6-8 weeks out for best prices, use credit card points for the hotel, and set a daily vacation budget of $150/day for food + activities. That's ~$1,050 for a 7-day trip on top of flights/hotel. Total trip: ~$3,500-$4,000. You're right on track!",
+  'Grocery Savings':
+    "You spend $480/month on groceries (Whole Foods $1,240/yr, Costco $480/yr, Trader Joe's $340/yr). Quick wins: 1) Shift 50% of Whole Foods trips to Costco/TJ's → save $200/month. 2) Meal prep Sundays → reduce Uber Eats by $60/month. 3) Use Costco Executive membership ($120/yr) for 2% back → $115/yr cashback. Total potential savings: $3,500/year.",
 };

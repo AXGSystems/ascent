@@ -32,6 +32,7 @@ export const navigation: NavSection[] = [
       { label: 'Forecast', href: '/forecast', icon: 'trending-up' },
       { label: 'Fee Analyzer', href: '/fees', icon: 'percent' },
       { label: 'Bill Audit', href: '/billaudit', icon: 'file-text' },
+      { label: 'Health Check', href: '/healthcheck', icon: 'activity' },
     ],
   },
   {
@@ -80,6 +81,7 @@ export const navigation: NavSection[] = [
       { label: 'Sync', href: '/sync', icon: 'refresh' },
       { label: 'Export', href: '/export', icon: 'download' },
       { label: 'Feedback', href: '/feedback', icon: 'message-square' },
+      { label: 'Glossary', href: '/glossary', icon: 'book' },
     ],
   },
 ];

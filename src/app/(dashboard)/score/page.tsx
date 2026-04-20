@@ -6,6 +6,12 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const overallScore = 742;
 const maxScore = 1000;
@@ -68,7 +74,7 @@ export default function ScorePage() {
               />
             </svg>
             <div className="-mt-16">
-              <p className="text-5xl font-black text-white tabular-nums">{overallScore}</p>
+              <p className="text-5xl font-black text-white tabular-nums"><CountUp value={overallScore} /></p>
               <p className="text-sm text-white/50">out of {maxScore}</p>
             </div>
             <p className="mt-3 text-sm text-emerald-300 font-semibold">Good - Keep improving!</p>
@@ -77,12 +83,26 @@ export default function ScorePage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Overall" value={`${overallScore}`} sub={`/${maxScore}`} accent="text-brand-teal" />
         <StatCard label="Best Score" value="Bill Health" sub="95/100" trend="flat" trendLabel="Stable" />
         <StatCard label="Needs Work" value="Emergency" sub="28/100" accent="text-brand-red" trend="up" trendLabel="Improving" />
         <StatCard label="Potential" value="+98 pts" sub="5 actions available" accent="text-brand-green" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="celebration">
+            Your <LearnTooltip term="A$cent Score"><span>A$cent Score</span></LearnTooltip> improved 12 points this month! Consistency is your superpower.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Focus on your lowest sub-score for the biggest improvement &mdash; right now that is Emergency Fund at 28/100.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Sub-Scores + Improvements */}
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -137,6 +157,9 @@ export default function ScorePage() {
           </div>
         </Card>
       </div>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="score" />
     </div>
   );
 }

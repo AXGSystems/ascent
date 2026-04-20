@@ -4,8 +4,6 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import { coachResponses } from '@/lib/data';
 import { dailyInsights } from '@/lib/education';
 import { cn } from '@/lib/utils';
-import AdvisorTip from '@/components/AdvisorTip';
-import ScrollReveal from '@/components/ScrollReveal';
 import QuickTip from '@/components/QuickTip';
 
 interface ChatMessage {

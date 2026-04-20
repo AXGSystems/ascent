@@ -7,6 +7,12 @@ import StatCard from '@/components/StatCard';
 import ProgressBar from '@/components/ProgressBar';
 import LineChart from '@/components/LineChart';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const totalSaved = nests.reduce((a, n) => a + n.current, 0);
 const totalGoals = nests.reduce((a, n) => a + n.goal, 0);
@@ -48,7 +54,7 @@ export default function NestsPage() {
           <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Total Saved</p>
-              <p className="text-4xl md:text-5xl font-black tabular-nums text-white">{fmtCurrency(totalSaved)}</p>
+              <p className="text-4xl md:text-5xl font-black tabular-nums text-white"><CountUp value={totalSaved} prefix="$" /></p>
               <p className="mt-2 text-sm text-white/60">{overallPct}% of {fmtCurrency(totalGoals)} across {nests.length} nests</p>
             </div>
             <button type="button" className="px-4 py-2 rounded-xl bg-white/15 hover:bg-white/25 transition-colors text-white text-sm font-medium">
@@ -59,7 +65,8 @@ export default function NestsPage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Total Saved" value={fmtCurrency(totalSaved)} sub={`of ${fmtCurrency(totalGoals)}`} />
         <StatCard label="Active Nests" value={`${nests.length}`} sub="Savings goals" />
         <StatCard label="Monthly Auto" value={fmtCurrency(nests.reduce((a, n) => {
@@ -67,7 +74,20 @@ export default function NestsPage() {
           return a + n.autoAmount * mult;
         }, 0))} sub="Auto-contributions" />
         <StatCard label="Completion" value={`${overallPct}%`} sub="Overall progress" accent="text-brand-teal" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="celebration">
+            Hawaii Trip is 45% funded &mdash; at current pace you will get there by October! Keep those auto-contributions flowing.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Naming your savings goals makes them real. Your <LearnTooltip term="Sinking Fund"><span>sinking funds</span></LearnTooltip> are the engine that powers guilt-free spending.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Nest Cards */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -119,6 +139,9 @@ export default function NestsPage() {
           </div>
         </Card>
       </div>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="nests" />
     </div>
   );
 }

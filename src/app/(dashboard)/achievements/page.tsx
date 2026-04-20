@@ -6,6 +6,12 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const done = achievements.filter((a) => a.done);
 const inProgress = achievements.filter((a) => !a.done);
@@ -39,20 +45,34 @@ export default function AchievementsPage() {
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative text-center">
-            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Achievements</p>
-            <p className="text-4xl md:text-5xl font-black text-white tabular-nums">{done.length}<span className="text-lg font-normal text-white/50"> / {achievements.length}</span></p>
+            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1"><LearnTooltip term="Financial Independence"><span>Achievements</span></LearnTooltip></p>
+            <p className="text-4xl md:text-5xl font-black text-white tabular-nums"><CountUp value={done.length} /><span className="text-lg font-normal text-white/50"> / {achievements.length}</span></p>
             <p className="mt-2 text-sm text-white/60">Keep going! {inProgress.length} in progress</p>
           </div>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Completed" value={`${done.length}`} accent="text-brand-green" sub="Achievements" />
         <StatCard label="In Progress" value={`${inProgress.length}`} sub="Working on it" />
         <StatCard label="Current Streak" value="14 days" accent="text-brand-teal" sub="Under budget" />
         <StatCard label="Best Streak" value="14 days" sub="This month!" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="insight">
+            You have unlocked {done.length} of {achievements.length} achievements &mdash; {inProgress.length} more are within reach this month!
+          </AdvisorTip>
+          <AdvisorTip type="celebration">
+            14-day budget streak! Consistency beats intensity &mdash; you are building wealth-building habits that compound over time.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Achievement Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -136,6 +156,9 @@ export default function AchievementsPage() {
           </div>
         </Card>
       </div>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="achievements" />
     </div>
   );
 }

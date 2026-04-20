@@ -134,6 +134,9 @@ export const pageTips: Record<string, string> = {
   moneydate: 'A weekly 15-minute money check-in is more effective than an annual deep dive. Make it a ritual, not a chore.',
   lifeline: 'Major life events reshape your finances. Planning for them reduces stress and helps you enjoy the journey.',
   billaudit: 'Most people overpay for insurance, internet, and phone by $100+/month. A yearly negotiation call can save $1,200+.',
+  achievements: 'You earn achievements by building consistent habits. Focus on streaks — they compound just like interest.',
+  fees: 'Even a 0.1% difference in expense ratios can cost you tens of thousands over a career. Choose low-cost index funds.',
+  messages: 'Use the household chat for money conversations. Written discussions reduce misunderstandings and create a record.',
 };
 
 // Daily insights — one for each day of the month

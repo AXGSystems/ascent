@@ -6,6 +6,11 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import LineChart from '@/components/LineChart';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const enabledEvents = lifeEvents.filter((e) => e.enabled);
 const totalImpact = enabledEvents.reduce((a, e) => a + e.monthlyImpact, 0);
@@ -32,12 +37,26 @@ export default function LifeLinePage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Active Events" value={`${enabledEvents.length}`} sub={`of ${lifeEvents.length} planned`} accent="text-brand-teal" />
         <StatCard label="Total Cost" value={fmtCurrency(totalCost)} sub="One-time costs" accent="text-brand-red" />
         <StatCard label="Monthly Impact" value={fmtCurrency(totalImpact)} sub="Net cash flow change" trend={totalImpact < 0 ? 'down' : 'up'} trendLabel={totalImpact < 0 ? 'Negative' : 'Positive'} />
         <StatCard label="Next Event" value={nextEvent?.name ?? 'None'} sub={nextEvent ? `Age ${nextEvent.targetAge}` : ''} />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="insight">
+            Major life events reshape your finances. Planning for {enabledEvents.length} upcoming events reduces stress and helps you enjoy the journey.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Start saving for big events 2-3 years early. Even small monthly <LearnTooltip term="Sinking Fund"><span>sinking fund</span></LearnTooltip> contributions add up to stress-free milestones.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -140,6 +159,9 @@ export default function LifeLinePage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="lifeline" />
     </div>
   );
 }

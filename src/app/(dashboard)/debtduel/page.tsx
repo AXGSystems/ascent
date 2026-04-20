@@ -6,6 +6,12 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const christianPoints = debtDuelMoves.filter((m) => m.who === 'Christian').reduce((a, m) => a + m.points, 0);
 const channellePoints = debtDuelMoves.filter((m) => m.who === 'Channelle').reduce((a, m) => a + m.points, 0);
@@ -34,7 +40,7 @@ export default function DebtDuelPage() {
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Debt Remaining</p>
-              <p className="text-4xl font-black tabular-nums text-white">{fmtCurrency(totalDebt)}</p>
+              <p className="text-4xl font-black tabular-nums text-white"><CountUp value={totalDebt} prefix="$" /></p>
               <p className="text-sm text-emerald-300 font-medium mt-1">{debtPercent}% conquered</p>
             </div>
           </div>
@@ -42,12 +48,26 @@ export default function DebtDuelPage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Christian Points" value={`${christianPoints}`} sub="pts earned" accent="text-brand-teal" />
         <StatCard label="Channelle Points" value={`${channellePoints}`} sub="pts earned" accent="text-brand-gold" />
         <StatCard label="Interest Saved" value={fmtCurrency(totalSavedInterest)} sub="By paying extra" accent="text-brand-green" />
         <StatCard label="Progress" value={`${debtPercent}%`} sub="Debt conquered" trend="up" trendLabel="On track" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="celebration">
+            {debtPercent}% of debt conquered! You have saved {fmtCurrency(totalSavedInterest)} in interest by paying extra. Keep climbing the mountain!
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Gamifying <LearnTooltip term="Debt Snowball"><span>debt payoff</span></LearnTooltip> makes it fun. The no-spend weekend challenge alone could earn you both 50 bonus points.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -177,6 +197,9 @@ export default function DebtDuelPage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="debtduel" />
     </div>
   );
 }

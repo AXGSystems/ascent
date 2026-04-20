@@ -5,6 +5,12 @@ import { fmtCurrency } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import ProgressBar from '@/components/ProgressBar';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const grossPay = 4280;
 const totalAllocated = paycheckAllocations.reduce((a, p) => a + p.amount, 0);
@@ -28,7 +34,7 @@ export default function PaycheckMapPage() {
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Latest Paycheck</p>
-              <p className="text-5xl font-black tabular-nums text-white">{fmtCurrency(grossPay)}</p>
+              <p className="text-5xl font-black tabular-nums text-white"><CountUp value={grossPay} prefix="$" /></p>
               <p className="text-sm text-white/60 mt-1">ALTA Payroll - Apr 11</p>
             </div>
           </div>
@@ -36,7 +42,8 @@ export default function PaycheckMapPage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         {paycheckAllocations.map((alloc) => (
           <StatCard
             key={alloc.label}
@@ -45,7 +52,20 @@ export default function PaycheckMapPage() {
             sub={`${alloc.percent}% of paycheck`}
           />
         ))}
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="insight">
+            Knowing exactly where your paycheck goes removes anxiety. Your bills take 49%, savings 15%, and flex spending 34%.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Follow the <LearnTooltip term="Budget"><span>50/30/20 rule</span></LearnTooltip>: your savings are at 15% vs the 20% target. Boosting auto-save by $5/day closes that gap.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -203,6 +223,9 @@ export default function PaycheckMapPage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="paycheckmap" />
     </div>
   );
 }

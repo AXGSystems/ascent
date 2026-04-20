@@ -13,6 +13,12 @@ import DonutChart from '@/components/DonutChart';
 import Sparkline from '@/components/Sparkline';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const impulseScore = impulseScoreTrend[impulseScoreTrend.length - 1];
 const prevImpulse = impulseScoreTrend[impulseScoreTrend.length - 2];
@@ -33,14 +39,14 @@ export default function MoneyMindPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">MoneyMind</p>
+              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1"><LearnTooltip term="Variable Spending"><span>MoneyMind</span></LearnTooltip></p>
               <h1 className="sr-only">MoneyMind — Behavioral Spending Autopsy</h1>
               <p className="text-3xl md:text-4xl font-black text-white">Behavioral Spending Autopsy</p>
               <p className="mt-2 text-sm text-white/70">Understand the emotions behind every dollar you spend.</p>
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Impulse Score</p>
-              <p className="text-5xl font-black tabular-nums text-white">{impulseScore}</p>
+              <p className="text-5xl font-black tabular-nums text-white"><CountUp value={impulseScore} /></p>
               <p className="text-sm text-emerald-300 font-medium mt-1">
                 {impulseScore < prevImpulse ? '\u25BC' : '\u25B2'} {Math.abs(impulseScore - prevImpulse)} pts vs last month
               </p>
@@ -50,12 +56,26 @@ export default function MoneyMindPage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Impulse Score" value={`${impulseScore}/100`} trend="down" trendLabel="Lower is better" accent="text-brand-green" />
         <StatCard label="Regret Spend" value={fmtCurrency(totalRegretSpend)} sub="This month" accent="text-brand-red" />
         <StatCard label="Avg Regret Rate" value={`${avgRegretRate}%`} sub="Across categories" />
         <StatCard label="Joy Purchases" value="5%" sub="Could be higher" accent="text-purple-500" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="insight">
+            Understanding your spending psychology helps you make better decisions. {avgRegretRate}% average regret rate &mdash; awareness is the first step.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            The 24-hour cooling period is your best weapon against impulse spending. Enabling it for purchases over $50 could save hundreds per month.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -170,6 +190,9 @@ export default function MoneyMindPage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="moneymind" />
     </div>
   );
 }

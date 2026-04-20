@@ -8,6 +8,10 @@ import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
 import LearnTooltip from '@/components/LearnTooltip';
 import QuickTip from '@/components/QuickTip';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
 
 const current = creditHistory[creditHistory.length - 1];
 const prev = creditHistory[creditHistory.length - 2];
@@ -42,7 +46,7 @@ export default function CreditPage() {
                 </LearnTooltip>
               </p>
               <p className="text-6xl md:text-7xl font-black tabular-nums text-white">
-                {current.score}
+                <CountUp value={current.score} />
               </p>
               <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
                 <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white/20 text-white">
@@ -79,12 +83,26 @@ export default function CreditPage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="12-Month Change" value={`+${yearDelta}`} trend="up" trendLabel="Improving" accent="text-brand-green" />
         <StatCard label="Best Score" value={`${Math.max(...creditHistory.map((h) => h.score))}`} sub="All time high" />
         <StatCard label="Utilization" value="12%" sub="Keep under 30%" accent="text-brand-green" tooltip="Credit Utilization: The percentage of your available credit you're using. Keep it under 30% — ideally under 10% — for the best credit score impact." />
         <StatCard label="Avg Age" value="4.2 yr" sub="Average account age" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="warning">
+            Your <LearnTooltip term="Credit Utilization"><span>credit utilization</span></LearnTooltip> is at 12% &mdash; great! Getting under 10% could boost your score another 15-30 points.
+          </AdvisorTip>
+          <AdvisorTip type="celebration">
+            Your score is up +{yearDelta} points this year! Your 36+ month on-time payment streak is your biggest asset.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Chart */}
       <Card>

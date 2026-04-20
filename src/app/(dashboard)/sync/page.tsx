@@ -6,6 +6,12 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Badge from '@/components/Badge';
 import LineChart from '@/components/LineChart';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const connected = syncAccounts.filter((a) => a.status === 'connected').length;
 const warning = syncAccounts.filter((a) => a.status === 'warning').length;
@@ -54,19 +60,33 @@ export default function SyncPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Sync Status</p>
-            <p className="text-4xl md:text-5xl font-black text-white tabular-nums">{connected}<span className="text-lg font-normal text-white/50">/{syncAccounts.length} connected</span></p>
+            <p className="text-4xl md:text-5xl font-black text-white tabular-nums"><CountUp value={connected} /><span className="text-lg font-normal text-white/50">/{syncAccounts.length} connected</span></p>
             <p className="mt-2 text-sm text-white/60">{warning} warning, {disconnected} disconnected</p>
           </div>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Connected" value={`${connected}`} accent="text-brand-green" sub="Syncing normally" />
         <StatCard label="Warning" value={`${warning}`} accent="text-brand-gold" sub="Needs attention" />
         <StatCard label="Disconnected" value={`${disconnected}`} accent="text-brand-red" sub="Reconnect needed" />
         <StatCard label="Health" value={`${Math.round((connected / syncAccounts.length) * 100)}%`} sub="Overall sync health" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="warning">
+            {disconnected} account is 47 days stale &mdash; stale data means your budget and <LearnTooltip term="Net Worth"><span>net worth</span></LearnTooltip> are flying blind. Reconnect now.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Check sync status weekly. Healthy connections mean accurate data, and accurate data means better financial decisions.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Accounts + Timeline */}
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -129,6 +149,9 @@ export default function SyncPage() {
           </Card>
         </div>
       </div>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="sync" />
     </div>
   );
 }

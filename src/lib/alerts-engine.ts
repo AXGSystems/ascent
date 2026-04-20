@@ -55,8 +55,6 @@ export function generateAlerts(): SmartAlert[] {
   // --- STALE ACCOUNT ALERTS ---
   accounts.forEach((acct) => {
     if (acct.status === 'stale') {
-      const daysMatch = acct.lastSync.match(/(\d+)d/);
-      const days = daysMatch ? parseInt(daysMatch[1]) : 30;
       alerts.push({
         id: `sync-stale-${acct.name}`,
         type: 'urgent',

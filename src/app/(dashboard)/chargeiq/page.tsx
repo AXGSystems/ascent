@@ -10,6 +10,9 @@ import ProgressBar from '@/components/ProgressBar';
 import DonutChart from '@/components/DonutChart';
 import QuickTip from '@/components/QuickTip';
 import { useStore } from '@/lib/store';
+import AdvisorTip from '@/components/AdvisorTip';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
 
 const avgConfidence = Math.round(
   chargeIQDemoCharges.reduce((a, c) => a + c.confidence, 0) / chargeIQDemoCharges.length
@@ -79,12 +82,26 @@ export default function ChargeIQPage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Lookups" value={`${chargeIQDemoCharges.length}`} sub="Charges identified" />
         <StatCard label="Avg Confidence" value={`${avgConfidence}%`} accent="text-brand-green" sub="Identification accuracy" />
         <StatCard label="High Confidence" value={`${highConf}`} accent="text-brand-green" sub="90%+ match rate" />
         <StatCard label="Needs Review" value={`${medConf + lowConf}`} accent="text-brand-gold" sub="Below 90% confidence" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="tip">
+            Run ChargeIQ monthly &mdash; the average household has 2-3 mystery charges. Catching one fraudulent charge can save you hundreds.
+          </AdvisorTip>
+          <AdvisorTip type="insight">
+            {highConf} of {chargeIQDemoCharges.length} charges identified with high confidence. Review the lower-confidence matches manually.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Search */}
       <Card>

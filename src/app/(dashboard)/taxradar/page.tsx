@@ -4,8 +4,13 @@ import { taxThresholdAlerts, quarterlyPayments, taxDeductions } from '@/lib/data
 import { fmtCurrency } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
-import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const estimatedLiability = 8400;
 const effectiveRate = 12.8;
@@ -31,7 +36,7 @@ export default function TaxRadarPage() {
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Est. Tax Liability</p>
-              <p className="text-5xl font-black tabular-nums text-white">{fmtCurrency(estimatedLiability)}</p>
+              <p className="text-5xl font-black tabular-nums text-white"><CountUp value={estimatedLiability} prefix="$" /></p>
               <p className="text-sm text-white/60 mt-1">Effective rate: {effectiveRate}%</p>
             </div>
           </div>
@@ -39,12 +44,26 @@ export default function TaxRadarPage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Est. Liability" value={fmtCurrency(estimatedLiability)} sub="Federal + State" accent="text-brand-teal" />
         <StatCard label="Effective Rate" value={`${effectiveRate}%`} sub="Below avg for bracket" accent="text-brand-green" />
         <StatCard label="Deductions Found" value={fmtCurrency(totalDeductions)} sub={`${taxDeductions.length} categories`} />
         <StatCard label="Potential Savings" value={fmtCurrency(potentialSavings)} sub="From threshold alerts" accent="text-brand-green" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="tip">
+            <LearnTooltip term="Tax Deduction"><span>Tax-loss harvesting</span></LearnTooltip> and threshold awareness can save you thousands. You have {fmtCurrency(potentialSavings)} in potential savings from alerts alone.
+          </AdvisorTip>
+          <AdvisorTip type="insight">
+            Your effective tax rate is {effectiveRate}% &mdash; below average for your bracket. That means your deduction strategy is working.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -163,6 +182,9 @@ export default function TaxRadarPage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="taxradar" />
     </div>
   );
 }

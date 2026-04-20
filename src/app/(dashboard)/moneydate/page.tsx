@@ -6,6 +6,12 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
+import PartnerComparison from '@/components/PartnerComparison';
 
 const wins = [
   'Hit $82,450 net worth - all-time high!',
@@ -41,7 +47,7 @@ export default function MoneyDatePage() {
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative text-center">
-            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Money Date</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1"><LearnTooltip term="Budget"><span>Money Date</span></LearnTooltip></p>
             <p className="text-3xl md:text-4xl font-black text-white">Christian & Channelle</p>
             <p className="mt-2 text-sm text-white/60">April 2026 - Weekly Review</p>
           </div>
@@ -49,12 +55,26 @@ export default function MoneyDatePage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="C Spending" value="$780" sub="This month" />
         <StatCard label="Ch Spending" value="$1,060" sub="This month" accent="text-brand-gold" />
         <StatCard label="Combined" value="$1,840" sub="vs $2,300 budget" />
         <StatCard label="Date #5" value="Apr 19" sub="Upcoming" accent="text-brand-teal" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="celebration">
+            This is your 5th Money Date &mdash; couples who review finances together save 23% more than those who don&apos;t!
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            A weekly 15-minute money check-in is more effective than an annual deep dive. Make it a ritual, not a chore.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Spending Comparison + Wins */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -130,6 +150,13 @@ export default function MoneyDatePage() {
           </div>
         </Card>
       </div>
+
+      {/* PARTNER COMPARISON WIDGET */}
+      <ScrollReveal>
+        <PartnerComparison />
+      </ScrollReveal>
+
+      <QuickTip page="moneydate" />
     </div>
   );
 }

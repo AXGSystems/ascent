@@ -6,6 +6,12 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const avgScore = Math.round(spendShieldPurchases.reduce((a, p) => a + p.score, 0) / spendShieldPurchases.length);
 const flaggedCount = spendShieldPurchases.filter((p) => p.score < 50).length;
@@ -24,14 +30,14 @@ export default function SpendShieldPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">SpendShield</p>
+              <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1"><LearnTooltip term="Variable Spending"><span>SpendShield</span></LearnTooltip></p>
               <h1 className="sr-only">SpendShield — Real-Time Purchase Decision Engine</h1>
               <p className="text-3xl md:text-4xl font-black text-white">Purchase Decision Engine</p>
               <p className="mt-2 text-sm text-white/70">Real-time intelligence for every purchase.</p>
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">SpendShield Score</p>
-              <p className="text-5xl font-black tabular-nums text-white">{avgScore}</p>
+              <p className="text-5xl font-black tabular-nums text-white"><CountUp value={avgScore} /></p>
               <p className="text-sm text-white/60 mt-1">Average across purchases</p>
             </div>
           </div>
@@ -39,12 +45,26 @@ export default function SpendShieldPage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Avg Score" value={`${avgScore}/100`} sub="Higher is better" accent="text-brand-teal" />
         <StatCard label="Flagged" value={`${flaggedCount}`} sub="Low-score purchases" accent="text-brand-red" />
         <StatCard label="Analyzed" value={`${totalAnalyzed}`} sub="Purchases this week" />
         <StatCard label="Potential Saved" value={fmtCurrency(potentialSaved)} sub="If flagged items skipped" accent="text-brand-green" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="tip">
+            Before big purchases, check the SpendShield score. A score under 50 means you are likely to regret it &mdash; {flaggedCount} flagged this week.
+          </AdvisorTip>
+          <AdvisorTip type="insight">
+            If you had skipped all flagged purchases this week, you would have saved {fmtCurrency(potentialSaved)} for your savings goals.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -168,6 +188,9 @@ export default function SpendShieldPage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="spendshield" />
     </div>
   );
 }

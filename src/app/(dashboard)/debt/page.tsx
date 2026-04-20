@@ -5,6 +5,12 @@ import { fmtCurrency } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import LineChart from '@/components/LineChart';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const totalDebt = debtAccounts.reduce((a, d) => a + d.balance, 0);
 const totalMinPayment = debtAccounts.reduce((a, d) => a + d.minPayment, 0);
@@ -47,19 +53,33 @@ export default function DebtPage() {
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Total Debt</p>
-            <p className="text-4xl md:text-5xl font-black tabular-nums text-white">{fmtCurrency(totalDebt)}</p>
+            <p className="text-4xl md:text-5xl font-black tabular-nums text-white"><CountUp value={totalDebt} prefix="$" /></p>
             <p className="mt-2 text-sm text-white/60">{debtAccounts.length} accounts - {weightedRate.toFixed(1)}% weighted avg rate</p>
           </div>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Total Debt" value={fmtCurrency(totalDebt)} sub={`${debtAccounts.length} accounts`} />
         <StatCard label="Min Payment" value={fmtCurrency(totalMinPayment)} sub="Per month" />
         <StatCard label="Avg Rate" value={`${weightedRate.toFixed(1)}%`} accent="text-brand-red" sub="Weighted average" />
         <StatCard label="Payoff Est." value="~33 mo" sub="At minimum payments" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="tip">
+            Paying $50 extra on your highest-<LearnTooltip term="APR"><span>APR</span></LearnTooltip> debt saves hundreds in lifetime interest. The <LearnTooltip term="Debt Avalanche"><span>avalanche method</span></LearnTooltip> is mathematically optimal.
+          </AdvisorTip>
+          <AdvisorTip type="warning">
+            At minimum payments only, you will pay ~$4,200 in interest over 33 months. Even $100/mo extra cuts 6 months and saves $800.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Debt Table */}
       <Card>
@@ -145,6 +165,9 @@ export default function DebtPage() {
           ))}
         </div>
       </Card>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="debt" />
     </div>
   );
 }

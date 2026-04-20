@@ -6,6 +6,12 @@ import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import DonutChart from '@/components/DonutChart';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 import { useStore } from '@/lib/store';
 
 const totalMonthly = subscriptions.reduce((a, s) => a + s.amount, 0);
@@ -52,24 +58,41 @@ export default function SubscriptionsPage() {
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
-            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Subscriptions</p>
-            <p className="text-4xl md:text-5xl font-black tabular-nums text-white">{fmtCurrency(totalMonthly)}<span className="text-lg font-normal text-white/50">/mo</span></p>
+            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">
+              <LearnTooltip term="Subscription"><span>Subscriptions</span></LearnTooltip>
+            </p>
+            <p className="text-4xl md:text-5xl font-black tabular-nums text-white"><CountUp value={totalMonthly} prefix="$" /><span className="text-lg font-normal text-white/50">/mo</span></p>
             <p className="mt-2 text-sm text-white/60">{subscriptions.length} active subscriptions across {Object.keys(catTotals).length} categories</p>
           </div>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Monthly Total" value={fmtCurrency(totalMonthly)} sub={`${fmtCurrency(totalMonthly * 12)}/yr`} />
-        <StatCard label="Unused / Low" value={`${unused.length} subs`} accent="text-brand-red" sub="Score 3 or below" />
-        <StatCard label="Potential Savings" value={fmtCurrency(potentialSavings)} accent="text-brand-green" sub={`${fmtCurrency(potentialSavings * 12)}/yr`} />
-        <StatCard label="Avg Score" value={`${(subscriptions.reduce((a, s) => a + s.usageScore, 0) / subscriptions.length).toFixed(1)}/10`} sub="Usage score" />
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
+          <StatCard label="Monthly Total" value={fmtCurrency(totalMonthly)} sub={`${fmtCurrency(totalMonthly * 12)}/yr`} />
+          <StatCard label="Unused / Low" value={`${unused.length} subs`} accent="text-brand-red" sub="Score 3 or below" />
+          <StatCard label="Potential Savings" value={fmtCurrency(potentialSavings)} accent="text-brand-green" sub={`${fmtCurrency(potentialSavings * 12)}/yr`} />
+          <StatCard label="Avg Score" value={`${(subscriptions.reduce((a, s) => a + s.usageScore, 0) / subscriptions.length).toFixed(1)}/10`} sub="Usage score" />
+        </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="warning">
+            {unused.length} subscriptions flagged for low usage &mdash; {fmtCurrency(potentialSavings)}/mo potential savings. Cancel or downgrade to keep more money working for you.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Review your <LearnTooltip term="Subscription"><span>subscriptions</span></LearnTooltip> quarterly. The average household overspends $50/mo on unused services &mdash; that is $600/yr going nowhere.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Content */}
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
         {/* Subscription List */}
+        <ScrollReveal>
         <Card padding={false}>
           <div className="px-5 pt-5 pb-3">
             <h2 className="text-base font-bold text-[var(--text-primary)]">All Subscriptions</h2>
@@ -113,8 +136,10 @@ export default function SubscriptionsPage() {
             ))}
           </div>
         </Card>
+        </ScrollReveal>
 
         {/* Right Column */}
+        <ScrollReveal delay={100}>
         <div className="space-y-6">
           <Card>
             <h2 className="text-base font-bold text-[var(--text-primary)] mb-4">By Category</h2>
@@ -147,7 +172,11 @@ export default function SubscriptionsPage() {
             </div>
           </Card>
         </div>
+        </ScrollReveal>
       </div>
+
+      {/* QUICK TIP */}
+      <QuickTip page="subscriptions" />
     </div>
   );
 }

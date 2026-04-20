@@ -5,6 +5,11 @@ import { fmtCurrency, cn } from '@/lib/utils';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const totalProgress = moneyMemoryComparisons.reduce((a, c) => a + (c.changePercent > 0 ? 1 : 0), 0);
 const bestImprovement = moneyMemoryComparisons.sort((a, b) => Math.abs(b.changePercent) - Math.abs(a.changePercent))[0];
@@ -29,12 +34,26 @@ export default function MoneyMemoryPage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Areas Improved" value={`${totalProgress}/${moneyMemoryComparisons.length}`} sub="Year over year" accent="text-brand-green" />
         <StatCard label="Best Improvement" value={bestImprovement.label} sub={`${bestImprovement.changePercent > 0 ? '+' : ''}${bestImprovement.changePercent.toFixed(1)}%`} accent="text-brand-teal" />
         <StatCard label="NW Growth" value={fmtCurrency(moneyMemoryComparisons[0].change)} trend="up" trendLabel="+11.7%" accent="text-brand-green" />
         <StatCard label="Streak" value="12 mo" sub="Consecutive tracking" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="celebration">
+            In just 12 months, your <LearnTooltip term="Net Worth"><span>net worth</span></LearnTooltip> grew {fmtCurrency(8650)} and your <LearnTooltip term="Savings Rate"><span>savings rate</span></LearnTooltip> jumped from 27% to 39%. Incredible progress!
+          </AdvisorTip>
+          <AdvisorTip type="insight">
+            Looking back at where you started keeps you motivated. {totalProgress} of {moneyMemoryComparisons.length} financial areas improved year-over-year.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -157,6 +176,9 @@ export default function MoneyMemoryPage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="moneymemory" />
     </div>
   );
 }

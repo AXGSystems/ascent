@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { chatMessages } from '@/lib/data';
 import { cn } from '@/lib/utils';
 import Card from '@/components/Card';
+import AdvisorTip from '@/components/AdvisorTip';
+import ScrollReveal from '@/components/ScrollReveal';
+import QuickTip from '@/components/QuickTip';
 
 export default function MessagesPage() {
   const [messages, setMessages] = useState(chatMessages);
@@ -54,7 +57,21 @@ export default function MessagesPage() {
         </div>
       </section>
 
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="tip">
+            Weekly money check-ins reduce financial arguments by 40%. Use the chat to discuss spending decisions before they happen.
+          </AdvisorTip>
+          <AdvisorTip type="insight">
+            Couples who communicate about money save 23% more. Your household chat keeps both partners in the loop.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
+
       {/* Chat + Sidebar */}
+
+      <ScrollReveal>
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
         {/* Chat Window */}
         <Card padding={false} className="flex flex-col" >
@@ -134,6 +151,10 @@ export default function MessagesPage() {
           </Card>
         </div>
       </div>
+      </ScrollReveal>
+
+      {/* QUICK TIP */}
+      <QuickTip page="messages" />
     </div>
   );
 }

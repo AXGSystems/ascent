@@ -6,6 +6,10 @@ import { fmtCurrency, cn, whoLabel, whoBadgeColor } from '@/lib/utils';
 import Card from '@/components/Card';
 import Badge from '@/components/Badge';
 import { useStore } from '@/lib/store';
+import AdvisorTip from '@/components/AdvisorTip';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 export default function TransactionsPage() {
   const openSheet = useStore((s) => s.openSheet);
@@ -48,7 +52,7 @@ export default function TransactionsPage() {
                 {filtered.length} transactions
               </p>
               <p className="mt-1 text-sm text-white/50">
-                All activity across your accounts
+                All activity across your <LearnTooltip term="Liquidity"><span>accounts</span></LearnTooltip>
               </p>
             </div>
             <div className="flex gap-6 text-sm">
@@ -64,6 +68,18 @@ export default function TransactionsPage() {
           </div>
         </div>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="tip">
+            Review transactions weekly to catch errors and fraud early. Flag anything you don&apos;t recognize within 60 days for full protection.
+          </AdvisorTip>
+          <AdvisorTip type="insight">
+            Categorized spending data powers your entire financial picture &mdash; from budgets to forecasts to your <LearnTooltip term="A$cent Score"><span>A$cent Score</span></LearnTooltip>.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Filters */}
       <Card>
@@ -158,6 +174,9 @@ export default function TransactionsPage() {
           )}
         </div>
       </Card>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="transactions" />
     </div>
   );
 }

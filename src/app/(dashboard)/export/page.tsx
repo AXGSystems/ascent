@@ -4,6 +4,11 @@ import { exportRecords } from '@/lib/data';
 import Card from '@/components/Card';
 import StatCard from '@/components/StatCard';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const formats = [
   { name: 'CSV', desc: 'Spreadsheet-compatible', icon: 'table', ext: '.csv' },
@@ -35,7 +40,7 @@ export default function ExportPage() {
           <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/5 hero-shimmer" />
           <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/5" />
           <div className="relative">
-            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1">Export</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-1"><LearnTooltip term="Cash Flow"><span>Export</span></LearnTooltip></p>
             <p className="text-3xl md:text-4xl font-bold text-white">Export Your Data</p>
             <p className="mt-2 text-sm text-white/60">Download transactions, budgets, and reports in any format</p>
           </div>
@@ -43,12 +48,26 @@ export default function ExportPage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Formats" value="4" sub="CSV, PDF, JSON, Excel" />
         <StatCard label="Exports" value={`${exportRecords.length}`} sub="This year" />
         <StatCard label="Last Export" value="Apr 14" sub="Q1 2026 PDF" />
         <StatCard label="Data Range" value="12+ mo" sub="Available history" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="insight">
+            Exporting your data quarterly helps with tax prep and financial reviews. PDF for advisors, CSV for spreadsheet analysis.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            Keep a backup of your financial data. A quarterly export protects you if anything goes wrong with your accounts.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Export Options */}
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -114,6 +133,9 @@ export default function ExportPage() {
           </div>
         </Card>
       </div>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="export" />
     </div>
   );
 }

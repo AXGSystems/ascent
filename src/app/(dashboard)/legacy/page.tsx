@@ -7,6 +7,12 @@ import StatCard from '@/components/StatCard';
 import LineChart from '@/components/LineChart';
 import ProgressBar from '@/components/ProgressBar';
 import Badge from '@/components/Badge';
+import AdvisorTip from '@/components/AdvisorTip';
+import CountUp from '@/components/CountUp';
+import StaggeredList from '@/components/StaggeredList';
+import ScrollReveal from '@/components/ScrollReveal';
+import LearnTooltip from '@/components/LearnTooltip';
+import QuickTip from '@/components/QuickTip';
 
 const legacyScore = 42;
 const generationalImpact = 1650000;
@@ -31,7 +37,7 @@ export default function LegacyPage() {
             </div>
             <div className="shrink-0 text-center">
               <p className="text-xs text-white/50 mb-1">Legacy Score</p>
-              <p className="text-5xl font-black tabular-nums text-white">{legacyScore}</p>
+              <p className="text-5xl font-black tabular-nums text-white"><CountUp value={legacyScore} /></p>
               <p className="text-sm text-white/60 mt-1">out of 100</p>
             </div>
           </div>
@@ -39,12 +45,26 @@ export default function LegacyPage() {
       </section>
 
       {/* Stat Cards */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section>
+        <StaggeredList className="grid grid-cols-2 lg:grid-cols-4 gap-4" delay={80}>
         <StatCard label="Legacy Score" value={`${legacyScore}/100`} sub="Building momentum" accent="text-brand-gold" />
         <StatCard label="Projected NW" value={fmtCurrency(generationalImpact, true)} sub="By retirement (age 65)" accent="text-brand-green" />
         <StatCard label="Vault Documents" value={`${uploadedDocs}/${vaultDocuments.length}`} sub="Documents secured" />
         <StatCard label="Years to Retire" value="37" sub="Target age 65" />
+      </StaggeredList>
       </section>
+
+      {/* Advisor Tips */}
+      <ScrollReveal>
+        <section className="space-y-3">
+          <AdvisorTip type="insight">
+            Your Legacy Score is {legacyScore}/100 &mdash; uploading a will and updating beneficiaries would jump it to 65+. <LearnTooltip term="Financial Independence"><span>Estate planning</span></LearnTooltip> is not just for the wealthy.
+          </AdvisorTip>
+          <AdvisorTip type="tip">
+            At your current <LearnTooltip term="Savings Rate"><span>savings rate</span></LearnTooltip>, the next generation could start with significant inherited wealth. That is <LearnTooltip term="Compound Interest"><span>generational change</span></LearnTooltip>.
+          </AdvisorTip>
+        </section>
+      </ScrollReveal>
 
       {/* Main Content */}
       <section className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -177,6 +197,9 @@ export default function LegacyPage() {
           </Card>
         </div>
       </section>
+    
+      {/* QUICK TIP */}
+      <QuickTip page="legacy" />
     </div>
   );
 }
